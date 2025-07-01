@@ -1,22 +1,30 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 function Login() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const baseURL = "http://localhost:4000/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const response = await axios.post(`${baseURL}api/auth/login`, formData);
       const { token } = response.data;
       // Store token in localStorage or context (e.g., for protected routes)
-      localStorage.setItem('token', token);
-      alert('Login successful!');
+      localStorage.setItem("token", token);
+      alert("Login successful!");
+      navigate('/');
       // Optionally redirect to a protected page
     } catch (error) {
-      setError(error.response?.data?.message || 'Login failed. Please try again.');
+      setError(
+        error.response?.data?.message || "Login failed. Please try again."
+      );
     }
   };
 
@@ -37,7 +45,9 @@ function Login() {
           type="password"
           placeholder="Password"
           value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, password: e.target.value })
+          }
           className="w-full p-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500"
           required
         />

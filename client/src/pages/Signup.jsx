@@ -1,19 +1,30 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
 
 function Signup() {
-  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
-  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+
+  const baseURL = "http://localhost:4000/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', formData);
-      alert(response.data.message || 'Signup successful!');
+      const response = await axios.post(
+        `${baseURL}api/auth/signup`,
+        formData
+      );
+      alert(response.data.message || "Signup successful!");
       // Optionally redirect to login page after success
     } catch (error) {
-      setError(error.response?.data?.message || 'Signup failed. Please try again.');
+      setError(
+        error.response?.data?.message || "Signup failed. Please try again."
+      );
     }
   };
 
@@ -26,7 +37,9 @@ function Signup() {
           type="text"
           placeholder="Username"
           value={formData.username}
-          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, username: e.target.value })
+          }
           className="w-full p-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500"
           required
         />
@@ -42,7 +55,9 @@ function Signup() {
           type="password"
           placeholder="Password"
           value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, password: e.target.value })
+          }
           className="w-full p-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500"
           required
         />
