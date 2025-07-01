@@ -16,11 +16,9 @@ function Login() {
     try {
       const response = await axios.post(`${baseURL}api/auth/login`, formData);
       const { token } = response.data;
-      // Store token in localStorage or context (e.g., for protected routes)
       localStorage.setItem("token", token);
       alert("Login successful!");
       navigate('/');
-      // Optionally redirect to a protected page
     } catch (error) {
       setError(
         error.response?.data?.message || "Login failed. Please try again."
@@ -29,35 +27,44 @@ function Login() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Login</h1>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
-        <input
-          type="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="w-full p-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
-          }
-          className="w-full p-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500"
-          required
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-600 p-2 rounded hover:bg-blue-700 transition duration-200"
-        >
-          Login
-        </button>
-      </form>
+    <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
+      <div className="max-w-lg w-full p-8 rounded-lg shadow-lg" style={{ background: 'linear-gradient(135deg, #525252, #3d72b4)' }}>
+        <h1 className="text-3xl font-bold mb-6 text-white text-center">Login</h1>
+        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500"
+            required
+          />
+          <div className="flex items-center justify-between text-sm text-white">
+            <label className="flex items-center">
+              <input type="checkbox" className="mr-2" /> Remember me
+            </label>
+            <a href="#" className="text-blue-300 hover:underline">Forgot password?</a>
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-purple-600 p-3 rounded hover:bg-purple-700 transition duration-200 text-white font-semibold"
+          >
+            Login Now
+          </button>
+          <p className="text-center text-white text-sm mt-4">
+            Not a member? <a href="/signup" className="text-blue-300 hover:underline">Sign up Now</a>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
