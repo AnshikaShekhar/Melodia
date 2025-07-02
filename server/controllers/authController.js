@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
 
 // @route   POST /api/auth/signup
 const signupUser = async (req, res) => {
@@ -67,45 +66,31 @@ const loginUser = async (req, res) => {
   }
 };
 
-// @route   POST /api/auth/forgot-password
 const forgotPassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  if (!email || !newPassword) {
+    return res.status(400).json({ message: 'Email and new password are required' });
+  }
+
   try {
-    const { email } = req.body;
-    if (!email) {
-      return res.status(400).json({ message: 'Email is required' });
-    }
-
     const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+    if (!user) return res.status(404).json({ message: 'User not found' });
 
-    const resetToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    user.resetToken = resetToken;
-    user.resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
     await user.save();
 
-    // Configure Nodemailer (placeholder - replace with your email service)
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER, // Set in .env
-        pass: process.env.EMAIL_PASS, // Set in .env
-      },
-    });
-
-    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Password Reset Request',
-      text: `Click the link to reset your password: ${resetLink}`,
-    });
-
-    res.json({ message: 'Password reset link sent to your email' });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to send reset link', error: error.message });
+    res.status(200).json({ message: 'Password reset successful' });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to reset password', error: err.message });
   }
+};
+
+module.exports = {
+  signupUser,
+  loginUser,
+  forgotPassword
 };
 
 module.exports = { signupUser, loginUser, forgotPassword };

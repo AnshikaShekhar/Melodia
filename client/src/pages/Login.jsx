@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -17,8 +18,7 @@ function Login() {
       const response = await axios.post(`${baseURL}api/auth/login`, formData);
       const { token } = response.data;
       localStorage.setItem("token", token);
-      alert("Login successful!");
-      navigate('/');
+      navigate('/home');
     } catch (error) {
       setError(
         error.response?.data?.message || "Login failed. Please try again."
@@ -48,11 +48,8 @@ function Login() {
             className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500"
             required
           />
-          <div className="flex items-center justify-between text-sm text-white">
-            <label className="flex items-center">
-              <input type="checkbox" className="mr-2" /> Remember me
-            </label>
-            <a href="#" className="text-blue-300 hover:underline">Forgot password?</a>
+          <div className="flex justify-end text-sm text-white">
+            <Link to="/forgotpassword" className="text-blue-300 hover:underline">Forgot password?</Link>
           </div>
           <button
             type="submit"

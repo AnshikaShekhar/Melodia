@@ -4,6 +4,7 @@ const { signupUser, loginUser, forgotPassword } = require('../controllers/authCo
 
 router.post('/signup', signupUser);
 router.post('/login', loginUser);
-router.post('/forgot-password', forgotPassword);
+
+router.post('/forgotpassword', forgotPassword);
 
 module.exports = router;
