@@ -7,6 +7,7 @@ function ExplorePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [genreFilter, setGenreFilter] = useState("");
   const [artistFilter, setArtistFilter] = useState("");
+  const [moodFilter, setMoodFilter] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [songs, setSongs] = useState([]);
   const [playlists, setPlaylists] = useState([]);
@@ -26,6 +27,7 @@ function ExplorePage() {
             search: searchQuery,
             genre: genreFilter,
             artist: artistFilter,
+            mood: moodFilter,
             sortBy,
             limit: 50,
           },
@@ -38,7 +40,7 @@ function ExplorePage() {
     };
 
     fetchSongs();
-  }, [searchQuery, genreFilter, artistFilter, sortBy]);
+  }, [searchQuery, genreFilter, artistFilter, moodFilter, sortBy]);
 
   useEffect(() => {
     const fetchPlaylists = async () => {
@@ -58,14 +60,13 @@ function ExplorePage() {
 
   const uniqueGenres = [...new Set(songs.map((song) => song.genre))];
   const uniqueArtists = [...new Set(songs.map((song) => song.artist))];
+  const uniqueMoods = [...new Set(songs.map((song) => song.mood))];
 
   const handleCreatePlaylist = async () => {
     if (!newPlaylistName.trim()) return;
 
     try {
       const token = localStorage.getItem("token");
-      console.log("Creating playlist with name:", newPlaylistName); // ✅ Debug log
-
       const response = await axios.post(
         PLAYLIST_API,
         { name: newPlaylistName.trim() },
@@ -145,6 +146,22 @@ function ExplorePage() {
           </div>
 
           <div className="mb-6">
+            <label className="block text-sm mb-2">Mood</label>
+            <select
+              value={moodFilter}
+              onChange={(e) => setMoodFilter(e.target.value)}
+              className="w-full p-2 rounded bg-gray-800 text-white border border-gray-700"
+            >
+              <option value="">All Moods</option>
+              {uniqueMoods.map((mood, i) => (
+                <option key={i} value={mood}>
+                  {mood}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="mb-6">
             <label className="block text-sm mb-2">Sort By</label>
             <select
               value={sortBy}
@@ -201,58 +218,54 @@ function ExplorePage() {
 
           {/* Songs Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {songs.map((song) => {
-              return (
-                <div
-                  key={song._id}
-                  className="bg-[#2a5298] rounded-xl shadow-lg hover:shadow-2xl transition"
-                >
-                  <img
-                    src={song.image}
-                    onError={(e) => (e.target.src = "/fallback.jpg")}
-                    alt={song.title}
-                    className="w-full h-56 object-cover"
-                  />
-                  <div className="p-4">
-                    <h4 className="text-xl font-semibold text-teal-100">
-                      {song.title}
-                    </h4>
-                    <p className="text-gray-300">{song.artist}</p>
-                    <p className="text-sm text-gray-400">{song.genre}</p>
+            {songs.map((song) => (
+              <div
+                key={song._id}
+                className="bg-[#2a5298] rounded-xl shadow-lg hover:shadow-2xl transition"
+              >
+                <img
+                  src={song.image}
+                  onError={(e) => (e.target.src = "/fallback.jpg")}
+                  alt={song.title}
+                  className="w-full h-56 object-cover"
+                />
+                <div className="p-4">
+                  <h4 className="text-xl font-semibold text-teal-100">
+                    {song.title}
+                  </h4>
+                  <p className="text-gray-300">{song.artist}</p>
+                  <p className="text-sm text-gray-400">{song.genre}</p>
 
-                    {playlists.length > 0 && (
-                      <>
-                        <button
-                          onClick={() => toggleDropdown(song._id)}
-                          className="w-full bg-blue-600 mt-4 p-2 rounded hover:bg-blue-700"
+                  {playlists.length > 0 && (
+                    <>
+                      <button
+                        onClick={() => toggleDropdown(song._id)}
+                        className="w-full bg-blue-600 mt-4 p-2 rounded hover:bg-blue-700"
+                      >
+                        ➕ Add to Playlist
+                      </button>
+
+                      {visibleDropdowns[song._id] && (
+                        <select
+                          className="w-full mt-2 p-2 bg-gray-800 text-white rounded"
+                          onChange={(e) => handleAddToPlaylist(song, e.target.value)}
+                          defaultValue=""
                         >
-                          ➕ Add to Playlist
-                        </button>
-
-                        {visibleDropdowns[song._id] && (
-                          <select
-                            className="w-full mt-2 p-2 bg-gray-800 text-white rounded"
-                            onChange={(e) =>
-                              handleAddToPlaylist(song, e.target.value)
-                            }
-                            defaultValue=""
-                          >
-                            <option value="" disabled>
-                              Select playlist
+                          <option value="" disabled>
+                            Select playlist
+                          </option>
+                          {playlists.map((playlist) => (
+                            <option key={playlist._id} value={playlist._id}>
+                              {playlist.name}
                             </option>
-                            {playlists.map((playlist) => (
-                              <option key={playlist._id} value={playlist._id}>
-                                {playlist.name}
-                              </option>
-                            ))}
-                          </select>
-                        )}
-                      </>
-                    )}
-                  </div>
+                          ))}
+                        </select>
+                      )}
+                    </>
+                  )}
                 </div>
-              );
-            })}
+              </div>
+            ))}
 
             {songs.length === 0 && (
               <p className="col-span-full text-center text-gray-400 text-lg">

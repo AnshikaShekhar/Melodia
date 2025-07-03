@@ -17,8 +17,8 @@ function Library() {
     try {
       const token = localStorage.getItem('token');
       const [playlistsRes, likedRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/playlists', { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get('http://localhost:5000/api/likes', { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get('http://localhost:4000/api/playlists', { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get('http://localhost:4000/api/likes', { headers: { Authorization: `Bearer ${token}` } }),
       ]);
       setPlaylists(playlistsRes.data);
       setLikedSongs(likedRes.data);
@@ -38,7 +38,7 @@ function Library() {
       const formData = new FormData();
       formData.append('name', newPlaylist.name);
       if (newPlaylist.cover) formData.append('cover', newPlaylist.cover);
-      await axios.post('http://localhost:5000/api/playlists', formData, {
+      await axios.post('http://localhost:4000/api/playlists', formData, {
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
       });
       setNewPlaylist({ name: '', cover: null, songs: [] });
@@ -52,7 +52,7 @@ function Library() {
   const handleDeletePlaylist = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/playlists/${id}`, {
+      await axios.delete(`http://localhost:4000/api/playlists/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchData();
@@ -64,7 +64,7 @@ function Library() {
   const handleSmartPlaylist = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.get('http://localhost:5000/api/smart-playlists', {
+      await axios.get('http://localhost:4000/api/smart-playlists', {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchData();
