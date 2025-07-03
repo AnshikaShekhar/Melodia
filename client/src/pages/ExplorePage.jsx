@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import MusicPlayer from "./MusicPlayer";
-import Header from "./Header";
 
 function ExplorePage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -111,7 +110,7 @@ function ExplorePage() {
         <div className="absolute w-60 h-60 bg-[url('https://www.transparenttextures.com/patterns/vinyl.png')] bg-contain bg-no-repeat animate-spin-reverse opacity-15 bottom-10 right-10"></div>
       </div>
 
-      <Header />
+      {/* Removed <Header /> here, as it's now in App.jsx */}
 
       <div className="flex relative z-10">
         {/* Sidebar Filters */}

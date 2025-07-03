@@ -4,7 +4,8 @@ function Header() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken"); // Make sure you're using the correct token key
+    localStorage.removeItem("authToken"); // Ensure this matches your token key
+    console.log("Logging out and navigating to /"); // Debug log
     navigate("/");
   };
 

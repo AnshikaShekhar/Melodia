@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MusicPlayer from "./MusicPlayer";
-import Header from "./Header";
 
 const trendingSongs = [
   {
@@ -51,8 +50,7 @@ function HomePage() {
 
   return (
     <div className="min-h-screen pb-24 bg-gradient-to-b from-[#0f0c29] via-[#302b63] to-[#24243e] text-white font-sans">
-      
-      <Header />
+      {/* Removed <Header /> here, as it's now in App.jsx */}
 
       {/* Hero Section */}
       <section className="text-center py-20 px-4">

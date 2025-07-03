@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import Header from "./Header";
 import MusicPlayer from "./MusicPlayer";
 
 function PlaylistPage() {
@@ -13,13 +12,13 @@ function PlaylistPage() {
   const fetchPlaylists = useCallback(async () => {
     try {
       const response = await axios.get("http://localhost:4000/api/playlists", {
-        headers,
+         headers: { Authorization: `Bearer ${token}` },
       });
       setPlaylists(response.data);
     } catch (error) {
       console.error("Error fetching playlists:", error);
     }
-  }, [headers]);
+  }, []);
 
   useEffect(() => {
     fetchPlaylists();
@@ -61,7 +60,7 @@ function PlaylistPage() {
       {/* Background Vinyl Overlay */}
       <div className="absolute inset-0 opacity-10 z-0"></div>
 
-      <Header />
+     
 
       <main className="flex-1 p-6 sm:p-12 relative z-10">
         <h1 className="text-5xl font-bold mb-12 text-center text-teal-300 tracking-wide drop-shadow-lg animate-pulse-slow">
