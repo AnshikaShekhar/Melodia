@@ -28,7 +28,7 @@ const sampleSongs = [
   {
     title: "Die With a Smile",
     artist: "Lady Gaga & Bruno Mars",
-    image: "https://i.pinimg.com/736x/e0/f8/cb/e0f8cb5825dbfaf9dd18f5e093eac039.jpg",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751549675/e0f8cb5825dbfaf9dd18f5e093eac039_wyqz9w.jpg",
     audioUrl: "https://example.com/songs/die-with-a-smile.mp3",
     genre: "pop",
     mood: "romantic",
@@ -39,7 +39,7 @@ const sampleSongs = [
   {
     title: "Not Like Us",
     artist: "Kendrick Lamar",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9mBQTajMRwz7xYNLFq7drqv6sh3b41nm4Qg&s",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751549931/images_k2pqim.jpg",
     audioUrl: "https://example.com/songs/not-like-us.mp3",
     genre: "hip-hop",
     mood: "aggressive",
@@ -50,7 +50,7 @@ const sampleSongs = [
   {
     title: "Apt.",
     artist: "ROSÉ & Bruno Mars",
-    image: "https://upload.wikimedia.org/wikipedia/en/5/52/Ros%C3%A9_and_Bruno_Mars_-_Apt..png",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550160/Ros%C3%A9_and_Bruno_Mars_-_Apt._bkwum7.png",
     audioUrl: "https://example.com/songs/apt.mp3",
     genre: "pop",
     mood: "upbeat",
@@ -61,7 +61,7 @@ const sampleSongs = [
   {
     title: "Birds Of A Feather",
     artist: "Billie Eilish",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlOMrb8NTRYnFn7JZrtw0X55yap4-Jonhn0w&s",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550219/images_1_nuulsg.jpg",
     audioUrl: "https://example.com/songs/birds-of-a-feather.mp3",
     genre: "alternative",
     mood: "emotional",
@@ -72,7 +72,7 @@ const sampleSongs = [
   {
     title: "Nokia",
     artist: "Drake",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6dsESYuy5Kf8vap-wh5MwHAfhPcEXSYpOAg&s",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550254/images_2_u3vsdd.jpg",
     audioUrl: "https://example.com/songs/nokia.mp3",
     genre: "rap",
     mood: "confident",
@@ -83,7 +83,7 @@ const sampleSongs = [
   {
     title: "DTMF",
     artist: "Bad Bunny",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-e5Z6eaPu3kxumgxABP_1o_7PtTwggn4E6g&s",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550294/images_3_qzjqk4.jpg",
     audioUrl: "https://example.com/songs/dtmf.mp3",
     genre: "reggaeton",
     mood: "festive",
@@ -94,7 +94,7 @@ const sampleSongs = [
   {
     title: "A Bar Song (Tipsy)",
     artist: "Shaboozey",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDWV0PcPP1g4yG69uWOZnxzTZY4B9QfJIGFaTiWAAi2R_-29Nh61d4UChAEj-JtFdYbPk&usqp=CAU",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550326/images_4_mllv7a.jpg",
     audioUrl: "https://example.com/songs/a-bar-song.mp3",
     genre: "country-rap",
     mood: "fun",
@@ -105,7 +105,7 @@ const sampleSongs = [
   {
     title: "Lose Control",
     artist: "Teddy Swims",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWP6mqd4QuEQ2lkIgZytRJHzpBFRe4PNV3BQ&s",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550358/images_5_uu1k6o.jpg",
     audioUrl: "https://example.com/songs/lose-control.mp3",
     genre: "r&b",
     mood: "passionate",
@@ -116,7 +116,7 @@ const sampleSongs = [
   {
     title: "Espresso",
     artist: "Sabrina Carpenter",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdOoFRqVzXExIchV3n1nzHOs22s3hxZPWijw&s",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550386/images_6_ep8okj.jpg",
     audioUrl: "https://example.com/songs/espresso.mp3",
     genre: "pop",
     mood: "playful",
@@ -127,7 +127,7 @@ const sampleSongs = [
   {
     title: "Beautiful Things",
     artist: "Benson Boone",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgfLmmvqr_uTs8UrRq-HkaD0oDIbZBhDG28g&s",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550491/images_7_xojfsu.jpg",
     audioUrl: "https://example.com/songs/beautiful-things.mp3",
     genre: "pop",
     mood: "heartwarming",
@@ -138,7 +138,7 @@ const sampleSongs = [
   {
     title: "Timeless",
     artist: "The Weeknd & Playboi Carti",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxAZ-ziwmXEZZWZH7RbVAUvTe9oz9fSN1x4A&s",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550524/images_8_cuon6x.jpg",
     audioUrl: "https://example.com/songs/timeless.mp3",
     genre: "r&b",
     mood: "mysterious",
@@ -146,21 +146,22 @@ const sampleSongs = [
     releaseDate: new Date("2025-06-20"),
     trendingScore: 83,
   },
-  {
-    title: "Abracadabra",
-    artist: "Lady Gaga",
-    image: "https://external-preview.redd.it/inside-the-mayhem-of-lady-gagas-abracadabra-music-video-v0-G86fbzXmEge74HW6yTUKfvIFLRQrXtlI_urylWCrsMg.jpg?width=1080&crop=smart&auto=webp&s=6911f2dbb051afe8cc89902237b87b314ef3c358",
-    audioUrl: "https://example.com/songs/abracadabra.mp3",
-    genre: "pop",
-    mood: "magical",
-    duration: 205,
-    releaseDate: new Date("2025-06-10"),
-    trendingScore: 86,
-  },
+ {
+  title: "Midnight Sky",
+  artist: "Miley Cyrus",
+  image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550638/11download_vo9yph.jpg",
+  audioUrl: "https://example.com/songs/midnight-sky.mp3",
+  genre: "pop-rock",
+  mood: "empowering",
+  duration: 204,
+  releaseDate: new Date("2025-06-12"),
+  trendingScore: 88,
+},
+
   {
     title: "Cry For Me",
     artist: "The Weeknd",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk1i-WgYUK-fmvWrsk_fXRFY6OQeAqKyL76A&s",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550682/images_9_lwddol.jpg",
     audioUrl: "https://example.com/songs/cry-for-me.mp3",
     genre: "r&b",
     mood: "sad",
@@ -171,7 +172,7 @@ const sampleSongs = [
   {
     title: "Ordinary",
     artist: "Alex Warren",
-    image: "https://i.ytimg.com/vi/byxFUKxhT3s/maxresdefault.jpg",
+    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550724/maxresdefault_sosh8y.jpg",
     audioUrl: "https://example.com/songs/ordinary.mp3",
     genre: "pop",
     mood: "reflective",
