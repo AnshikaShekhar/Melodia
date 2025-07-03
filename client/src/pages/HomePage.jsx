@@ -9,14 +9,14 @@ const trendingSongs = [
     title: "Espresso",
     artist: "Sabrina Carpenter",
     genre: "Pop",
-    image: "/images.jpg",
+    image: "/images.png",
   },
   {
     id: 2,
     title: "I Had Some Help",
     artist: "Post Malone ft. Morgan Wallen",
     genre: "Country-Pop",
-    image: "/images2.jpg",
+    image: "/images2.jpeg",
   },
   {
     id: 3,

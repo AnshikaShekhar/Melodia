@@ -10,6 +10,7 @@ const songSchema = new mongoose.Schema({
   releaseDate: { type: Date, default: Date.now }, // For new releases
   trendingScore: { type: Number, default: 0 }, // For trending songs
   image: { type: String, required: true },
+  playCount: { type: Number, default: 0 }
 });
 
 module.exports = mongoose.model("Song", songSchema);

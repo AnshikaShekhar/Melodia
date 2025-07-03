@@ -1,7 +1,7 @@
 function LandingPage() {
   const trendingSongs = [
-    { id: 1, title: 'Espresso', artist: 'Sabrina Carpenter', genre: 'Pop', image: '/images.jpg' },
-    { id: 2, title: 'I Had Some Help', artist: 'Post Malone ft. Morgan Wallen', genre: 'Country-Pop', image: '/images2.jpg' },
+    { id: 1, title: 'Espresso', artist: 'Sabrina Carpenter', genre: 'Pop', image: '/images.png' },
+    { id: 2, title: 'I Had Some Help', artist: 'Post Malone ft. Morgan Wallen', genre: 'Country-Pop', image: '/images2.jpeg' },
     { id: 3, title: 'Not Like Us', artist: 'Kendrick Lamar', genre: 'Hip-Hop', image: '/images3.jpg' },
   ];
 
@@ -46,6 +46,37 @@ function LandingPage() {
           ))}
         </div>
       </section>
+      
+
+      {/* Testimonials */}
+      <section className="py-16 z-10 bg-[#1e3a8a] text-center">
+        <h3 className="text-3xl font-semibold mb-8 text-teal-100">What Users Say</h3>
+        <div className="space-y-6 max-w-2xl mx-auto">
+          {[
+            { id: 1, text: "Melodia transformed my music experience!", name: "Alex P." },
+            { id: 2, text: "Amazing playlists and easy to use!", name: "Sam K." },
+          ].map((review) => (
+            <div key={review.id} className="bg-[#2a5298] p-6 rounded-xl">
+              <p className="text-gray-300">{review.text}</p>
+              <p className="mt-4 text-teal-100 font-semibold">{review.name}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* About Us Section */}
+      <section className="py-16 z-10 text-center">
+        <h3 className="text-3xl font-semibold mb-8 text-teal-100">About Us</h3>
+        <p className="text-lg text-gray-200 max-w-2xl mx-auto">
+          Melodia is a passion project designed to revolutionize how you experience music. Our team is dedicated to creating a seamless platform where you can stream your favorite tracks, craft personalized playlists, and discover new artists. Built with love and cutting-edge technology, Melodia aims to bring music lovers together in a vibrant community.
+        </p>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-6 text-center z-10 bg-[#1e3a8a]">
+        <p className="text-gray-400">© 2025 Melodia. All rights reserved.</p>
+        <p className="mt-4 text-gray-500 text-sm">Developed by: Ayush Kumar , Anshika Shekhar</p> {/* Replace with actual names */}
+      </footer>
     </div>
   );
 }
