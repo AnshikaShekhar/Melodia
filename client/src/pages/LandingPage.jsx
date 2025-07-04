@@ -74,7 +74,7 @@ function LandingPage() {
       {/* Trending Songs */}
       <section className="py-16 z-10 relative animate-fade-in-up">
         <h3 className="text-3xl md:text-4xl font-semibold mb-8 text-teal-200 text-center drop-shadow-md">
-          Trending Songs 🎵
+          Suggested Songs 🎵
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6">
           {trendingSongs.map((song) => (
@@ -137,12 +137,10 @@ function LandingPage() {
           About Us 🎧
         </h3>
         <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-          Melodia is a passion project designed to revolutionize how you
-          experience music. Our team, Ayush Kumar and Anshika Shekhar, is
-          dedicated to creating a seamless platform where you can stream your
-          favorite tracks, craft personalized playlists, and discover new
-          artists. Built with love and cutting-edge technology, Melodia aims to
-          bring music lovers together in a vibrant community.
+          Melodia is a next-generation music streaming platform crafted to enhance how users connect with music.
+      With a sleek interface and seamless functionality, users can explore trending tracks, discover emerging artists,
+      and create personalized playlists effortlessly. Designed for music lovers, Melodia delivers a curated experience
+      powered by modern web technologies to ensure speed, reliability, and responsiveness across all devices.
         </p>
       </section>
 

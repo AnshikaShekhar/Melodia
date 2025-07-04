@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
 import MusicPlayer from "./MusicPlayer";
 import Header from "./Header";
 
@@ -64,8 +65,6 @@ function ExplorePage() {
 
     try {
       const token = localStorage.getItem("token");
-      console.log("Creating playlist with name:", newPlaylistName); // ✅ Debug log
-
       const response = await axios.post(
         PLAYLIST_API,
         { name: newPlaylistName.trim() },
@@ -95,7 +94,7 @@ function ExplorePage() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      alert(`🎵 "${song.title}" added to playlist successfully!`);
+      alert(`\uD83C\uDFB5 "${song.title}" added to playlist successfully!`);
       setVisibleDropdowns((prev) => ({ ...prev, [song._id]: false }));
     } catch (err) {
       console.error("Error adding song to playlist:", err);
@@ -104,7 +103,12 @@ function ExplorePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0f0c29] via-[#302b63] to-[#24243e] text-white font-sans">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-gradient-to-b from-[#0f0c29] via-[#302b63] to-[#24243e] text-white font-sans"
+    >
       <Header />
 
       <div className="flex">
@@ -166,14 +170,19 @@ function ExplorePage() {
             <input
               type="text"
               placeholder="🔍 Search songs..."
-              className="w-2/3 p-4 rounded-lg bg-gray-800 text-white border border-gray-600"
+              className="w-2/3 p-4 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-300"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
 
             <div className="ml-6">
               {showPlaylistInput ? (
-                <div className="flex space-x-2">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex space-x-2"
+                >
                   <input
                     type="text"
                     value={newPlaylistName}
@@ -187,7 +196,7 @@ function ExplorePage() {
                   >
                     Add
                   </button>
-                </div>
+                </motion.div>
               ) : (
                 <button
                   onClick={() => setShowPlaylistInput(true)}
@@ -199,39 +208,47 @@ function ExplorePage() {
             </div>
           </div>
 
-          {/* Songs Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {songs.map((song) => {
-              return (
-                <div
-                  key={song._id}
-                  className="bg-[#2a5298] rounded-xl shadow-lg hover:shadow-2xl transition"
-                >
-                  <img
-                    src={song.image}
-                    onError={(e) => (e.target.src = "/fallback.jpg")}
-                    alt={song.title}
-                    className="w-full h-56 object-cover"
-                  />
-                  <div className="p-4">
-                    <h4 className="text-xl font-semibold text-teal-100">
-                      {song.title}
-                    </h4>
-                    <p className="text-gray-300">{song.artist}</p>
-                    <p className="text-sm text-gray-400">{song.genre}</p>
+            {songs.map((song) => (
+              <motion.div
+                key={song._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.03 }}
+                transition={{ duration: 0.3 }}
+                className="bg-[#2a5298] rounded-xl shadow-lg overflow-hidden"
+              >
+                <img
+                  src={song.image}
+                  onError={(e) => (e.target.src = "/fallback.jpg")}
+                  alt={song.title}
+                  className="w-full h-56 object-cover"
+                />
+                <div className="p-4">
+                  <h4 className="text-xl font-semibold text-teal-100">
+                    {song.title}
+                  </h4>
+                  <p className="text-gray-300">{song.artist}</p>
+                  <p className="text-sm text-gray-400">{song.genre}</p>
 
-                    {playlists.length > 0 && (
-                      <>
-                        <button
-                          onClick={() => toggleDropdown(song._id)}
-                          className="w-full bg-blue-600 mt-4 p-2 rounded hover:bg-blue-700"
+                  {playlists.length > 0 && (
+                    <>
+                      <button
+                        onClick={() => toggleDropdown(song._id)}
+                        className="w-full bg-blue-600 mt-4 p-2 rounded hover:bg-blue-700 transition duration-300 hover:scale-105"
+                      >
+                        ➕ Add to Playlist
+                      </button>
+
+                      {visibleDropdowns[song._id] && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="mt-2"
                         >
-                          ➕ Add to Playlist
-                        </button>
-
-                        {visibleDropdowns[song._id] && (
                           <select
-                            className="w-full mt-2 p-2 bg-gray-800 text-white rounded"
+                            className="w-full p-2 bg-gray-800 text-white rounded"
                             onChange={(e) =>
                               handleAddToPlaylist(song, e.target.value)
                             }
@@ -246,13 +263,13 @@ function ExplorePage() {
                               </option>
                             ))}
                           </select>
-                        )}
-                      </>
-                    )}
-                  </div>
+                        </motion.div>
+                      )}
+                    </>
+                  )}
                 </div>
-              );
-            })}
+              </motion.div>
+            ))}
 
             {songs.length === 0 && (
               <p className="col-span-full text-center text-gray-400 text-lg">
@@ -263,8 +280,14 @@ function ExplorePage() {
         </main>
       </div>
 
-      <MusicPlayer />
-    </div>
+      <motion.div
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 100 }}
+      >
+        <MusicPlayer />
+      </motion.div>
+    </motion.div>
   );
 }
 
