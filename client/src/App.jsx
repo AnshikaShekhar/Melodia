@@ -4,7 +4,6 @@ import {
   Routes,
   Route,
   Navigate,
-  useLocation,
 } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
@@ -15,19 +14,12 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ExplorePage from "./pages/ExplorePage";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import PlaylistPage from "./pages/PlayList";
-import Header from "./pages/Header";
 
 function AppContent() {
   const token = localStorage.getItem("token");
-  const location = useLocation();
-
-  // Only show Header when NOT on the landing page
-  const shouldShowHeader = location.pathname !== "/";
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {shouldShowHeader && <Header />}
-
+  
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<Signup />} />
@@ -46,7 +38,7 @@ function AppContent() {
           element={token ? <PlaylistPage /> : <Navigate to="/login" />}
         />
       </Routes>
-    </div>
+    
   );
 }
 
