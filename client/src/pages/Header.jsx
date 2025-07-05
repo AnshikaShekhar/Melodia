@@ -4,51 +4,54 @@ function Header() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); 
+    localStorage.removeItem("token");
     console.log("Logging out and navigating to /");
     navigate("/");
   };
 
   return (
-    <header className="flex flex-wrap justify-between items-center px-8 py-5 bg-gradient-to-r from-[#1e1e2f] via-[#2a2a40] to-[#1e1e2f] shadow-lg border-b border-gray-800">
-      <h1 className="text-4xl font-extrabold text-white tracking-wide flex items-center gap-3">
+    <header className="flex flex-col sm:flex-row justify-between items-center px-6 sm:px-8 py-4 bg-gradient-to-r from-gray-900 via-purple-900 to-indigo-900 shadow-2xl border-b border-purple-800 sticky top-0 z-50">
+      {/* Logo and Site Title */}
+      <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight flex items-center gap-3 mb-4 sm:mb-0">
         <img
           src="/waveform.png"
           alt="Melodia Logo"
-            className="w-10 h-10 rounded-full filter invert brightness-0"
+          className="w-10 h-10 lg:w-12 lg:h-12 rounded-full filter brightness-200 contrast-150"
         />
-        <span className="bg-gradient-to-r from-teal-300 to-cyan-400 text-transparent bg-clip-text">
+        <span className="bg-gradient-to-r from-teal-300 via-cyan-400 to-blue-500 text-transparent bg-clip-text drop-shadow-md">
           Melodia
         </span>
       </h1>
 
-      <div className="flex flex-wrap gap-4 mt-4 sm:mt-0">
+      {/* Navigation Links */}
+      <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-4">
         <Link
           to="/home"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-semibold shadow-sm hover:shadow-md transition-all duration-200"
+          className="bg-blue-700 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
         >
-          Home
+          <i className="fas fa-home mr-2 hidden sm:inline"></i>Home
         </Link>
 
         <Link
           to="/explore"
-          className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-xl font-semibold shadow-sm hover:shadow-md transition-all duration-200"
+          className="bg-purple-700 hover:bg-purple-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
         >
-          Explore Music
+          <i className="fas fa-compass mr-2 hidden sm:inline"></i>Explore
         </Link>
 
         <Link
           to="/playlist"
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-xl font-semibold shadow-sm hover:shadow-md transition-all duration-200"
+          className="bg-emerald-700 hover:bg-emerald-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
         >
-          My Playlists
+          {/* Changed to fa-headphones for broader compatibility */}
+          <i className="fas fa-headphones mr-2 hidden sm:inline"></i>My Playlists
         </Link>
 
         <button
           onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl font-semibold shadow-sm hover:shadow-md transition-all duration-200"
+          className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
         >
-          Logout
+          <i className="fas fa-sign-out-alt mr-2 hidden sm:inline"></i>Logout
         </button>
       </div>
     </header>

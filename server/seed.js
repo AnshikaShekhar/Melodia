@@ -18,7 +18,8 @@ const sampleSongs = [
     artist: "Kendrick Lamar & SZA",
     image:
       "https://i1.sndcdn.com/artworks-y6WaHzlvp7PbwkLT-JlZicw-t500x500.png",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751612924/Kendrick_Lamar_-_luther_Spider-Verse_e8oehi.mp3",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751612924/Kendrick_Lamar_-_luther_Spider-Verse_e8oehi.mp3",
     genre: "hip-hop",
     mood: "intense",
     duration: 210,
@@ -28,8 +29,10 @@ const sampleSongs = [
   {
     title: "Die With a Smile",
     artist: "Lady Gaga & Bruno Mars",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVHYXtm6qFO-wc7bCDDKfe2I1BlLEap1y3mQ&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613145/Lady_Gaga_Bruno_Mars_-_Die_With_A_Smile_Official_Music_Video_kPa7bsKwL-c_mb4xqz.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVHYXtm6qFO-wc7bCDDKfe2I1BlLEap1y3mQ&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613145/Lady_Gaga_Bruno_Mars_-_Die_With_A_Smile_Official_Music_Video_kPa7bsKwL-c_mb4xqz.mp3",
     genre: "pop",
     mood: "romantic",
     duration: 195,
@@ -39,8 +42,10 @@ const sampleSongs = [
   {
     title: "Not Like Us",
     artist: "Kendrick Lamar",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKhVmdXl7HMpNew_ukSnW1J-AHuKL9ttXxCg&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613248/Kendrick_Lamar_-_Not_Like_Us_H58vbez_m4E_fshd5l.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKhVmdXl7HMpNew_ukSnW1J-AHuKL9ttXxCg&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613248/Kendrick_Lamar_-_Not_Like_Us_H58vbez_m4E_fshd5l.mp3",
     genre: "hip-hop",
     mood: "aggressive",
     duration: 225,
@@ -50,8 +55,10 @@ const sampleSongs = [
   {
     title: "Apt.",
     artist: "ROSÉ & Bruno Mars",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6eZuiuDjY0As3mmPTSvaJP1lcrTsqoe5XfA&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613356/ROS%C3%89_Bruno_Mars_-_APT._Official_Lyric_Video_8Ebqe2Dbzls_1_lu47pb.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6eZuiuDjY0As3mmPTSvaJP1lcrTsqoe5XfA&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613356/ROS%C3%89_Bruno_Mars_-_APT._Official_Lyric_Video_8Ebqe2Dbzls_1_lu47pb.mp3",
     genre: "pop",
     mood: "upbeat",
     duration: 180,
@@ -61,8 +68,10 @@ const sampleSongs = [
   {
     title: "Birds Of A Feather",
     artist: "Billie Eilish",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQen_BB6_1o2HFzxDIqYkjDHkQSAgsZmW12Qw&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613437/Billie_Eilish_-_BIRDS_OF_A_FEATHER_Official_Music_Video_V9PVRfjEBTI_yzbbxx.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQen_BB6_1o2HFzxDIqYkjDHkQSAgsZmW12Qw&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613437/Billie_Eilish_-_BIRDS_OF_A_FEATHER_Official_Music_Video_V9PVRfjEBTI_yzbbxx.mp3",
     genre: "alternative",
     mood: "emotional",
     duration: 200,
@@ -72,8 +81,10 @@ const sampleSongs = [
   {
     title: "Nokia",
     artist: "Drake",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFO7SH_Xoll3n-4Mv65rd-4YsMSuQIygM84A&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613529/Drake_-_NOKIA_Official_Music_Video_8ekJMC8OtGU_lykqbd.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFO7SH_Xoll3n-4Mv65rd-4YsMSuQIygM84A&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613529/Drake_-_NOKIA_Official_Music_Video_8ekJMC8OtGU_lykqbd.mp3",
     genre: "rap",
     mood: "confident",
     duration: 215,
@@ -83,8 +94,10 @@ const sampleSongs = [
   {
     title: "DTMF",
     artist: "Bad Bunny",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiqlP4JTrpKgj_AOGM9cTlyJLECrbv9OajMA&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613609/Bad_Bunny_-_DtMF___Reggaeton___NCS_Fanmade_An8SyHe9CyQ_slwl5g.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiqlP4JTrpKgj_AOGM9cTlyJLECrbv9OajMA&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613609/Bad_Bunny_-_DtMF___Reggaeton___NCS_Fanmade_An8SyHe9CyQ_slwl5g.mp3",
     genre: "reggaeton",
     mood: "festive",
     duration: 230,
@@ -94,8 +107,10 @@ const sampleSongs = [
   {
     title: "A Bar Song (Tipsy)",
     artist: "Shaboozey",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSivYgM412zi8r36MWVvCC_7gS6FG6BJAdCEQ&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613711/Shaboozey_-_A_Bar_Song_Tipsy_Official_Visualizer_t7bQwwqW-Hc_p7c9z6.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSivYgM412zi8r36MWVvCC_7gS6FG6BJAdCEQ&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613711/Shaboozey_-_A_Bar_Song_Tipsy_Official_Visualizer_t7bQwwqW-Hc_p7c9z6.mp3",
     genre: "country-rap",
     mood: "fun",
     duration: 185,
@@ -105,8 +120,10 @@ const sampleSongs = [
   {
     title: "Lose Control",
     artist: "Teddy Swims",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTysIhH41RDlV9LKs4jUytzvLlGHVkzwbOnng&s",
-    audioUrl: "hhttps://res.cloudinary.com/dbgueh6q5/video/upload/v1751613787/Teddy_Swims_-_Lose_Control_The_Village_Sessions_9gWIIIr2Asw_kvifzd.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTysIhH41RDlV9LKs4jUytzvLlGHVkzwbOnng&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613787/Teddy_Swims_-_Lose_Control_The_Village_Sessions_9gWIIIr2Asw_kvifzd.mp3",
     genre: "r&b",
     mood: "passionate",
     duration: 190,
@@ -116,8 +133,10 @@ const sampleSongs = [
   {
     title: "Espresso",
     artist: "Sabrina Carpenter",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPdnZ2EKT3p7TTNn7h9XEmUb-LAASbwlisZA&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613873/Sabrina_Carpenter_-_Espresso_eVli-tstM5E_1_dsvm1o.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPdnZ2EKT3p7TTNn7h9XEmUb-LAASbwlisZA&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613873/Sabrina_Carpenter_-_Espresso_eVli-tstM5E_1_dsvm1o.mp3",
     genre: "pop",
     mood: "playful",
     duration: 175,
@@ -127,8 +146,10 @@ const sampleSongs = [
   {
     title: "Beautiful Things",
     artist: "Benson Boone",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVuwjUoHY1AeJXYaS5uoQAWNDK_MwDqBtjgQ&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751614674/Benson_Boone_-_Beautiful_Things_Live_from_the_67th_GRAMMY_Awards_fCWvZisydrE_1_rhjjfe.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVuwjUoHY1AeJXYaS5uoQAWNDK_MwDqBtjgQ&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751614674/Benson_Boone_-_Beautiful_Things_Live_from_the_67th_GRAMMY_Awards_fCWvZisydrE_1_rhjjfe.mp3",
     genre: "pop",
     mood: "heartwarming",
     duration: 200,
@@ -138,30 +159,36 @@ const sampleSongs = [
   {
     title: "Timeless",
     artist: "The Weeknd & Playboi Carti",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ16eZwCI_doWZcPb-vB0nfJ1fZli8DhoXAGg&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751614754/The_Weeknd_Playboi_Carti_-_Timeless_5EpyN_6dqyk_limrm3.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ16eZwCI_doWZcPb-vB0nfJ1fZli8DhoXAGg&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751614754/The_Weeknd_Playboi_Carti_-_Timeless_5EpyN_6dqyk_limrm3.mp3",
     genre: "r&b",
     mood: "mysterious",
     duration: 220,
     releaseDate: new Date("2025-06-20"),
     trendingScore: 83,
   },
- {
-  title: "Midnight Sky",
-  artist: "Miley Cyrus",
-  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU1bGR6L06Zu802_LBIzGyld1Uj1xDpx5PNg&s",
-  audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751614846/Miley_Cyrus_-_Midnight_Sky_Official_Video_aS1no1myeTM_blgajc.mp3",
-  genre: "pop-rock",
-  mood: "empowering",
-  duration: 204,
-  releaseDate: new Date("2025-06-12"),
-  trendingScore: 88,
-},
-{
+  {
+    title: "Midnight Sky",
+    artist: "Miley Cyrus",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU1bGR6L06Zu802_LBIzGyld1Uj1xDpx5PNg&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751614846/Miley_Cyrus_-_Midnight_Sky_Official_Video_aS1no1myeTM_blgajc.mp3",
+    genre: "pop-rock",
+    mood: "empowering",
+    duration: 204,
+    releaseDate: new Date("2025-06-12"),
+    trendingScore: 88,
+  },
+  {
     title: "Levitating",
     artist: "Dua Lipa",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUSanqMLiJmLO7U_z7KNjPjEa2KAW-RWUb6A&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751614911/Dua_Lipa_-_Levitating_Featuring_DaBaby_Official_Music_Video_TUVcZfQe-Kw_l4wsha.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUSanqMLiJmLO7U_z7KNjPjEa2KAW-RWUb6A&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751614911/Dua_Lipa_-_Levitating_Featuring_DaBaby_Official_Music_Video_TUVcZfQe-Kw_l4wsha.mp3",
     genre: "pop",
     mood: "uplifting",
     duration: 205,
@@ -171,8 +198,10 @@ const sampleSongs = [
   {
     title: "Good 4 U",
     artist: "Olivia Rodrigo",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEvQJbI8MyGBPJfqS3atn8BZ3zKPS0x9hcTQ&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751614911/Dua_Lipa_-_Levitating_Featuring_DaBaby_Official_Music_Video_TUVcZfQe-Kw_l4wsha.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEvQJbI8MyGBPJfqS3atn8BZ3zKPS0x9hcTQ&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751614911/Dua_Lipa_-_Levitating_Featuring_DaBaby_Official_Music_Video_TUVcZfQe-Kw_l4wsha.mp3",
     genre: "pop-punk",
     mood: "angry",
     duration: 180,
@@ -182,8 +211,10 @@ const sampleSongs = [
   {
     title: "Stay",
     artist: "The Kid LAROI & Justin Bieber",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqoJqJ7aIbDQqTqHh9oncbmdVv3N06rjCRfw&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615059/The_Kid_LAROI_Justin_Bieber_-_STAY_Official_Video_kTJczUoc26U_1_vwsxzq.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqoJqJ7aIbDQqTqHh9oncbmdVv3N06rjCRfw&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615059/The_Kid_LAROI_Justin_Bieber_-_STAY_Official_Video_kTJczUoc26U_1_vwsxzq.mp3",
     genre: "pop",
     mood: "emotional",
     duration: 190,
@@ -193,8 +224,10 @@ const sampleSongs = [
   {
     title: "Peaches",
     artist: "Justin Bieber ft. Daniel Caesar & Giveon",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGzjnI3IWks3yG1aEpKRxsilLMz-rqLj9acg&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615129/Justin_Bieber_-_Peaches_ft._Daniel_Caesar_Giveon___Cover_by_PIXY_AOORA_U7-G6zxhLt8_aldqdr.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGzjnI3IWks3yG1aEpKRxsilLMz-rqLj9acg&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615129/Justin_Bieber_-_Peaches_ft._Daniel_Caesar_Giveon___Cover_by_PIXY_AOORA_U7-G6zxhLt8_aldqdr.mp3",
     genre: "r&b",
     mood: "smooth",
     duration: 200,
@@ -204,8 +237,10 @@ const sampleSongs = [
   {
     title: "drivers license",
     artist: "Olivia Rodrigo",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk38yy1W73AvXf0-fYLURKVP_Ojr64KSWJ9g&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615202/Olivia_Rodrigo_-_drivers_license_64th_GRAMMY_Awards_Performance_x4drP6Q6p30_1_ffpd4e.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk38yy1W73AvXf0-fYLURKVP_Ojr64KSWJ9g&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615202/Olivia_Rodrigo_-_drivers_license_64th_GRAMMY_Awards_Performance_x4drP6Q6p30_1_ffpd4e.mp3",
     genre: "pop",
     mood: "heartbroken",
     duration: 245,
@@ -215,8 +250,10 @@ const sampleSongs = [
   {
     title: "Adore You",
     artist: "Harry Styles",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvyIyUk0AwEhSeudAlI1lWAyzm_Xm_2CW-3A&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615282/Harry_Styles_-_Adore_You_except_VKs953wjGPo_1_lzvpsg.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvyIyUk0AwEhSeudAlI1lWAyzm_Xm_2CW-3A&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615282/Harry_Styles_-_Adore_You_except_VKs953wjGPo_1_lzvpsg.mp3",
     genre: "pop",
     mood: "romantic",
     duration: 200,
@@ -226,8 +263,10 @@ const sampleSongs = [
   {
     title: "Shape of You",
     artist: "Ed Sheeran",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe6fvWOCBSMXrMTKbAIcxWvy7J8gxTlYP6Pg&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615349/Ed_Sheeran_-_Shape_Of_You_dWTUU0djIaw_hg06pu.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe6fvWOCBSMXrMTKbAIcxWvy7J8gxTlYP6Pg&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615349/Ed_Sheeran_-_Shape_Of_You_dWTUU0djIaw_hg06pu.mp3",
     genre: "pop",
     mood: "upbeat",
     duration: 235,
@@ -237,8 +276,10 @@ const sampleSongs = [
   {
     title: "Watermelon Sugar",
     artist: "Harry Styles",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjKsgvl6E4DyEm3mhYMmurPQohkluAHVzR3w&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615349/Ed_Sheeran_-_Shape_Of_You_dWTUU0djIaw_hg06pu.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjKsgvl6E4DyEm3mhYMmurPQohkluAHVzR3w&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615349/Ed_Sheeran_-_Shape_Of_You_dWTUU0djIaw_hg06pu.mp3",
     genre: "pop",
     mood: "summery",
     duration: 180,
@@ -249,8 +290,10 @@ const sampleSongs = [
   {
     title: "Cry For Me",
     artist: "The Weeknd",
-    image: "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550682/images_9_lwddol.jpg",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615532/The_Weeknd_-_Cry_For_Me_Official_Music_Video_bn8gP5N8hqM_zgkkww.mp3",
+    image:
+      "https://res.cloudinary.com/dbgueh6q5/image/upload/v1751550682/images_9_lwddol.jpg",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615532/The_Weeknd_-_Cry_For_Me_Official_Music_Video_bn8gP5N8hqM_zgkkww.mp3",
     genre: "r&b",
     mood: "sad",
     duration: 210,
@@ -260,8 +303,10 @@ const sampleSongs = [
   {
     title: "Ordinary",
     artist: "Alex Warren",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIgfjhqbpva6nbL14ZY9y3y3JXJQsfXJmaiA&s",
-    audioUrl: "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615597/Alex_Warren_-_Ordinary_Official_Video_u2ah9tWTkmk_amyxye.mp3",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIgfjhqbpva6nbL14ZY9y3y3JXJQsfXJmaiA&s",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751615597/Alex_Warren_-_Ordinary_Official_Video_u2ah9tWTkmk_amyxye.mp3",
     genre: "pop",
     mood: "reflective",
     duration: 195,
