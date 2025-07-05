@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import MusicPlayer from "./MusicPlayer";
 import Header from "./Header";
 import {
   FaPlay,
@@ -187,9 +186,6 @@ function HomePage() {
         </p>
         <p className="text-sm text-gray-400">Let Melodia be your voice!</p>
       </section>
-
-      {/* Music Player */}
-      <MusicPlayer />
     </div>
   );
 }

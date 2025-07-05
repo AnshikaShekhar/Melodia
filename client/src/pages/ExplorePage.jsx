@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-import MusicPlayer from "./MusicPlayer";
 import Header from "./Header";
 import { useMusic } from "./MusicContext";
 
@@ -22,7 +21,6 @@ function ExplorePage() {
   const SONGS_API = "http://localhost:4000/api/songs";
   const PLAYLIST_API = "http://localhost:4000/api/playlists";
 
-  // Fetch all songs
   useEffect(() => {
     const fetchSongs = async () => {
       try {
@@ -46,7 +44,6 @@ function ExplorePage() {
     fetchSongs();
   }, [searchQuery, genreFilter, artistFilter, sortBy]);
 
-  // Fetch playlists
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
@@ -63,7 +60,6 @@ function ExplorePage() {
     fetchPlaylists();
   }, []);
 
- // Fetch liked songs
 useEffect(() => {
   const fetchLikedSongs = async () => {
     try {
@@ -352,10 +348,6 @@ const toggleLike = async (songId) => {
           </div>
         </main>
       </div>
-
-      <motion.div initial={{ y: 100 }} animate={{ y: 0 }} transition={{ type: "spring", stiffness: 100 }}>
-        <MusicPlayer />
-      </motion.div>
     </motion.div>
   );
 }

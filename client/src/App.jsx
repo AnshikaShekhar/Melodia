@@ -1,5 +1,3 @@
-// App.jsx
-
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,6 +15,7 @@ import PlaylistPage from "./pages/PlayList";
 import Library from "./pages/Library";
 
 import { MusicProvider } from "./pages/MusicContext";
+import MusicPlayer from "./pages/MusicPlayer"; 
 
 import "./index.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -31,7 +30,6 @@ function AppContent() {
       <Route path="/login" element={<Login />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
 
-      {/* Protected Routes */}
       <Route path="/home" element={token ? <HomePage /> : <Navigate to="/login" />} />
       <Route path="/explore" element={token ? <ExplorePage /> : <Navigate to="/login" />} />
       <Route path="/playlist" element={token ? <PlaylistPage /> : <Navigate to="/login" />} />
@@ -45,6 +43,7 @@ function App() {
     <Router>
       <MusicProvider>
         <AppContent />
+        <MusicPlayer /> 
       </MusicProvider>
     </Router>
   );

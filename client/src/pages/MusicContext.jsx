@@ -3,7 +3,7 @@ import React, { createContext, useContext, useRef, useState } from "react";
 const MusicContext = createContext();
 
 export function MusicProvider({ children }) {
-  const [playlist, setPlaylist] = useState([]); // holds all songs
+  const [playlist, setPlaylist] = useState([]); 
   const [currentSongIndex, setCurrentSongIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
