@@ -38,6 +38,12 @@ function Header() {
         >
           <i className="fas fa-compass mr-2 hidden sm:inline"></i>Explore
         </Link>
+        <Link
+  to="/library"
+  className="bg-pink-700 hover:bg-pink-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
+>
+  <i className="fas fa-heart mr-2 hidden sm:inline"></i>My Library
+</Link>
 
         <Link
           to="/playlist"

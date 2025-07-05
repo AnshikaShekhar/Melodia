@@ -1,166 +1,109 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useDropzone } from 'react-dropzone';
+import { motion } from 'framer-motion';
+import Header from './Header';
+import MusicPlayer from './MusicPlayer';
+import { useMusic } from './MusicContext'; // adjust path if necessary
 
 function Library() {
-  const [playlists, setPlaylists] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [newPlaylist, setNewPlaylist] = useState({ name: '', cover: null, songs: [] });
-  const [activeTab, setActiveTab] = useState('playlists');
+  const token = localStorage.getItem('token');
+  const { playSong, currentSong, isPlaying } = useMusic();
 
   useEffect(() => {
-    fetchData();
+    fetchLikedSongs();
   }, []);
 
-  const fetchData = async () => {
+  const fetchLikedSongs = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const [playlistsRes, likedRes] = await Promise.all([
-        axios.get('http://localhost:4000/api/playlists', { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get('http://localhost:4000/api/likes', { headers: { Authorization: `Bearer ${token}` } }),
-      ]);
-      setPlaylists(playlistsRes.data);
-      setLikedSongs(likedRes.data);
-    } catch (error) {
-      console.error('Failed to fetch data:', error);
-    }
-  };
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: (acceptedFiles) => setNewPlaylist({ ...newPlaylist, cover: acceptedFiles[0] }),
-  });
-
-  const handleCreatePlaylist = async (e) => {
-    e.preventDefault();
-    try {
-      const token = localStorage.getItem('token');
-      const formData = new FormData();
-      formData.append('name', newPlaylist.name);
-      if (newPlaylist.cover) formData.append('cover', newPlaylist.cover);
-      await axios.post('http://localhost:4000/api/playlists', formData, {
-        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
-      });
-      setNewPlaylist({ name: '', cover: null, songs: [] });
-      setShowModal(false);
-      fetchData();
-    } catch (error) {
-      console.error('Failed to create playlist:', error);
-    }
-  };
-
-  const handleDeletePlaylist = async (id) => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:4000/api/playlists/${id}`, {
+      const response = await axios.get('http://localhost:4000/api/songs/liked', {
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchData();
-    } catch (error) {
-      console.error('Failed to delete playlist:', error);
+      setLikedSongs(response.data.likedSongs || []);
+    } catch (err) {
+      console.error('Failed to load liked songs:', err);
     }
   };
 
   const handleSmartPlaylist = async () => {
     try {
-      const token = localStorage.getItem('token');
       await axios.get('http://localhost:4000/api/smart-playlists', {
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchData();
-    } catch (error) {
-      console.error('Failed to generate smart playlist:', error);
+      alert('✅ Smart playlist generated!');
+    } catch (err) {
+      console.error('Smart playlist error:', err);
+      alert('❌ Failed to generate smart playlist');
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">My Library</h1>
-      <div className="mb-4 flex space-x-4">
-        <button
-          onClick={() => setActiveTab('playlists')}
-          className={`p-2 rounded ${activeTab === 'playlists' ? 'bg-blue-600' : 'bg-gray-600'}`}
-        >
-          Playlists
-        </button>
-        <button
-          onClick={() => setActiveTab('liked')}
-          className={`p-2 rounded ${activeTab === 'liked' ? 'bg-blue-600' : 'bg-gray-600'}`}
-        >
-          Liked Songs
-        </button>
-        <button
-          onClick={() => setShowModal(true)}
-          className="bg-green-600 p-2 rounded hover:bg-green-700"
-        >
-          Create Playlist
-        </button>
-        <button
-          onClick={handleSmartPlaylist}
-          className="bg-purple-600 p-2 rounded hover:bg-purple-700"
-        >
-          🎧 Generate Smart Playlist
-        </button>
-      </div>
-      {activeTab === 'playlists' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {playlists.map((playlist) => (
-            <div key={playlist._id} className="bg-gray-800 p-4 rounded-lg relative">
-              <h2 className="text-lg font-semibold">{playlist.name}</h2>
-              <button
-                onClick={() => handleDeletePlaylist(playlist._id)}
-                className="absolute top-2 right-2 bg-red-600 p-1 rounded hover:bg-red-700"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900 text-white font-sans"
+    >
+      <Header />
+
+      <div className="px-8 py-6">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold text-purple-300">💖 Liked Songs</h1>
+
+          <button
+            onClick={handleSmartPlaylist}
+            className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold shadow-lg transition-all duration-300"
+          >
+            🎧 Generate Smart Playlist
+          </button>
+        </div>
+
+        {likedSongs.length === 0 ? (
+          <motion.p
+            className="text-gray-400"
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+          >
+            You haven’t liked any songs yet.
+          </motion.p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {likedSongs.map((song, index) => (
+              <motion.div
+                key={song._id}
+                onClick={() => playSong(likedSongs, likedSongs.findIndex((s) => s._id === song._id))}
+                className="cursor-pointer bg-gray-800 p-5 rounded-xl border border-purple-500 shadow-lg hover:shadow-purple-600 transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
               >
-                X
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-      {activeTab === 'liked' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {likedSongs.map((song) => (
-            <div key={song._id} className="bg-gray-800 p-4 rounded-lg">
-              <h2 className="text-lg font-semibold">{song.title}</h2>
-              <p className="text-gray-400">{song.artist}</p>
-            </div>
-          ))}
-        </div>
-      )}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-gray-800 p-4 rounded-lg">
-            <h2 className="text-xl font-semibold mb-2">New Playlist</h2>
-            <form onSubmit={handleCreatePlaylist}>
-              <input
-                type="text"
-                value={newPlaylist.name}
-                onChange={(e) => setNewPlaylist({ ...newPlaylist, name: e.target.value })}
-                placeholder="Playlist Name"
-                className="w-full p-2 mb-2 rounded bg-gray-700 text-white"
-                required
-              />
-              <div {...getRootProps()} className="border-2 border-dashed p-2 mb-2">
-                <input {...getInputProps()} />
-                <p>Drag 'n' drop cover image, or click to select</p>
-              </div>
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="mr-2 bg-red-600 p-2 rounded hover:bg-red-700"
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="bg-blue-600 p-2 rounded hover:bg-blue-700">
-                  Create
-                </button>
-              </div>
-            </form>
+                <div className="relative group">
+                  <img
+                    src={song.image}
+                    onError={(e) => (e.target.src = '/fallback.jpg')}
+                    alt={song.title}
+                    className="w-full h-48 object-cover rounded-lg mb-4 transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <button className="bg-purple-600 text-white p-3 rounded-full text-xl">
+                      {currentSong && currentSong._id === song._id && isPlaying ? '⏸️' : '▶️'}
+                    </button>
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold text-purple-200">{song.title}</h3>
+                <p className="text-sm text-gray-400">{song.artist}</p>
+                <p className="text-xs text-gray-500 mt-1 italic">{song.genre}</p>
+              </motion.div>
+            ))}
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+
+   
+      <div>
+        <MusicPlayer />
+      </div>
+    </motion.div>
   );
 }
 

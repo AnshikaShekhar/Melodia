@@ -1,7 +1,7 @@
 // routes/playlistRoutes.js
 const express = require("express");
 const router = express.Router();
-const Playlist = require("../models/Playlist");
+const Playlist = require("../models/playlist");
 const authenticateToken = require("../middleware/authMiddleware");
 
 // GET all playlists for a user

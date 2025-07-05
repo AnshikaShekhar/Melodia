@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Password is required'],
     },
+     likedSongs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
     playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist' }],
     resetToken: String,
     resetTokenExpiry: Date,
