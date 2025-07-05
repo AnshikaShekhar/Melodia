@@ -2,13 +2,21 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import MusicPlayer from "./MusicPlayer";
 import Header from "./Header";
-import { FaPlay, FaHeart, FaStar } from "react-icons/fa";
+import {
+  FaPlay,
+  FaHeart,
+  FaStar,
+  FaMusic,
+  FaUserFriends,
+} from "react-icons/fa";
+import { useMusic } from "./MusicContext";
 
 function HomePage() {
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const [trendingSongs, setTrendingSongs] = useState([]);
   const baseURL = "http://localhost:4000/";
+  const { playSong } = useMusic();
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -34,59 +42,6 @@ function HomePage() {
         );
       } catch (err) {
         console.error("Error fetching trending songs:", err);
-        const sampleSongs = [
-          {
-            title: "Espresso",
-            artist: "Sabrina Carpenter",
-            image:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPdnZ2EKT3p7TTNn7h9XEmUb-LAASbwlisZA&s",
-            audioUrl:
-              "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613873/Sabrina_Carpenter_-_Espresso_eVli-tstM5E_1_dsvm1o.mp3",
-            genre: "pop",
-            trendingScore: 93,
-          },
-          {
-            title: "I Had Some Help",
-            artist: "Post Malone ft. Morgan Wallen",
-            image:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSivYgM412zi8r36MWVvCC_7gS6FG6BJAdCEQ&s",
-            audioUrl:
-              "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613711/Shaboozey_-_A_Bar_Song_Tipsy_Official_Visualizer_t7bQwwqW-Hc_p7c9z6.mp3",
-            genre: "country-rap",
-            trendingScore: 89,
-          },
-          {
-            title: "Not Like Us",
-            artist: "Kendrick Lamar",
-            image:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKhVmdXl7HMpNew_ukSnW1J-AHuKL9ttXxCg&s",
-            audioUrl:
-              "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613248/Kendrick_Lamar_-_Not_Like_Us_H58vbez_m4E_fshd5l.mp3",
-            genre: "hip-hop",
-            trendingScore: 94,
-          },
-          {
-            title: "Die With a Smile",
-            artist: "Lady Gaga & Bruno Mars",
-            image:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVHYXtm6qFO-wc7bCDDKfe2I1BlLEap1y3mQ&s",
-            audioUrl:
-              "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751613145/Lady_Gaga_Bruno_Mars_-_Die_With_A_Smile_Official_Music_Video_kPa7bsKwL-c_mb4xqz.mp3",
-            genre: "pop",
-            trendingScore: 96,
-          },
-          {
-            title: "Luther",
-            artist: "Kendrick Lamar & SZA",
-            image:
-              "https://i1.sndcdn.com/artworks-y6WaHzlvp7PbwkLT-JlZicw-t500x500.png",
-            audioUrl:
-              "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751612924/Kendrick_Lamar_-_luther_Spider-Verse_e8oehi.mp3",
-            genre: "hip-hop",
-            trendingScore: 98,
-          },
-        ];
-        setTrendingSongs(sampleSongs);
       }
     };
 
@@ -94,71 +49,142 @@ function HomePage() {
     fetchTrendingSongs();
   }, []);
 
+  const handlePlayClick = (index) => {
+    playSong(trendingSongs, index);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f0c29] via-[#1a1a4d] to-[#2a2a72] text-white font-sans overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-[#0f0c29] via-[#1a1a4d] to-[#2a2a72] text-white font-sans overflow-x-hidden">
       <Header />
 
       {/* Hero Section */}
-      <section className="text-center py-24 px-4 relative overflow-hidden animate-fadeIn">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/rice-paper.png')] opacity-10"></div>
-        <h2 className="text-5xl font-bold text-teal-200 mb-6 animate-slideInGlow">
-          {error ? (
-            <span className="text-red-400">{error}</span>
-          ) : (
-            <>
-              Welcome Back,{" "}
-              <span className="text-purple-300">{username || "Guest"}</span>
-            </>
-          )}
-        </h2>
-        <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10 animate-fadeInUp">
-          Stream your favorite tunes, curate custom playlists, and discover
-          fresh sounds with Melodia.
+      <section className="text-center py-24 px-4 relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage:
+              "url('https://www.transparenttextures.com/patterns/rice-paper.png')",
+            backgroundSize: "cover",
+          }}
+        />
+        <h2
+  className="text-5xl font-bold mb-6 z-10 relative"
+  style={{
+    color: "#c084fc",
+    textShadow:
+      "0 0 5px rgba(255, 255, 255, 0.4), 0 0 10px rgba(173, 216, 230, 0.5)",
+  }}
+>
+  {error ? (
+    <span className="text-red-400">{error}</span>
+  ) : (
+    <>
+      Welcome Back,{" "}
+      <span className="text-purple-200">{username || "Guest"} 🎧</span>
+    </>
+  )}
+</h2>
+
+        <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10 z-10 relative">
+          Discover new tracks, curate your own playlists, and immerse yourself
+          in the rhythm of life.
         </p>
+
         <a
           href="/explore"
-          className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-700 hover:from-purple-700 hover:to-indigo-800 text-lg font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105 shadow-lg animate-pulse"
+          className="relative inline-flex items-center justify-center px-8 py-3 text-lg font-semibold rounded-full transition-transform duration-300 hover:scale-110 shadow-lg z-10"
+          style={{
+            background:
+              "linear-gradient(to right, #9333ea, #4f46e5)",
+            color: "#fff",
+            boxShadow:
+              "0 0 10px rgba(147, 51, 234, 0.6), 0 0 20px rgba(79, 70, 229, 0.5)",
+          }}
         >
-          <FaPlay className="mr-2" /> Start Listening
+          <FaPlay className="mr-2" />
+          Start Listening
         </a>
+      </section>
+
+      {/* Why Melodia Section */}
+      <section className="py-16 px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+        <img
+          src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=60"
+          alt="music"
+          className="rounded-xl shadow-lg hover:scale-105 transition-transform"
+        />
+        <div>
+          <h3 className="text-4xl font-bold text-teal-100 mb-4">
+            Why Melodia? 🎶
+          </h3>
+          <ul className="text-gray-300 space-y-3 text-lg">
+            <li>
+              <FaMusic className="inline mr-2 text-purple-400" />
+              Generate AI-powered playlists based on your mood
+            </li>
+            <li>
+              <FaUserFriends className="inline mr-2 text-pink-400" />
+              Share and explore music with your community
+            </li>
+            <li>
+              <FaHeart className="inline mr-2 text-red-400" />
+              Tailored song picks based on your vibe and artists
+            </li>
+            <li>
+              <FaStar className="inline mr-2 text-yellow-400" />
+              Organize music by your taste, all in My Library
+            </li>
+          </ul>
+        </div>
       </section>
 
       <hr className="border-t border-purple-800 my-16 max-w-6xl mx-auto" />
 
       {/* Trending Songs */}
       <section className="py-16 px-6 relative">
-        <h3 className="text-4xl font-semibold text-center text-teal-200 mb-12 animate-bounceIn">
+        <h3 className="text-4xl font-semibold text-center text-teal-200 mb-12">
           🔥 Trending Songs
         </h3>
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-7xl mx-auto">
           {trendingSongs.map((song, index) => (
             <div
-              key={song.title}
-              className="bg-[#2a5298] hover:bg-[#203e6e] transition-all duration-300 p-6 rounded-xl shadow-2xl transform hover:-translate-y-2 hover:scale-105 hover:shadow-glow border border-teal-900/20 animate-fadeInUp"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              key={song.title + index}
+              onClick={() => handlePlayClick(index)}
+              className="cursor-pointer bg-[#2a5298] hover:bg-[#203e6e] transition-all duration-300 p-6 rounded-xl shadow-xl transform hover:-translate-y-2 hover:scale-105 border border-teal-900/20"
             >
-              <img
-                src={song.image}
-                alt={`${song.title} cover`}
-                className="w-full h-56 object-cover rounded-md mb-4 transition-opacity duration-300 hover:opacity-90"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src =
-                    "https://via.placeholder.com/300x224?text=Image+Not+Available";
-                }}
-              />
+              <div className="relative">
+                <img
+                  src={song.image}
+                  alt={`${song.title} cover`}
+                  className="w-full h-48 object-cover rounded-md mb-4"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://via.placeholder.com/300x224?text=Image+Not+Available";
+                  }}
+                />
+                <FaPlay className="absolute bottom-4 right-4 text-white bg-purple-600 p-2 rounded-full text-xl shadow-md hover:scale-110 transition-transform" />
+              </div>
               <h4 className="text-xl font-semibold text-teal-100 mb-1 flex items-center">
                 {song.title}{" "}
-                <FaStar className="ml-2 text-yellow-400 animate-twinkle" />
+                <FaStar className="ml-2 text-yellow-400 animate-pulse" />
               </h4>
               <p className="text-gray-300 text-sm flex items-center">
                 {song.artist}{" "}
-                <FaHeart className="ml-2 text-red-500 animate-heartbeat" />
+                <FaHeart className="ml-2 text-red-500 animate-bounce" />
               </p>
               <p className="text-gray-400 text-sm">{song.genre}</p>
             </div>
           ))}
         </div>
+      </section>
+
+      {/* Quote Section */}
+      <section className="py-20 bg-[#1a1a4d] text-center text-gray-200 px-6">
+        <p className="text-2xl italic mb-4 max-w-2xl mx-auto">
+          “Where words fail, music speaks.” – Hans Christian Andersen
+        </p>
+        <p className="text-sm text-gray-400">Let Melodia be your voice!</p>
       </section>
 
       {/* Music Player */}
