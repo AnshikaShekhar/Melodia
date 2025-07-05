@@ -8,7 +8,6 @@ const authRoutes = require('./routes/authRoutes');
 const songRoutes = require('./routes/songs');
 const playlistRoutes = require('./routes/playListRoutes');
 const userDataRoutes = require("./routes/userDataRoutes");
-const authenticateUser = require('./middleware/authMiddleware'); // ✅ use your middleware
 
 dotenv.config();
 
@@ -16,11 +15,11 @@ const app = express();
 app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 
-// Routes
+// Routes (✅ NO global authenticateUser here)
 app.use('/api/auth', authRoutes);
-app.use('/api/songs', authenticateUser, songRoutes);       // ✅ Protected
-app.use('/api/playlists', authenticateUser, playlistRoutes); // ✅ Protected
-app.use("/api/user", userDataRoutes);                      // You can protect this too if needed
+app.use('/api/songs', songRoutes); // ✅ Now trending will be public
+app.use('/api/playlists', playlistRoutes);
+app.use("/api/user", userDataRoutes);
 
 // MongoDB Connection
 const PORT = process.env.PORT || 4000;

@@ -96,9 +96,24 @@ const getLikedSongs = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+// GET /api/songs/trending – fetch top 5 trending songs (public route)
+const getTrendingSongs = async (req, res) => {
+  try {
+    const songs = await Song.find({})
+      .sort({ trendingScore: -1 })
+      .limit(5);
+
+    res.status(200).json(songs);
+  } catch (error) {
+    console.error("Error fetching trending songs:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 
 module.exports = {
   getSongs,
   toggleLikeSong,
   getLikedSongs,
+  getTrendingSongs, 
 };

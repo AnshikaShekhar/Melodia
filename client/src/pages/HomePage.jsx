@@ -68,22 +68,23 @@ function HomePage() {
           }}
         />
         <h2
-  className="text-5xl font-bold mb-6 z-10 relative"
-  style={{
-    color: "#c084fc",
-    textShadow:
-      "0 0 5px rgba(255, 255, 255, 0.4), 0 0 10px rgba(173, 216, 230, 0.5)",
-  }}
->
-  {error ? (
-    <span className="text-red-400">{error}</span>
-  ) : (
-    <>
-      Welcome Back,{" "}
-      <span className="text-purple-200">{username || "Guest"} 🎧</span>
-    </>
-  )}
-</h2>
+          className="text-5xl font-bold mb-6 z-10 relative"
+          style={{
+            color: "#c084fc",
+            textShadow:
+              "0 0 10px rgba(192, 132, 252, 0.8), 0 0 20px rgba(192, 132, 252, 0.6)",
+            animation: "glow 2s ease-in-out infinite alternate",
+          }}
+        >
+          {error ? (
+            <span className="text-red-400">{error}</span>
+          ) : (
+            <>
+              Welcome Back,{" "}
+              <span className="text-purple-300">{username || "Guest"} 🎧</span>
+            </>
+          )}
+        </h2>
 
         <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10 z-10 relative">
           Discover new tracks, curate your own playlists, and immerse yourself
