@@ -29,7 +29,6 @@ function LandingPage() {
 
   const startBtnRef = useRef(null);
 
-  // Floating Notes
   useEffect(() => {
     const createNote = () => {
       const note = document.createElement("div");
@@ -59,7 +58,6 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
       
-      {/* Header */}
       <header className="flex flex-col sm:flex-row justify-between items-center px-6 sm:px-8 py-4 bg-gradient-to-r from-gray-900 via-purple-900 to-indigo-900 shadow-2xl border-b border-purple-800 sticky top-0 z-50">
         <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight flex items-center gap-3 mb-4 sm:mb-0">
           <img
@@ -87,19 +85,15 @@ function LandingPage() {
         </div>
       </header>
 
-      {/* Animated Vinyl Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute w-72 h-72 bg-[url('https://www.transparenttextures.com/patterns/vinyl.png')] bg-contain bg-no-repeat animate-spin-slow opacity-10 top-10 left-10" />
         <div className="absolute w-60 h-60 bg-[url('https://www.transparenttextures.com/patterns/vinyl.png')] bg-contain bg-no-repeat animate-spin-reverse opacity-10 bottom-10 right-10" />
       </div>
 
-      {/* Hero Section with Centered Typewriter */}
       <section className="flex flex-col items-center justify-center min-h-[80vh] text-center z-10 relative animate-slide-in overflow-hidden px-4">
-        {/* Animated Gradient Blobs */}
         <div className="absolute w-96 h-96 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 rounded-full blur-3xl opacity-30 top-10 left-1/3 animate-float -z-10" />
         <div className="absolute w-80 h-80 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 rounded-full blur-2xl opacity-20 bottom-0 right-20 animate-float -z-10" />
 
-        {/* Typewriter Heading */}
         <div className="text-5xl md:text-6xl font-extrabold mb-6 text-teal-200 drop-shadow-[0_4px_12px_rgba(0,255,255,0.4)]">
           <Typewriter
             textStyle={{
@@ -127,7 +121,6 @@ function LandingPage() {
         </button>
       </section>
 
-      {/* Trending Songs */}
       <section className="py-16 z-10 relative animate-fade-in-up">
         <h3 className="text-3xl md:text-4xl font-semibold mb-10 text-teal-200 text-center drop-shadow-md">
           Suggested Songs 🎵
@@ -160,7 +153,6 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
       <section className="py-16 z-10 bg-[#1e1e4f]/70 backdrop-blur-md text-center relative animate-fade-in-up">
         <h3 className="text-3xl md:text-4xl font-semibold mb-8 text-teal-200 drop-shadow-md">
           What Users Say 🌟
@@ -181,7 +173,6 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* About Us */}
       <section className="py-16 z-10 text-center relative animate-fade-in-up px-4">
         <h3 className="text-3xl md:text-4xl font-semibold mb-8 text-teal-200 drop-shadow-md">
           About Us 🎧
@@ -192,7 +183,6 @@ function LandingPage() {
         </p>
       </section>
 
-      {/* Footer */}
       <footer className="py-6 text-center z-10 bg-[#1e1e4f]/70 backdrop-blur-md relative animate-fade-in">
         <p className="text-gray-400">© 2025 Melodia. All rights reserved.</p>
         <p className="mt-4 text-gray-500 text-sm">

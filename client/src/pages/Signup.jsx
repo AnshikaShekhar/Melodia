@@ -27,7 +27,6 @@ function Signup() {
     }
   };
 
-  // 🎵 Floating Notes Animation
   useEffect(() => {
     const createMusicNote = () => {
       const note = document.createElement("div");
@@ -70,10 +69,8 @@ function Signup() {
           </header>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
       
-      {/* 📝 Signup Container */}
       <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between bg-[#1f1f3a]/90 p-8 rounded-2xl shadow-2xl border border-[#3a3a8a] backdrop-blur-md z-10 animate-fade-in border-4 border-transparent hover:border-teal-400/50 transition-all duration-700 ease-in-out group">
         
-        {/* 🎧 Icon/Image */}
         <div className="hidden md:flex w-1/2 justify-center">
           <img
             src="https://cdn-icons-png.flaticon.com/512/727/727218.png"
@@ -82,7 +79,6 @@ function Signup() {
           />
         </div>
 
-        {/* ✍️ Signup Form */}
         <div className="w-full md:w-1/2">
           <h1 className="text-4xl font-extrabold mb-6 text-teal-300 text-center">
             Sign Up 🎧

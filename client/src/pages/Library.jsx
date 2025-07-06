@@ -3,8 +3,12 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import Header from "./Header";
 import { useMusic } from "./MusicContext";
+import useAuthRedirect from "../hook/useAuthRedirect";
 
 function Library() {
+
+  useAuthRedirect();
+  
   const [likedSongs, setLikedSongs] = useState([]);
   const [smartPlaylist, setSmartPlaylist] = useState([]);
   const token = localStorage.getItem("token");

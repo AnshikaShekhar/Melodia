@@ -3,8 +3,12 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "./Header";
 import { useMusic } from "./MusicContext";
+import useAuthRedirect from "../hook/useAuthRedirect";
 
 function ExplorePage() {
+
+  useAuthRedirect();
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [genreFilter, setGenreFilter] = useState("");
   const [artistFilter, setArtistFilter] = useState("");
@@ -286,7 +290,6 @@ function ExplorePage() {
                 key={song._id}
                 className="bg-gray-800 rounded-xl shadow-xl p-4 relative group"
               >
-                {/* ✅ Updated Play Button Logic */}
                 <div className="relative w-full h-48 rounded-lg overflow-hidden">
                   <img
                     src={song.image}

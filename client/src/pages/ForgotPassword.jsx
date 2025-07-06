@@ -25,7 +25,6 @@ function ForgotPassword() {
     }
   };
 
-  // 🎵 Floating Music Notes
   useEffect(() => {
     const createMusicNote = () => {
       const note = document.createElement("div");
@@ -67,7 +66,6 @@ function ForgotPassword() {
             </div>
           </header>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
-      {/* 🎵 Form Container */}
       <div className="w-full max-w-3xl mx-auto bg-[#1f1f3a]/90 p-10 rounded-2xl shadow-2xl border-[3px] border-transparent backdrop-blur-md z-10 animate-fade-in hover:border-teal-400 hover:shadow-teal-500/40 transition-all duration-500 ease-in-out group">
         <h1 className="text-4xl font-extrabold mb-6 text-teal-300 text-center">
           Forgot Password 🔐

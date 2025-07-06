@@ -1,7 +1,6 @@
 const Song = require("../models/song");
 const User = require("../models/User");
 
-// GET /api/songs – fetch songs with filters and sorting
 const getSongs = async (req, res) => {
   try {
     const { search, genre, artist, sortBy, page = 1, limit = 10 } = req.query;
@@ -57,7 +56,6 @@ const getSongs = async (req, res) => {
   }
 };
 
-// POST /api/songs/:songId/like – toggle like/unlike for a song
 const toggleLikeSong = async (req, res) => {
   const userId = req.user.id;
   const songId = req.params.songId;
@@ -70,9 +68,9 @@ const toggleLikeSong = async (req, res) => {
     const index = user.likedSongs.indexOf(songId);
 
     if (index === -1) {
-      user.likedSongs.push(songId); // Like
+      user.likedSongs.push(songId); 
     } else {
-      user.likedSongs.splice(index, 1); // Unlike
+      user.likedSongs.splice(index, 1); 
     }
 
     await user.save();
@@ -83,7 +81,6 @@ const toggleLikeSong = async (req, res) => {
   }
 };
 
-// GET /api/songs/liked – get all liked songs by user
 const getLikedSongs = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).populate("likedSongs");
@@ -96,7 +93,7 @@ const getLikedSongs = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-// GET /api/songs/trending – fetch top 5 trending songs (public route)
+
 const getTrendingSongs = async (req, res) => {
   try {
     const songs = await Song.find({})
@@ -110,7 +107,6 @@ const getTrendingSongs = async (req, res) => {
   }
 };
 
-// GET /api/songs/public/:id – get single song by ID without authentication
 const getPublicSongById = async (req, res) => {
   try {
     const song = await Song.findById(req.params.id);
@@ -121,8 +117,6 @@ const getPublicSongById = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
-
 
 module.exports = {
   getSongs,

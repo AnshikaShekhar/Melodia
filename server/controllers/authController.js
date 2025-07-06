@@ -2,31 +2,25 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// @route   POST /api/auth/signup
 const signupUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Input validation
     if (!username || !email || !password) {
       return res.status(400).json({ message: 'All fields (username, email, password) are required' });
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'Email already registered' });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
-    // Create token
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     res.status(201).json({ token, user: { id: newUser._id, username, email } });
@@ -35,29 +29,24 @@ const signupUser = async (req, res) => {
   }
 };
 
-// @route   POST /api/auth/login
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Input validation
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    // Find user
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // Create token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     res.status(200).json({ token, user: { id: user._id, username: user.username, email } });
@@ -87,10 +76,34 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+const validateToken = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ valid: false, message: "User not found" });
+    }
+
+    res.status(200).json({
+      valid: true,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      valid: false,
+      message: "Token validation failed",
+      error: err.message,
+    });
+  }
+};
+
+
 module.exports = {
   signupUser,
   loginUser,
-  forgotPassword
+  forgotPassword,
+  validateToken,
 };
-
-module.exports = { signupUser, loginUser, forgotPassword };

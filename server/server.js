@@ -15,13 +15,11 @@ const app = express();
 app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 
-// Routes (✅ NO global authenticateUser here)
 app.use('/api/auth', authRoutes);
-app.use('/api/songs', songRoutes); // ✅ Now trending will be public
+app.use('/api/songs', songRoutes);
 app.use('/api/playlists', playlistRoutes);
 app.use("/api/user", userDataRoutes);
 
-// MongoDB Connection
 const PORT = process.env.PORT || 4000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://melodia:AH90XFs9xABUhlIi@melodia.woowq8n.mongodb.net/';
 
