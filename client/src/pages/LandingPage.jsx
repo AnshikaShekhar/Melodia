@@ -1,4 +1,4 @@
-
+import { useEffect } from "react";
 
 function LandingPage() {
   const trendingSongs = [
@@ -25,23 +25,46 @@ function LandingPage() {
     },
   ];
 
+  // 🎵 Floating Music Note Particles
+  useEffect(() => {
+    const createMusicNote = () => {
+      const note = document.createElement("div");
+      note.innerText = "🎵";
+      note.className =
+        "fixed text-white pointer-events-none animate-floatNote z-30";
+      note.style.left = `${Math.random() * 100}vw`;
+      note.style.bottom = `0px`;
+      note.style.opacity = Math.random().toString();
+      note.style.fontSize = `${Math.random() * 20 + 16}px`;
+      document.body.appendChild(note);
+
+      setTimeout(() => note.remove(), 4000);
+    };
+
+    const interval = setInterval(() => {
+      createMusicNote();
+    }, 300);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
-      {/* Login/Signup Header */}
-      <header className="flex justify-between items-center py-6 px-6 z-10 relative animate-fade-in">
-        <h1 className="text-3xl font-extrabold text-teal-300 drop-shadow-md">
+      {/* Header */}
+      <header className="flex justify-between items-center py-6 px-6 z-10 relative animate-fade-in backdrop-blur-lg bg-[#0d0d2b]/50 shadow-lg">
+        <h1 className="text-4xl font-extrabold text-teal-300 drop-shadow-xl tracking-wide">
           🎵 Melodia
         </h1>
         <div className="space-x-4">
           <a
             href="/login"
-            className="bg-blue-700 hover:bg-blue-600 px-6 py-2 rounded-xl transition duration-300 text-white font-medium shadow-md hover:shadow-blue-500/50"
+            className="bg-blue-700 hover:bg-blue-600 px-6 py-2 rounded-xl text-white font-medium shadow-md hover:shadow-blue-500/50 transition-all"
           >
             Login
           </a>
           <a
             href="/signup"
-            className="bg-green-700 hover:bg-green-600 px-6 py-2 rounded-xl transition duration-300 text-white font-medium shadow-md hover:shadow-green-500/50"
+            className="bg-green-700 hover:bg-green-600 px-6 py-2 rounded-xl text-white font-medium shadow-md hover:shadow-green-500/50 transition-all"
           >
             Sign Up
           </a>
@@ -50,22 +73,21 @@ function LandingPage() {
 
       {/* Animated Vinyl Background */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute w-72 h-72 bg-[url('https://www.transparenttextures.com/patterns/vinyl.png')] bg-contain bg-no-repeat animate-spin-slow opacity-20 top-10 left-10"></div>
-        <div className="absolute w-60 h-60 bg-[url('https://www.transparenttextures.com/patterns/vinyl.png')] bg-contain bg-no-repeat animate-spin-reverse opacity-15 bottom-10 right-10"></div>
+        <div className="absolute w-72 h-72 bg-[url('https://www.transparenttextures.com/patterns/vinyl.png')] bg-contain bg-no-repeat animate-spin-slow opacity-10 top-10 left-10"></div>
+        <div className="absolute w-60 h-60 bg-[url('https://www.transparenttextures.com/patterns/vinyl.png')] bg-contain bg-no-repeat animate-spin-reverse opacity-10 bottom-10 right-10"></div>
       </div>
 
       {/* Hero Section */}
       <section className="text-center py-24 z-10 relative animate-slide-in">
-        <h2 className="text-5xl md:text-6xl font-extrabold mb-8 text-teal-200 drop-shadow-[0_4px_6px_rgba(0,255,255,0.3)] animate-pulse-glow">
+        <h2 className="text-5xl md:text-6xl font-extrabold mb-6 text-teal-200 drop-shadow-[0_4px_12px_rgba(0,255,255,0.4)] animate-pulse-slow">
           Discover Your Music
         </h2>
-        <p className="text-xl md:text-2xl mb-12 text-gray-300 max-w-3xl mx-auto">
-          Stream your favorite tunes, curate custom playlists, and discover
-          fresh sounds with Melodia 🎶
+        <p className="text-xl md:text-2xl mb-10 text-gray-300 max-w-3xl mx-auto">
+          Stream your favorite tunes, curate custom playlists, and explore fresh sounds with Melodia 🎶
         </p>
         <a
           href="/signup"
-          className="bg-purple-700 hover:bg-purple-600 px-8 py-3 rounded-full text-lg md:text-xl font-semibold transition duration-300 text-white shadow-md hover:shadow-purple-500/50 animate-bounce-slow"
+          className="bg-purple-700 hover:bg-purple-600 px-8 py-3 rounded-full text-lg md:text-xl font-semibold transition-all shadow-md hover:shadow-purple-500/50 animate-bounce"
         >
           Get Started
         </a>
@@ -73,29 +95,35 @@ function LandingPage() {
 
       {/* Trending Songs */}
       <section className="py-16 z-10 relative animate-fade-in-up">
-        <h3 className="text-3xl md:text-4xl font-semibold mb-8 text-teal-200 text-center drop-shadow-md">
+        <h3 className="text-3xl md:text-4xl font-semibold mb-10 text-teal-200 text-center drop-shadow-md">
           Suggested Songs 🎵
         </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 px-6">
           {trendingSongs.map((song) => (
             <div
               key={song.id}
-              className="bg-[#2d2d6f]/70 p-6 rounded-2xl border-2 border-teal-900/50 shadow-[0_0_15px_rgba(0,200,255,0.1)] hover:shadow-[0_0_25px_rgba(0,200,255,0.3)] transition-all duration-300 hover:-translate-y-2 backdrop-blur-sm relative overflow-hidden group animate-fade-in"
+              className="bg-[#2d2d6f]/70 backdrop-blur-md p-6 rounded-2xl border border-teal-700 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-teal-400/50 group relative overflow-hidden"
             >
-              <div className="absolute inset-0 bg-teal-500/10 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-2xl"></div>
-              <img
-                src={song.image}
-                alt={`${song.title} cover`}
-                className="w-full h-64 object-cover rounded-t-xl mb-4 animate-scale-up"
-                onError={(e) => {
-                  e.target.style.display = "none";
-                }}
-              />
-              <h4 className="text-xl font-semibold text-teal-200 truncate">
-                {song.title}
-              </h4>
-              <p className="text-gray-400 truncate">{song.artist}</p>
-              <p className="text-sm text-gray-500 truncate">{song.genre}</p>
+              <div className="absolute inset-0 bg-teal-300/10 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl"></div>
+              <div className="relative overflow-hidden rounded-xl">
+                <img
+                  src={song.image}
+                  alt={`${song.title} cover`}
+                  className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    e.target.src =
+                      "https://via.placeholder.com/300x200?text=Image+Not+Available";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent rounded-xl"></div>
+              </div>
+              <div className="mt-4 text-left">
+                <h4 className="text-xl font-semibold text-teal-200 truncate">
+                  {song.title}
+                </h4>
+                <p className="text-gray-300 truncate">{song.artist}</p>
+                <p className="text-sm text-gray-500 truncate">{song.genre}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -121,11 +149,10 @@ function LandingPage() {
           ].map((review) => (
             <div
               key={review.id}
-              className="bg-[#2d2d6f]/70 p-6 rounded-2xl border-2 border-teal-900/50 shadow-[0_0_15px_rgba(0,200,255,0.1)] hover:shadow-[0_0_25px_rgba(0,200,255,0.3)] transition-all duration-300 hover:-translate-y-2 backdrop-blur-sm relative overflow-hidden group animate-fade-in"
+              className="bg-[#2d2d6f]/70 p-6 rounded-2xl border border-teal-800 shadow-md hover:shadow-teal-400/40 transition-all duration-300 hover:-translate-y-2 backdrop-blur-sm relative overflow-hidden group"
             >
-              <div className="absolute inset-0 bg-teal-500/10 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-2xl"></div>
-              <p className="text-gray-300">{review.text}</p>
-              <p className="mt-4 text-teal-200 font-semibold">{review.name}</p>
+              <p className="text-gray-300 italic">“{review.text}”</p>
+              <p className="mt-4 text-teal-200 font-semibold">– {review.name}</p>
             </div>
           ))}
         </div>
@@ -136,11 +163,11 @@ function LandingPage() {
         <h3 className="text-3xl md:text-4xl font-semibold mb-8 text-teal-200 drop-shadow-md">
           About Us 🎧
         </h3>
-        <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+        <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
           Melodia is a next-generation music streaming platform crafted to enhance how users connect with music.
-      With a sleek interface and seamless functionality, users can explore trending tracks, discover emerging artists,
-      and create personalized playlists effortlessly. Designed for music lovers, Melodia delivers a curated experience
-      powered by modern web technologies to ensure speed, reliability, and responsiveness across all devices.
+          With a sleek interface and seamless functionality, users can explore trending tracks, discover emerging artists,
+          and create personalized playlists effortlessly. Designed for music lovers, Melodia delivers a curated experience
+          powered by modern web technologies to ensure speed, reliability, and responsiveness across all devices.
         </p>
       </section>
 

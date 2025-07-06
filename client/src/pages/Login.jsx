@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import confetti from "canvas-confetti"; // 🎉 Import confetti
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
 
   const baseURL = "http://localhost:4000/";
@@ -14,11 +14,20 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
     try {
       const response = await axios.post(`${baseURL}api/auth/login`, formData);
       const { token } = response.data;
       localStorage.setItem("token", token);
-      navigate('/home');
+
+      // 🎉 Fire confetti on success
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+
+      navigate("/home");
     } catch (error) {
       setError(
         error.response?.data?.message || "Login failed. Please try again."
@@ -26,41 +35,87 @@ function Login() {
     }
   };
 
+  // 🎵 Floating Notes Animation
+  useEffect(() => {
+    const createMusicNote = () => {
+      const note = document.createElement("div");
+      note.innerText = "🎵";
+      note.className = "fixed animate-floatNote pointer-events-none z-30";
+      note.style.left = `${Math.random() * 100}vw`;
+      note.style.bottom = `0px`;
+      note.style.opacity = Math.random().toString();
+      note.style.fontSize = `${Math.random() * 20 + 16}px`;
+      note.style.color = "white";
+      document.body.appendChild(note);
+      setTimeout(() => note.remove(), 4000);
+    };
+
+    const interval = setInterval(() => createMusicNote(), 500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="container mx-auto p-4 flex items-center justify-center min-h-screen">
-      <div className="max-w-lg w-full p-8 rounded-lg shadow-lg" style={{ background: 'linear-gradient(135deg, #525252, #3d72b4)' }}>
-        <h1 className="text-3xl font-bold mb-6 text-white text-center">Login</h1>
-        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500"
-            required
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
+      {/* 🎵 Form Container */}
+      <div className="w-full max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between bg-[#1f1f3a]/90 p-8 rounded-2xl shadow-2xl border-[3px] border-transparent backdrop-blur-md z-10 animate-fade-in hover:border-purple-400 hover:shadow-purple-500/40 transition-all duration-500 ease-in-out group">
+
+        {/* 🎧 Music Icon */}
+        <div className="hidden md:flex w-1/2 justify-center">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/727/727218.png"
+            alt="Login Music Icon"
+            className="w-72 h-auto animate-pulse-slow"
           />
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-blue-500"
-            required
-          />
-          <div className="flex justify-end text-sm text-white">
-            <Link to="/forgotpassword" className="text-blue-300 hover:underline">Forgot password?</Link>
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-purple-600 p-3 rounded hover:bg-purple-700 transition duration-200 text-white font-semibold"
-          >
-            Login Now
-          </button>
-          <p className="text-center text-white text-sm mt-4">
-            Not a member? <a href="/signup" className="text-blue-300 hover:underline">Sign up Now</a>
-          </p>
-        </form>
+        </div>
+
+        {/* 📝 Login Form */}
+        <div className="w-full md:w-1/2">
+          <h1 className="text-4xl font-extrabold mb-6 text-teal-300 text-center">
+            Login 🎶
+          </h1>
+          {error && (
+            <p className="text-red-400 mb-4 text-center animate-shake">{error}</p>
+          )}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              className="w-full p-3 rounded-lg bg-[#2a2a4f] text-white border border-gray-600 focus:outline-none focus:border-teal-400"
+              required
+            />
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+              className="w-full p-3 rounded-lg bg-[#2a2a4f] text-white border border-gray-600 focus:outline-none focus:border-teal-400"
+              required
+            />
+            <div className="flex justify-between text-sm text-white">
+              <Link to="/forgotpassword" className="text-blue-400 hover:underline">
+                Forgot password?
+              </Link>
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-purple-700 hover:bg-purple-600 py-3 rounded-xl text-white font-semibold transition duration-200 shadow-md hover:shadow-purple-400/40"
+            >
+              Login Now
+            </button>
+            <p className="text-center text-sm text-gray-300 mt-4">
+              Not a member?{" "}
+              <Link to="/signup" className="text-blue-400 hover:underline">
+                Sign up Now
+              </Link>
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   );
