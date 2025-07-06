@@ -47,6 +47,27 @@ function Signup() {
   }, []);
 
   return (
+    <><header className="flex flex-col sm:flex-row justify-between items-center px-6 sm:px-8 py-4 bg-gradient-to-r from-gray-900 via-purple-900 to-indigo-900 shadow-2xl border-b border-purple-800 sticky top-0 z-50">
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight flex items-center gap-3 mb-4 sm:mb-0">
+              <img
+                src="/waveform.png"
+                alt="Melodia Logo"
+                className="w-10 h-10 lg:w-12 lg:h-12 rounded-full filter brightness-0 invert"
+              />
+              <span className="bg-gradient-to-r from-teal-300 via-cyan-400 to-blue-500 text-transparent bg-clip-text drop-shadow-md">
+                Melodia
+              </span>
+            </h1>
+    
+            <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-4">
+              <Link
+                to="/"
+                className="bg-blue-700 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
+              >
+                <i className="fas fa-home mr-2 hidden sm:inline"></i>Home
+              </Link>
+            </div>
+          </header>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
       
       {/* 📝 Signup Container */}
@@ -116,6 +137,7 @@ function Signup() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

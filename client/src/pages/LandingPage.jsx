@@ -51,22 +51,30 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
       {/* Header */}
-      <header className="flex justify-between items-center py-6 px-6 z-10 relative animate-fade-in backdrop-blur-lg bg-[#0d0d2b]/50 shadow-lg">
-        <h1 className="text-4xl font-extrabold text-teal-300 drop-shadow-xl tracking-wide">
-          🎵 Melodia
+      <header className="flex flex-col sm:flex-row justify-between items-center px-6 sm:px-8 py-4 bg-gradient-to-r from-gray-900 via-purple-900 to-indigo-900 shadow-2xl border-b border-purple-800 sticky top-0 z-50">
+        <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight flex items-center gap-3 mb-4 sm:mb-0">
+          <img
+            src="/waveform.png"
+            alt="Melodia Logo"
+            className="w-10 h-10 lg:w-12 lg:h-12 rounded-full filter brightness-0 invert"
+          />
+          <span className="bg-gradient-to-r from-teal-300 via-cyan-400 to-blue-500 text-transparent bg-clip-text drop-shadow-md">
+            Melodia
+          </span>
         </h1>
-        <div className="space-x-4">
+
+        <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-4">
           <a
             href="/login"
-            className="bg-blue-700 hover:bg-blue-600 px-6 py-2 rounded-xl text-white font-medium shadow-md hover:shadow-blue-500/50 transition-all"
+            className="bg-blue-700 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
           >
-            Login
+            <i className="fas fa-sign-in-alt mr-2 hidden sm:inline"></i>Login
           </a>
           <a
             href="/signup"
-            className="bg-green-700 hover:bg-green-600 px-6 py-2 rounded-xl text-white font-medium shadow-md hover:shadow-green-500/50 transition-all"
+            className="bg-green-700 hover:bg-green-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
           >
-            Sign Up
+            <i className="fas fa-user-plus mr-2 hidden sm:inline"></i>Sign Up
           </a>
         </div>
       </header>
@@ -83,7 +91,8 @@ function LandingPage() {
           Discover Your Music
         </h2>
         <p className="text-xl md:text-2xl mb-10 text-gray-300 max-w-3xl mx-auto">
-          Stream your favorite tunes, curate custom playlists, and explore fresh sounds with Melodia 🎶
+          Stream your favorite tunes, curate custom playlists, and explore fresh
+          sounds with Melodia 🎶
         </p>
         <a
           href="/signup"
@@ -152,7 +161,9 @@ function LandingPage() {
               className="bg-[#2d2d6f]/70 p-6 rounded-2xl border border-teal-800 shadow-md hover:shadow-teal-400/40 transition-all duration-300 hover:-translate-y-2 backdrop-blur-sm relative overflow-hidden group"
             >
               <p className="text-gray-300 italic">“{review.text}”</p>
-              <p className="mt-4 text-teal-200 font-semibold">– {review.name}</p>
+              <p className="mt-4 text-teal-200 font-semibold">
+                – {review.name}
+              </p>
             </div>
           ))}
         </div>
@@ -164,10 +175,13 @@ function LandingPage() {
           About Us 🎧
         </h3>
         <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-          Melodia is a next-generation music streaming platform crafted to enhance how users connect with music.
-          With a sleek interface and seamless functionality, users can explore trending tracks, discover emerging artists,
-          and create personalized playlists effortlessly. Designed for music lovers, Melodia delivers a curated experience
-          powered by modern web technologies to ensure speed, reliability, and responsiveness across all devices.
+          Melodia is a next-generation music streaming platform crafted to
+          enhance how users connect with music. With a sleek interface and
+          seamless functionality, users can explore trending tracks, discover
+          emerging artists, and create personalized playlists effortlessly.
+          Designed for music lovers, Melodia delivers a curated experience
+          powered by modern web technologies to ensure speed, reliability, and
+          responsiveness across all devices.
         </p>
       </section>
 

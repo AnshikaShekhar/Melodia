@@ -110,10 +110,24 @@ const getTrendingSongs = async (req, res) => {
   }
 };
 
+// GET /api/songs/public/:id – get single song by ID without authentication
+const getPublicSongById = async (req, res) => {
+  try {
+    const song = await Song.findById(req.params.id);
+    if (!song) return res.status(404).json({ message: "Song not found" });
+    res.status(200).json(song);
+  } catch (error) {
+    console.error("Error fetching public song:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 
 module.exports = {
   getSongs,
   toggleLikeSong,
   getLikedSongs,
-  getTrendingSongs, 
+  getTrendingSongs,
+  getPublicSongById, 
 };

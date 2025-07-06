@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 function Header() {
   const navigate = useNavigate();
 
+  const isAuthenticated = localStorage.getItem("token");
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     console.log("Logging out and navigating to /");
@@ -36,26 +38,33 @@ function Header() {
         >
           <i className="fas fa-compass mr-2 hidden sm:inline"></i>Explore
         </Link>
-        <Link
-  to="/library"
-  className="bg-pink-700 hover:bg-pink-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
->
-  <i className="fas fa-heart mr-2 hidden sm:inline"></i>My Library
-</Link>
 
-        <Link
-          to="/playlist"
-          className="bg-emerald-700 hover:bg-emerald-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
-        >
-          <i className="fas fa-headphones mr-2 hidden sm:inline"></i>My Playlists
-        </Link>
+        {isAuthenticated && (
+          <Link
+            to="/library"
+            className="bg-pink-700 hover:bg-pink-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
+          >
+            <i className="fas fa-heart mr-2 hidden sm:inline"></i>My Library
+          </Link>
+        )}
 
-        <button
-          onClick={handleLogout}
-          className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
-        >
-          <i className="fas fa-sign-out-alt mr-2 hidden sm:inline"></i>Logout
-        </button>
+        {isAuthenticated && (
+          <Link
+            to="/playlist"
+            className="bg-emerald-700 hover:bg-emerald-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
+          >
+            <i className="fas fa-headphones mr-2 hidden sm:inline"></i>My Playlists
+          </Link>
+        )}
+
+        {isAuthenticated && (
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
+          >
+            <i className="fas fa-sign-out-alt mr-2 hidden sm:inline"></i>Logout
+          </button>
+        )}
       </div>
     </header>
   );
