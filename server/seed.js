@@ -313,6 +313,165 @@ const sampleSongs = [
     releaseDate: new Date("2025-06-15"),
     trendingScore: 82,
   },
+  {
+    title: "ROXANNE",
+    artist: "Arizona Zervas",
+    image: "https://i.ytimg.com/vi/16YnOUnbE6s/maxresdefault.jpg",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797180/Arizona_Zervas_-_ROXANNE_Official_Video_suqrsw.mp3",
+    genre: "hip-hop",
+    mood: "energetic",
+    duration: 168,
+    releaseDate: new Date("2019-10-10"),
+    trendingScore: 88,
+  },
+  {
+    title: "Eastside",
+    artist: "benny blanco, Halsey & Khalid",
+    image: "https://i.scdn.co/image/ab67616d0000b273693dbf001d5b2d06ad9e5f4d",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797228/benny_blanco_Halsey_Khalid_Eastside_official_video_ykdvhz.mp3",
+    genre: "pop",
+    mood: "romantic",
+    duration: 161,
+    releaseDate: new Date("2018-07-13"),
+    trendingScore: 90,
+  },
+  {
+    title: "Payday",
+    artist: "Doja Cat ft. Young Thug",
+    image: "https://i.ytimg.com/vi/Qn8v3si_mDI/maxresdefault.jpg",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797288/Doja_Cat_-_Payday_Lyrics_ft._Young_Thug_fggurd.mp3",
+    genre: "rap-pop",
+    mood: "carefree",
+    duration: 182,
+    releaseDate: new Date("2021-06-25"),
+    trendingScore: 85,
+  },
+  {
+    title: "Heat Waves",
+    artist: "Glass Animals",
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/b/b0/Glass_Animals_-_Heat_Waves.png",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797358/Glass_Animals_-_Heat_Waves_Official_Video_riqzg5.mp3",
+    genre: "alternative",
+    mood: "nostalgic",
+    duration: 238,
+    releaseDate: new Date("2020-06-29"),
+    trendingScore: 92,
+  },
+  {
+    title: "Fast",
+    artist: "Juice WRLD",
+    image: "https://i.ytimg.com/vi/lzQpS1rH3zI/maxresdefault.jpg",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797404/Juice_WRLD_-_Fast_bkvtnu.mp3",
+    genre: "emo-rap",
+    mood: "introspective",
+    duration: 196,
+    releaseDate: new Date("2019-03-08"),
+    trendingScore: 89,
+  },
+  {
+    title: "Somebody",
+    artist: "Justin Bieber",
+    image: "https://i.ytimg.com/vi/jLQrk6rmX6w/maxresdefault.jpg",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797460/Justin_Bieber_-_Somebody_Visualizer_yt14yo.mp3",
+    genre: "pop",
+    mood: "uplifting",
+    duration: 190,
+    releaseDate: new Date("2021-03-19"),
+    trendingScore: 84,
+  },
+  {
+    title: "Better",
+    artist: "Khalid",
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/8/82/Better_Khalid_Single_Cover.png",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797511/Khalid_-_Better_Official_Video_iidie3.mp3",
+    genre: "r&b",
+    mood: "chill",
+    duration: 210,
+    releaseDate: new Date("2018-09-14"),
+    trendingScore: 86,
+  },
+  {
+    title: "THATS WHAT I WANT",
+    artist: "Lil Nas X",
+    image: "https://i.ytimg.com/vi/zHd4rSpZn48/hqdefault.jpg",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797547/Lil_Nas_X_-_THATS_WHAT_I_WANT_Lyrics_jmfefm.mp3",
+    genre: "pop-rap",
+    mood: "longing",
+    duration: 155,
+    releaseDate: new Date("2021-09-17"),
+    trendingScore: 88,
+  },
+  {
+    title: "Self Love",
+    artist: "Metro Boomin & Coi Leray",
+    image: "https://i.scdn.co/image/ab67616d0000b2736ed9aef791159496b286179f",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797586/Metro_Boomin_Coi_Leray_-_Self_Love_Spider-Man__Across_the_Spider-Verse_rbjjbg.mp3",
+    genre: "hip-hop",
+    mood: "motivational",
+    duration: 170,
+    releaseDate: new Date("2023-06-02"),
+    trendingScore: 87,
+  },
+  {
+    title: "BZRP Music Sessions #52",
+    artist: "QUEVEDO",
+    image: "https://i.ytimg.com/vi/A_g3lMcWVy0/maxresdefault.jpg",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797652/QUEVEDO_BZRP_Music_Sessions_52_l0tobr.mp3",
+    genre: "latin",
+    mood: "intense",
+    duration: 184,
+    releaseDate: new Date("2022-07-06"),
+    trendingScore: 91,
+  },
+  {
+    title: "Save Your Tears (Live)",
+    artist: "The Weeknd",
+    image: "https://i.scdn.co/image/ab67616d0000b2738863bc11d2aa12b54f5aeb36",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797705/The_Weeknd_-_The_Weeknd_Save_Your_Tears_Live_on_The_2021_Billboard_Music_Awards_lpufir.mp3",
+    genre: "synth-pop",
+    mood: "emotional",
+    duration: 239,
+    releaseDate: new Date("2021-05-23"),
+    trendingScore: 85,
+  },
+  {
+    title: "oops!",
+    artist: "Yung Gravy",
+    image:
+      "https://i1.sndcdn.com/artworks-bAfPcsHocjKYxJyT-hHx10Q-t500x500.jpg",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797732/Yung_Gravy_-_oops_Official_Video_aizu2n.mp3",
+    genre: "comedy rap",
+    mood: "playful",
+    duration: 142,
+    releaseDate: new Date("2020-10-01"),
+    trendingScore: 83,
+  },
+  {
+    title: "blue",
+    artist: "yung kai",
+    image: "https://upload.wikimedia.org/wikipedia/en/7/72/Yung_Kai_-_Blue.png",
+    audio:
+      "https://res.cloudinary.com/dbgueh6q5/video/upload/v1751797761/yung_kai_-_blue_official_music_video_xcg5ya.mp3",
+    genre: "lo-fi hip-hop",
+    mood: "melancholic",
+    duration: 221,
+    releaseDate: new Date("2022-08-19"),
+    trendingScore: 79,
+  },
 ];
 
 async function seedDatabase() {
