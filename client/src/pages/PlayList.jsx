@@ -285,7 +285,7 @@ function PlaylistPage() {
             </p>
           </div>
         ) : (
-          <div className="space-y-10">
+          <div className="space-y-10 pb-32">
             {playlists.map((playlist) => (
               <div
                 key={playlist._id}

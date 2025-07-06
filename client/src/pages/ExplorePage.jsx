@@ -155,7 +155,8 @@ function ExplorePage() {
 
   const handleShare = (song) => {
     const shareUrl = `${window.location.origin}/song/${song._id}`;
-    navigator.clipboard.writeText(shareUrl)
+    navigator.clipboard
+      .writeText(shareUrl)
       .then(() => alert("Link copied to clipboard!"))
       .catch(() => alert("Failed to copy link."));
   };
@@ -170,7 +171,7 @@ function ExplorePage() {
       <Header />
 
       <div className="flex">
-        <aside className="w-1/5 p-6 bg-gradient-to-b from-gray-950 to-gray-900 border-r border-gray-700 min-h-screen shadow-2xl">
+        <aside className="w-1/5 p-6 bg-gradient-to-b from-gray-950 to-gray-900 border-r border-gray-700 shadow-2xl sticky top-0 h-screen overflow-y-auto">
           <h2 className="text-2xl font-bold mb-6 text-purple-400 flex items-center gap-2">
             🎧 Filters
           </h2>
@@ -186,7 +187,9 @@ function ExplorePage() {
             >
               <option value="">All Genres</option>
               {uniqueGenres.map((genre, i) => (
-                <option key={i} value={genre}>{genre}</option>
+                <option key={i} value={genre}>
+                  {genre}
+                </option>
               ))}
             </select>
           </div>
@@ -202,7 +205,9 @@ function ExplorePage() {
             >
               <option value="">All Artists</option>
               {uniqueArtists.map((artist, i) => (
-                <option key={i} value={artist}>{artist}</option>
+                <option key={i} value={artist}>
+                  {artist}
+                </option>
               ))}
             </select>
           </div>
@@ -275,7 +280,7 @@ function ExplorePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-32">
             {songs.map((song) => (
               <motion.div
                 key={song._id}
@@ -292,7 +297,10 @@ function ExplorePage() {
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <button
                       onClick={() =>
-                        playSong(songs, songs.findIndex((s) => s._id === song._id))
+                        playSong(
+                          songs,
+                          songs.findIndex((s) => s._id === song._id)
+                        )
                       }
                       className="bg-purple-600 text-white p-4 rounded-full shadow-lg hover:bg-purple-700 text-2xl transform hover:scale-110"
                     >
@@ -309,7 +317,10 @@ function ExplorePage() {
                 <p className="text-gray-400 text-sm truncate">{song.artist}</p>
                 <p className="text-xs text-gray-500">{song.genre}</p>
 
-                <div className="relative z-10 mt-3" ref={(el) => (dropdownRefs.current[song._id] = el)}>
+                <div
+                  className="relative z-10 mt-3"
+                  ref={(el) => (dropdownRefs.current[song._id] = el)}
+                >
                   <button
                     onClick={() => toggleDropdown(song._id)}
                     className="w-full bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-700"
