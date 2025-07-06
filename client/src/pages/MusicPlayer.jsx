@@ -1,188 +1,162 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useMusic } from "./MusicContext";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-const playlist = [
-  {
-    id: 1,
-    title: "Sample Song 1",
-    artist: "Artist A",
-    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-    image: "/images.jpg",
-  },
-  {
-    id: 2,
-    title: "Sample Song 2",
-    artist: "Artist B",
-    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-    image: "/images2.jpg",
-  },
-];
-
 function MusicPlayer() {
-  const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
+  const {
+    currentSong,
+    isPlaying,
+    setIsPlaying,
+    audioRef,
+    playNext,
+    playPrevious,
+  } = useMusic();
+
+  const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(0.75);
 
-  const currentSong = playlist[currentIndex];
-
-  const formatTime = (time) => {
-    if (isNaN(time)) return "00:00";
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
-  };
-
-  const togglePlay = () => {
+  useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !currentSong?.audio) return;
+
+    const updateTime = () => setCurrentTime(audio.currentTime);
+    const updateDuration = () => setDuration(audio.duration);
+    const handleSongEnd = () => playNext();
+
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("loadedmetadata", updateDuration);
+    audio.addEventListener("ended", handleSongEnd);
 
     if (isPlaying) {
-      audio.pause();
+      audio.play().catch((err) => console.log("Play error:", err));
     } else {
-      audio.play().catch((err) =>
-        console.warn("Autoplay blocked:", err.message)
-      );
+      audio.pause();
     }
-    setIsPlaying(!isPlaying);
-  };
 
-  const handleRestart = () => {
+    return () => {
+      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("loadedmetadata", updateDuration);
+      audio.removeEventListener("ended", handleSongEnd);
+    };
+  }, [currentSong, isPlaying, audioRef, playNext]);
+
+  useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.currentTime = 0;
+      audioRef.current.volume = volume;
     }
-  };
+  }, [volume, audioRef]);
 
-  const handleBackDoubleClick = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? playlist.length - 1 : prevIndex - 1
-    );
-    setProgress(0);
-    setIsPlaying(false);
-  };
-
-  const nextSong = () => {
-    setCurrentIndex((prev) => (prev + 1) % playlist.length);
-    setProgress(0);
-    setIsPlaying(false);
+  const formatTime = (seconds) => {
+    if (isNaN(seconds) || seconds < 0) return "0:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
+    return `${mins}:${secs}`;
   };
 
   const handleSeek = (e) => {
     const seekTime = parseFloat(e.target.value);
-    if (audioRef.current) {
-      audioRef.current.currentTime = seekTime;
-      setProgress(seekTime);
-    }
+    audioRef.current.currentTime = seekTime;
+    setCurrentTime(seekTime);
   };
 
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const updateProgress = () => {
-      setProgress(audio.currentTime);
-      setDuration(audio.duration || 0);
-    };
-
-    audio.addEventListener("timeupdate", updateProgress);
-    return () => audio.removeEventListener("timeupdate", updateProgress);
-  }, []);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    audio.load(); // load new source
-    setProgress(0);
-    setIsPlaying(false); // wait for user to play
-  }, [currentIndex]);
+  const getVolumeIcon = () => {
+    if (volume === 0) return "fa-volume-mute";
+    if (volume < 0.1) return "fa-volume-off";
+    if (volume < 0.5) return "fa-volume-down";
+    return "fa-volume-up";
+  };
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 bg-[#1e1e2f] border-t border-gray-700 z-50">
-      <audio ref={audioRef} src={currentSong.src} preload="auto" />
+    <>
+      <audio ref={audioRef} src={currentSong?.audio || ""} />
 
-      <div className="flex items-center justify-between px-6 py-4 text-white">
-        {/* Song Info */}
-        <div className="w-1/3 flex items-center space-x-4">
-          <img
-            src={currentSong.image}
-            alt="song"
-            className="w-14 h-14 rounded object-cover"
-          />
-          <div>
-            <h4 className="text-lg font-semibold">{currentSong.title}</h4>
-            <p className="text-sm text-gray-400">{currentSong.artist}</p>
+      {currentSong && (
+        <footer className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-purple-800 shadow-2xl z-50">
+          <div className="flex items-center justify-between px-8 py-4 text-white">
+            <div className="w-1/4 flex items-center space-x-5">
+              <img
+                src={currentSong.image || "/fallback.jpg"}
+                alt={currentSong.title}
+                className="w-16 h-16 rounded-lg object-cover shadow-md"
+              />
+              <div>
+                <h4 className="text-xl font-bold text-purple-200 truncate w-48">
+                  {currentSong.title}
+                </h4>
+                <p className="text-sm text-gray-400 truncate w-48">
+                  {currentSong.artist}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center flex-grow mx-8">
+              <div className="flex items-center space-x-8 text-3xl mb-3">
+                <button
+                  onClick={playPrevious}
+                  className="text-gray-400 hover:text-blue-400 transform hover:scale-110 transition duration-200"
+                  aria-label="Previous"
+                >
+                  <i className="fas fa-backward"></i>
+                </button>
+                <button
+                  onClick={() => setIsPlaying((prev) => !prev)}
+                  className="text-purple-400 hover:text-purple-300 transform hover:scale-105 transition duration-200 text-5xl"
+                  aria-label={isPlaying ? "Pause" : "Play"}
+                >
+                  <i className={`fas ${isPlaying ? "fa-pause-circle" : "fa-play-circle"}`} />
+                </button>
+                <button
+                  onClick={playNext}
+                  className="text-gray-400 hover:text-blue-400 transform hover:scale-110 transition duration-200"
+                  aria-label="Next"
+                >
+                  <i className="fas fa-forward"></i>
+                </button>
+              </div>
+
+              <div className="flex items-center w-full space-x-3 text-sm text-gray-400">
+                <span className="w-10 text-right">{formatTime(currentTime)}</span>
+                <input
+                  type="range"
+                  min="0"
+                  max={duration || 0}
+                  step="0.1"
+                  value={currentTime}
+                  onChange={handleSeek}
+                  className="flex-1 h-2 rounded-full bg-gray-700 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  style={{
+                    background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${
+                      (currentTime / duration) * 100
+                    }%, #4b5563 ${(currentTime / duration) * 100}%, #4b5563 100%)`,
+                  }}
+                />
+                <span className="w-10 text-left">{formatTime(duration)}</span>
+              </div>
+            </div>
+
+            {/* Volume */}
+            <div className="w-1/4 flex items-center justify-end space-x-4">
+              <i className={`fas ${getVolumeIcon()} text-xl text-gray-400`}></i>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={volume}
+                onChange={(e) => setVolume(parseFloat(e.target.value))}
+                className="w-28 h-2 rounded-full bg-gray-700 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500"
+                style={{
+                  background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${
+                    volume * 100
+                  }%, #4b5563 ${volume * 100}%, #4b5563 100%)`,
+                }}
+              />
+            </div>
           </div>
-        </div>
-
-        {/* Controls & Progress */}
-        <div className="flex flex-col items-center w-1/3">
-          <div className="flex items-center space-x-6 text-xl mb-2">
-            <button
-              onClick={handleRestart}
-              onDoubleClick={handleBackDoubleClick}
-              className="hover:text-blue-400"
-              title="Click: Restart • Double-click: Previous"
-            >
-              <i className="fas fa-backward"></i>
-            </button>
-
-            <button
-              onClick={togglePlay}
-              className="hover:text-green-400 text-2xl"
-            >
-              <i
-                className={`fas ${
-                  isPlaying ? "fa-pause-circle" : "fa-play-circle"
-                }`}
-              ></i>
-            </button>
-
-            <button onClick={nextSong} className="hover:text-blue-400">
-              <i className="fas fa-forward"></i>
-            </button>
-          </div>
-
-          <div className="flex items-center space-x-4 w-full">
-            <span className="text-sm w-12 text-right text-gray-300">
-              {formatTime(progress)}
-            </span>
-            <input
-              type="range"
-              min="0"
-              max={duration || 100}
-              value={progress}
-              onChange={handleSeek}
-              className="w-full accent-teal-500"
-            />
-            <span className="text-sm w-12 text-left text-gray-300">
-              {formatTime(duration)}
-            </span>
-          </div>
-        </div>
-
-        {/* Volume Control */}
-        <div className="flex items-center justify-end space-x-3 w-1/3">
-          <i className="fas fa-volume-up"></i>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            defaultValue="0.75"
-            onChange={(e) => {
-              if (audioRef.current) {
-                audioRef.current.volume = parseFloat(e.target.value);
-              }
-            }}
-            className="accent-teal-500"
-          />
-        </div>
-      </div>
-    </footer>
+        </footer>
+      )}
+    </>
   );
 }
 
