@@ -135,7 +135,6 @@ function MusicPlayer() {
               </div>
             </div>
 
-            {/* Volume */}
             <div className="w-1/4 flex items-center justify-end space-x-4">
               <i className={`fas ${getVolumeIcon()} text-xl text-gray-400`}></i>
               <input

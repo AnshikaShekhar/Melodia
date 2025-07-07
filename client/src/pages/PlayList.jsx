@@ -1,16 +1,18 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import Header from "./Header";
+import useAuthRedirect from "../hook/useAuthRedirect";
 
 function PlaylistPage() {
+  useAuthRedirect();
+  
   const [playlists, setPlaylists] = useState([]);
   const [editingPlaylistId, setEditingPlaylistId] = useState(null);
   const [newPlaylistName, setNewPlaylistName] = useState("");
 
-const headers = useMemo(() => {
-  return { Authorization: `Bearer ${localStorage.getItem("token")}` };
-}, []);
-
+  const headers = useMemo(() => {
+    return { Authorization: `Bearer ${localStorage.getItem("token")}` };
+  }, []);
 
   const fetchPlaylists = useCallback(async () => {
     try {
@@ -21,7 +23,7 @@ const headers = useMemo(() => {
     } catch (error) {
       console.error("Error fetching playlists:", error);
     }
-  }, [headers]); 
+  }, [headers]);
 
   const handleRenamePlaylist = async (playlistId) => {
     if (!newPlaylistName.trim()) {
@@ -59,11 +61,22 @@ const headers = useMemo(() => {
     }
   };
 
+  const handleDeletePlaylist = async (playlistId) => {
+    if (!window.confirm("Are you sure you want to delete this playlist?")) return;
+    try {
+      await axios.delete(`http://localhost:4000/api/playlists/${playlistId}`, {
+        headers,
+      });
+      fetchPlaylists();
+    } catch (error) {
+      console.error("Error deleting playlist:", error);
+      alert("Failed to delete playlist. Please try again.");
+    }
+  };
 
   useEffect(() => {
     fetchPlaylists();
   }, [fetchPlaylists]);
-
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#0f0c29] via-[#302b63] to-[#24243e] text-white font-sans">
@@ -81,7 +94,7 @@ const headers = useMemo(() => {
             </p>
           </div>
         ) : (
-          <div className="space-y-10">
+          <div className="space-y-10 pb-32">
             {playlists.map((playlist) => (
               <div
                 key={playlist._id}
@@ -118,21 +131,26 @@ const headers = useMemo(() => {
                       <button
                         onClick={() => {
                           setEditingPlaylistId(playlist._id);
-                          setNewPlaylistName(playlist.name); 
+                          setNewPlaylistName(playlist.name);
                         }}
                         className="text-sm ml-2 text-yellow-300 hover:text-yellow-400 transition duration-200"
                         title="Edit playlist name"
                       >
                         ✏️ Edit
                       </button>
+                      <button
+                        onClick={() => handleDeletePlaylist(playlist._id)}
+                        className="text-sm ml-4 text-red-400 hover:text-red-500 transition duration-200"
+                        title="Delete playlist"
+                      >
+                        🗑️ Delete
+                      </button>
                     </h2>
                   )}
                 </div>
 
                 {playlist.songs.length === 0 ? (
-                  <p className="text-gray-400">
-                    No songs in this playlist yet.
-                  </p>
+                  <p className="text-gray-400">No songs in this playlist yet.</p>
                 ) : (
                   <ul className="space-y-3 mt-2">
                     {playlist.songs.map((song) => (

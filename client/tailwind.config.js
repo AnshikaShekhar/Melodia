@@ -10,6 +10,9 @@ module.exports = {
         "fade-in": "fade-in 0.5s ease-out",
         "slide-in": "slide-in 0.6s ease-out",
         "bounce": "bounce 1s infinite",
+        "floatNote": "floatNote 4s linear forwards",
+        "floatSide": "floatSide 4s ease-in-out infinite alternate",         // 👈 Added
+        "floatSideReverse": "floatSideReverse 4s ease-in-out infinite alternate", // 👈 Added
       },
       keyframes: {
         "spin-slow": {
@@ -35,6 +38,25 @@ module.exports = {
         "bounce": {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
+        },
+        "floatNote": {
+          "0%": {
+            transform: "translateY(0)",
+            opacity: "1",
+          },
+          "100%": {
+            transform: "translateY(-200px)",
+            opacity: "0",
+          },
+        },
+        // 👇 Add floating side icon effects
+        "floatSide": {
+          "0%": { transform: "translateY(0px)" },
+          "100%": { transform: "translateY(20px)" },
+        },
+        "floatSideReverse": {
+          "0%": { transform: "translateY(20px)" },
+          "100%": { transform: "translateY(0px)" },
         },
       },
     },

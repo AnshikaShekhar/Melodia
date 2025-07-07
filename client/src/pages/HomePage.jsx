@@ -9,8 +9,12 @@ import {
   FaUserFriends,
 } from "react-icons/fa";
 import { useMusic } from "./MusicContext";
+import useAuthRedirect from "../hook/useAuthRedirect";
 
 function HomePage() {
+
+  useAuthRedirect();
+  
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const [trendingSongs, setTrendingSongs] = useState([]);
@@ -56,7 +60,6 @@ function HomePage() {
     <div className="min-h-screen bg-gradient-to-br from-[#0f0c29] via-[#1a1a4d] to-[#2a2a72] text-white font-sans overflow-x-hidden">
       <Header />
 
-      {/* Hero Section */}
       <section className="text-center py-24 px-4 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-10"
@@ -106,7 +109,6 @@ function HomePage() {
         </a>
       </section>
 
-      {/* Why Melodia Section */}
       <section className="py-16 px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
         <img
           src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=60"
@@ -140,7 +142,6 @@ function HomePage() {
 
       <hr className="border-t border-purple-800 my-16 max-w-6xl mx-auto" />
 
-      {/* Trending Songs */}
       <section className="py-16 px-6 relative">
         <h3 className="text-4xl font-semibold text-center text-teal-200 mb-12">
           🔥 Trending Songs
@@ -179,8 +180,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Quote Section */}
-      <section className="py-20 bg-[#1a1a4d] text-center text-gray-200 px-6">
+      <section className="py-20 bg-[#1a1a4d] text-center text-gray-200 px-6 pb-32">
         <p className="text-2xl italic mb-4 max-w-2xl mx-auto">
           “Where words fail, music speaks.” – Hans Christian Andersen
         </p>

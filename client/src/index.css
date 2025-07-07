@@ -1,6 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@keyframes floatNote {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120px);
+    opacity: 0;
+  }
+}
+
+.animate-floatNote {
+  animation: floatNote 2.5s ease-out forwards;
+}
+
 
 body {
   margin: 0;

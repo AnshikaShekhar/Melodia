@@ -6,6 +6,8 @@
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.16.1"
+    "mongoose": "^8.16.1",
+    "react-confetti": "^6.4.0",
+    "react-h5-audio-player": "^3.10.0"
   }
 }
