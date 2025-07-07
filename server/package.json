@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+     "build": "vite build",
     "start": "node server.js"
   },
   "keywords": [],
@@ -19,6 +20,7 @@
     "mongoose": "^8.16.1",
     "firebase": "^10.12.2",
     "howler": "^2.2.3",
+    "cloudinary": "^1.21.0",
     "jwt-decode": "^4.0.0"
   },
   "type": "commonjs",
