@@ -12,7 +12,6 @@ class AuthError extends Error {
 // Middleware to verify JWT tokens
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  console.log("Received authorization header:", authHeader);
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     console.log("No token or incorrect format");
@@ -26,7 +25,6 @@ const authenticateToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded token:", decoded);
 
     if (!decoded.id || !decoded.role) {
       throw new AuthError("Token payload is missing required fields.", 401);

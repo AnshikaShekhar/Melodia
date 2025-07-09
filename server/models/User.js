@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    bio: { type: String },
     likedSongs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Song" }],
     playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: "Playlist" }],
     resetToken: String,

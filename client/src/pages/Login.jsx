@@ -30,15 +30,13 @@ function Login() {
         origin: { y: 0.6 },
       });
 
-      const redirectTo = user.role === "admin" ? "/admin" : "/home";
-      setTimeout(() => navigate(redirectTo), 2000);
+      navigate("/home");
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
         "Login failed. Please try again.";
       setError(errorMessage);
-      console.log("Login error details:", error.response?.data || error);
     } finally {
       setLoading(false);
     }

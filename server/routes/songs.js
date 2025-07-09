@@ -63,9 +63,7 @@ router.post(
   requireAdmin,
   upload.fields([{ name: "audio", maxCount: 1 }, { name: "image", maxCount: 1 }]),
   async (req, res) => {
-    console.log("Request body:", req.body);
-    console.log("Files received:", req.files);
-
+ 
     try {
       const { title, artist, genre, mood, duration } = req.body;
       const audioFile = req.files["audio"]?.[0];
@@ -99,7 +97,6 @@ router.post(
       });
 
       await newSong.save();
-      console.log("Song uploaded successfully:", newSong);
       res.status(201).json({ message: "Song uploaded successfully", song: newSong });
     } catch (err) {
       console.error("Upload error details:", {

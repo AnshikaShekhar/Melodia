@@ -21,6 +21,7 @@ import AdminPage from "./pages/AdminPage";
 import "./index.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Unauthorized from "./pages/Unauthorized";
+import UserProfile from "./pages/UserProfile";
 function AppContent() {
   return (
     <Routes>
@@ -36,6 +37,8 @@ function AppContent() {
       <Route path="/playlist" element={<PlaylistPage />} />
       <Route path="/library" element={<Library />} />
       <Route path="/song/:id" element={<SongPage />} />
+            <Route path="/profile" element={<UserProfile />} />
+
     </Routes>
   );
 }
