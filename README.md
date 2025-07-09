@@ -4,7 +4,6 @@ Melodia is a full-featured **cloud-based music streaming platform** that empower
 
 ---
 
-
 ## 📌 Features
 
 ### 👤 User Functionality
@@ -17,6 +16,14 @@ Melodia is a full-featured **cloud-based music streaming platform** that empower
 - Fixed **Bottom Music Player** with full playback controls
 - Responsive, intuitive **User Interface**
 
+### 🛠 Admin Panel
+- **Role-based access control**
+- Upload new songs with metadata (title, artist, mood, genre, duration, release date)
+- Cloud audio/image upload via **Cloudinary**
+- Automatically calculate and store audio duration
+- Visual progress bar for upload
+- Manage genres dynamically from the existing database
+- Optional AI assistance for smart metadata tagging (extendable)
 
 ---
 
@@ -27,54 +34,50 @@ Melodia uses an AI-based recommendation engine to auto-generate playlists tailor
 - Listening history
 - Preferred genres/moods
 
-This makes music discovery seamless and personalized.
+This enhances music discovery and personalization, without manual playlist curation.
 
 ---
 
 ## 🖥️ Tech Stack
 
-| Layer        | Tech Used |
-|--------------|-----------|
-| **Frontend** | React.js, Tailwind CSS, axios |
-| **State Management** | Redux Toolkit |
-| **Backend**  | Node.js, Express.js |
-| **Database** | MongoDB |
-| **Auth**     | JWT, Bcrypt |
-| **Audio**    | HTML5 Audio API |
-| **Cloud Storage** | Cloudinary |
-| **Deployment** | Vercel|
+| Layer              | Tech Used                            |
+|-------------------|--------------------------------------|
+| **Frontend**       | React.js, Tailwind CSS, axios       |
+| **State Management** | Context API        |
+| **Backend**        | Node.js, Express.js                 |
+| **Database**       | MongoDB                             |
+| **Authentication** | JWT, Bcrypt                         |
+| **Audio**          | HTML5 Audio API        |
+| **Cloud Storage**  | Cloudinary     |
+| **Deployment**     | Vercel , Render           |
 
 ---
 
-## 📄 Pages & Components
 
-### `/` Landing Page
-- CTA buttons for Login/Signup
-- Preview of platform features & trending songs
+## 👥 Actors and Roles
 
-### `/signup` & `/login`
-- Secure authentication with JWT
-- Redirect to `/explore` after success
+### 👤 User
+- Secure login/signup using JWT
+- Explore, stream, like, and share music
+- Create and manage playlists
+- Use smart playlist generation
+- Access music from all devices
 
-### `/explore`
-- Discover trending songs, new releases
-- Apply filters: genre, artist, mood
+### 🔐 Admin
+- Upload and manage global music catalog
+- Add metadata (title, artist, mood, genre, release date)
+- Monitor uploads and manage genre categories
+- Ensure quality and consistency of music data
 
-### `/search`
-- Live search bar with filters
-- Instant results with song cards and play buttons
-
-### `/library`
-- **Liked Songs**
-- 🎧 **Generate Smart Playlist** button
-- Create playlists, manage liked tracks
-
-### `/My playlist`
-- View specific playlist details
-- Edit playlist, play all, or remove songs
-
-### 🎶 Now Playing Component
-- Always visible at bottom
-- Controls: play/pause, next/previous,repeat
-  
 ---
+
+## 🔒 Cloud Storage & Playback Logic
+
+- Audio & image files stored on **Cloudinary**
+- URLs saved in MongoDB
+- Frontend streams music directly using `<audio>` tag
+
+
+---
+
+
