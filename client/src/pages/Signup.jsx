@@ -8,25 +8,50 @@ function Signup() {
     username: "",
     email: "",
     password: "",
+    role: "user", // Default role is "user"
   });
   const [error, setError] = useState("");
-  const [message, setMessage] = useState(""); 
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const baseURL = "http://localhost:4000";
+
+  // Basic client-side validation
+  const validateForm = () => {
+    if (!formData.username.trim()) return "Username is required.";
+    if (!formData.email.trim()) return "Email is required.";
+    if (!/^\S+@\S+\.\S+$/.test(formData.email)) return "Invalid email format.";
+    if (!formData.password.trim()) return "Password is required.";
+    if (formData.password.length < 6) return "Password must be at least 6 characters.";
+    if (!["user", "admin"].includes(formData.role)) return "Invalid role selected.";
+    return null;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setMessage(""); 
+    setMessage("");
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
 
+    setLoading(true);
     try {
-      const response = await axios.post(`${baseURL}/api/auth/signup`, formData);
-      setMessage("Account created successfully! Redirecting to login..."); 
+      const response = await axios.post(`${baseURL}/api/auth/signup`, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      setMessage("Account created successfully! Redirecting to login...");
       setTimeout(() => navigate("/login"), 3000);
     } catch (error) {
-      setError(
-        error.response?.data?.message || "Signup failed. Please try again."
-      );
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Signup failed. Please try again.";
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,7 +70,7 @@ function Signup() {
     };
 
     const interval = setInterval(() => createMusicNote(), 600);
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Cleanup on unmount
   }, []);
 
   return (
@@ -127,11 +152,24 @@ function Signup() {
                 className="w-full p-3 rounded-lg bg-[#2a2a4f] text-white border border-gray-600 focus:outline-none focus:border-teal-400"
                 required
               />
+              <select
+                value={formData.role}
+                onChange={(e) =>
+                  setFormData({ ...formData, role: e.target.value })
+                }
+                className="w-full p-3 rounded-lg bg-[#2a2a4f] text-white border border-gray-600 focus:outline-none focus:border-teal-400"
+              >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
               <button
                 type="submit"
-                className="w-full bg-green-600 hover:bg-green-700 py-3 rounded-xl text-white font-semibold transition duration-200 shadow-md hover:shadow-green-400/40"
+                disabled={loading}
+                className={`w-full bg-green-600 hover:bg-green-700 py-3 rounded-xl text-white font-semibold transition duration-200 shadow-md hover:shadow-green-400/40 ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                Sign Up
+                {loading ? "Signing Up..." : "Sign Up"}
               </button>
               <p className="text-center text-sm text-gray-300 mt-4">
                 Already a member?{" "}

@@ -1,109 +1,133 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const nodemailer = require("nodemailer");
 
-const signupUser = async (req, res) => {
+// Generate JWT
+const generateToken = (user) => {
+  return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+    expiresIn: "7d",
+  });
+};
+
+// ✅ Signup Controller
+exports.signupUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role = "user" } = req.body;
 
     if (!username || !email || !password) {
-      return res.status(400).json({ message: 'All fields (username, email, password) are required' });
+      return res.status(400).json({ message: "All fields are required." });
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: 'Email already registered' });
+      return res.status(400).json({ message: "User with this email already exists." });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const user = new User({ username, email, password, role });
+    await user.save();
 
-    const newUser = new User({ username, email, password: hashedPassword });
-    await newUser.save();
+    const token = generateToken(user);
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-
-    res.status(201).json({ token, user: { id: newUser._id, username, email } });
+    res.status(201).json({
+      message: "User created successfully",
+      token,
+      user: { id: user._id, username, email, role },
+    });
   } catch (err) {
-    res.status(500).json({ message: 'Signup failed', error: err.message });
+    console.error("Signup error:", err.message);
+    res.status(500).json({ message: "Signup failed", error: err.message });
   }
 };
 
-const loginUser = async (req, res) => {
+// ✅ Login Controller
+exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required' });
+      return res.status(400).json({ message: "Email and password are required." });
     }
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(404).json({ message: "User not found." });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: "Invalid credentials." });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-
-    res.status(200).json({ token, user: { id: user._id, username: user.username, email } });
-  } catch (err) {
-    res.status(500).json({ message: 'Login failed', error: err.message });
-  }
-};
-
-const forgotPassword = async (req, res) => {
-  const { email, newPassword } = req.body;
-
-  if (!email || !newPassword) {
-    return res.status(400).json({ message: 'Email and new password are required' });
-  }
-
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: 'User not found' });
-
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-    await user.save();
-
-    res.status(200).json({ message: 'Password reset successful' });
-  } catch (err) {
-    res.status(500).json({ message: 'Failed to reset password', error: err.message });
-  }
-};
-
-const validateToken = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select("-password");
-    if (!user) {
-      return res.status(404).json({ valid: false, message: "User not found" });
-    }
+    const token = generateToken(user);
 
     res.status(200).json({
-      valid: true,
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-      },
+      message: "Login successful",
+      token,
+      user: { id: user._id, username: user.username, email, role: user.role },
     });
   } catch (err) {
-    res.status(500).json({
-      valid: false,
-      message: "Token validation failed",
-      error: err.message,
-    });
+    console.error("Login error:", err.message);
+    res.status(500).json({ message: "Login failed", error: err.message });
   }
 };
 
+// ✅ Forgot Password Controller (sends reset token)
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
 
-module.exports = {
-  signupUser,
-  loginUser,
-  forgotPassword,
-  validateToken,
+  if (!email) {
+    return res.status(400).json({ message: "Email is required." });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
+
+    const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    await transporter.sendMail({
+      from: '"Melodia Support" <melodia@example.com>',
+      to: email,
+      subject: "Password Reset Link",
+      html: `<p>Hello ${user.username},</p>
+            <p>Click below to reset your password:</p>
+            <a href="${resetUrl}" target="_blank">${resetUrl}</a>`,
+    });
+
+    res.status(200).json({ message: "Password reset link sent to your email." });
+  } catch (err) {
+    console.error("Forgot Password Error:", err.message);
+    res.status(500).json({ message: "Failed to send reset link.", error: err.message });
+  }
+};
+
+// ✅ Token Validation Controller
+exports.validateToken = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) return res.status(401).json({ message: "Access token required." });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findById(decoded.id).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    res.status(200).json({ message: "Token valid", user });
+  } catch (err) {
+    console.error("Token validation error:", err.message);
+    res.status(401).json({ message: "Invalid or expired token." });
+  }
 };

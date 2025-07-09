@@ -1,26 +1,27 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import confetti from "canvas-confetti";
-import {
-  FaHeart
-} from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const baseURL = "http://localhost:4000";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-      const response = await axios.post(`${baseURL}/api/auth/login`, formData);
-      const { token } = response.data;
+      const response = await axios.post(`${baseURL}/api/auth/login`, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const { token, user } = response.data;
       localStorage.setItem("token", token);
 
       confetti({
@@ -29,9 +30,17 @@ function Login() {
         origin: { y: 0.6 },
       });
 
-      navigate("/home");
+      const redirectTo = user.role === "admin" ? "/admin" : "/home";
+      setTimeout(() => navigate(redirectTo), 2000);
     } catch (error) {
-      setError(error.response?.data?.message || "Login failed. Please try again.");
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Login failed. Please try again.";
+      setError(errorMessage);
+      console.log("Login error details:", error.response?.data || error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,9 +131,12 @@ function Login() {
               </div>
               <button
                 type="submit"
-                className="w-full bg-purple-700 hover:bg-purple-600 py-3 rounded-xl text-white font-semibold transition duration-200 shadow-md hover:shadow-purple-400/40"
+                disabled={loading}
+                className={`w-full bg-purple-700 hover:bg-purple-600 py-3 rounded-xl text-white font-semibold transition duration-200 shadow-md hover:shadow-purple-400/40 ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                Login Now
+                {loading ? "Logging in..." : "Login Now"}
               </button>
               <p className="text-center text-sm text-gray-300 mt-4">
                 Not a member?{" "}

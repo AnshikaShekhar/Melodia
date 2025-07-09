@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // install if not done: npm i jwt-decode
 
-const useAuthRedirect = () => {
+const useRoleRedirect = ({ allowedRoles = [] }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,28 +12,26 @@ const useAuthRedirect = () => {
       return;
     }
 
-    const validateToken = async () => {
-      try {
-        const response = await fetch("http://localhost:4000/api/auth/validate", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+    try {
+      const decoded = jwtDecode(token);
 
-        const data = await response.json();
-
-        if (!data.valid) {
-          localStorage.removeItem("token");
-          navigate("/");
-        }
-      } catch (err) {
+      // Optional: check expiry
+      const now = Math.floor(Date.now() / 1000);
+      if (decoded.exp < now) {
         localStorage.removeItem("token");
         navigate("/");
+        return;
       }
-    };
 
-    validateToken();
-  }, [navigate]);
+      if (allowedRoles.length && !allowedRoles.includes(decoded.role)) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error("Invalid token:", err);
+      localStorage.removeItem("token");
+      navigate("/");
+    }
+  }, [navigate, allowedRoles]);
 };
 
-export default useAuthRedirect;
+export default useRoleRedirect;

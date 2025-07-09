@@ -3,9 +3,9 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "./Header";
 import { useMusic } from "./MusicContext";
-import useAuthRedirect from "../hook/useAuthRedirect";
-import { FaPlay, FaPause,FaPlus,FaMusic, FaSave, FaTimes } from "react-icons/fa";
 
+import { FaPlay, FaPause,FaPlus,FaMusic, FaSave, FaTimes } from "react-icons/fa";
+import useRoleRedirect from "../hook/useRoleRedirect";
 const Notification = ({ message, type, onClose }) => {
   const bgColor = type === "success" ? "bg-green-600" : "bg-red-600";
   const textColor = "text-white";
@@ -28,7 +28,8 @@ const Notification = ({ message, type, onClose }) => {
 
 
 function ExplorePage() {
-  useAuthRedirect();
+
+  useRoleRedirect({ allowedRoles: ["user", "admin"] }); 
 
   const [searchQuery, setSearchQuery] = useState("");
   const [genreFilter, setGenreFilter] = useState("");

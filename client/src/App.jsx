@@ -16,9 +16,11 @@ import SongPage from "./pages/SongPage";
 import { MusicProvider } from "./pages/MusicContext";
 import MusicPlayer from "./pages/MusicPlayer";
 
+import AdminPage from "./pages/AdminPage";
+
 import "./index.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-
+import Unauthorized from "./pages/Unauthorized";
 function AppContent() {
   return (
     <Routes>
@@ -28,6 +30,8 @@ function AppContent() {
       <Route path="/forgotpassword" element={<ForgotPassword />} />
 
       <Route path="/home" element={<HomePage />} />
+      <Route path="/admin" element={<AdminPage />} />
+<Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="/explore" element={<ExplorePage />} />
       <Route path="/playlist" element={<PlaylistPage />} />
       <Route path="/library" element={<Library />} />

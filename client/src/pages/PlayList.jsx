@@ -2,10 +2,10 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "./Header";
-import useAuthRedirect from "../hook/useAuthRedirect";
+
 import { useMusic } from "./MusicContext";
 import { FaEdit, FaTrash, FaPlus, FaSave, FaTimes, FaMusic, FaList, FaPlay, FaPause } from "react-icons/fa";
-
+import useRoleRedirect from "../hook/useRoleRedirect";
 const Notification = ({ message, type, onClose }) => {
   const bgColor = type === "success" ? "bg-green-600" : "bg-red-600";
   const textColor = "text-white";
@@ -27,7 +27,8 @@ const Notification = ({ message, type, onClose }) => {
 };
 
 function PlaylistPage() {
-  useAuthRedirect();
+  
+useRoleRedirect({ allowedRoles: ["user", "admin"] });
 
   const [playlists, setPlaylists] = useState([]);
   const [editingPlaylistId, setEditingPlaylistId] = useState(null);

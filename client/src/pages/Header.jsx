@@ -32,12 +32,22 @@ function Header() {
           <i className="fas fa-home mr-2 hidden sm:inline"></i>Home
         </Link>
 
+
         <Link
           to="/explore"
           className="bg-purple-700 hover:bg-purple-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
         >
           <i className="fas fa-compass mr-2 hidden sm:inline"></i>Explore
         </Link>
+        {isAuthenticated && (
+  <Link
+    to="/admin"
+    className="bg-yellow-600 hover:bg-yellow-700 text-black px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
+  >
+    Admin Page
+  </Link>
+)}
+
 
         {isAuthenticated && (
           <Link
