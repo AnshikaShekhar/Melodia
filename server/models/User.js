@@ -26,14 +26,21 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    
     bio: { type: String },
     likedSongs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Song" }],
     playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: "Playlist" }],
+    profileImage: {
+  type: String,
+  default: "https://randomuser.me/api/portraits/women/65.jpg", // Optional default
+},
+
     resetToken: String,
     resetTokenExpiry: Date,
   },
   { timestamps: true }
 );
+
 
 // ✅ Hash password before saving
 userSchema.pre("save", async function (next) {

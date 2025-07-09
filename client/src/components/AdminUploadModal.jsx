@@ -1,3 +1,4 @@
+// AdminUploadModal.jsx
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTimes, FaUpload } from "react-icons/fa";
@@ -24,9 +25,7 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
         const res = await axios.get(`${baseURL}/api/songs`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
-        const uniqueGenres = [
-          ...new Set(res.data.songs.map((song) => song.genre).filter(Boolean)),
-        ];
+        const uniqueGenres = [...new Set(res.data.songs.map((song) => song.genre).filter(Boolean))];
         setGenres(uniqueGenres);
       } catch (err) {
         console.error("Failed to fetch genres:", err);
@@ -87,7 +86,7 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
       formData.append("mood", mood);
       formData.append("duration", duration);
       formData.append("releaseDate", new Date(releaseDate).toISOString());
-      formData.append("trendingScore", Math.floor(Math.random() * 100)); // Random score for now
+      formData.append("trendingScore", Math.floor(Math.random() * 100));
       formData.append("audio", audioFile);
       formData.append("image", imageFile);
 
@@ -127,16 +126,16 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-gradient-to-br from-[#1f1c2c] via-[#2a2a72] to-[#302b63] border border-purple-700 text-white rounded-2xl p-8 w-full max-w-lg shadow-xl animate-fade-in-up relative overflow-hidden"
+        className="bg-gradient-to-br from-[#1f1c2c] via-[#2a2a72] to-[#302b63] border border-purple-700 text-white rounded-2xl p-6 sm:p-8 w-full max-w-4xl shadow-xl relative overflow-hidden animate-fade-in-up"
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-300 hover:text-red-400 transition-colors duration-200 text-2xl"
+          className="absolute top-4 right-4 text-gray-300 hover:text-red-400 text-2xl"
         >
           <FaTimes />
         </button>
 
-        <h2 className="text-3xl font-extrabold text-center mb-6 text-purple-300 drop-shadow animate-fade-in-up">
+        <h2 className="text-3xl font-extrabold text-center mb-4 text-purple-300 drop-shadow">
           🎵 Upload New Track
         </h2>
 
@@ -146,17 +145,16 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-5 pb-32">
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <InputField label="Title" value={title} setValue={setTitle} />
           <InputField label="Artist" value={artist} setValue={setArtist} />
           <InputField label="Mood" value={mood} setValue={setMood} />
-
           <div>
             <label className="block mb-1 text-sm font-medium text-purple-300">Genre</label>
             <select
               value={genre}
               onChange={(e) => setGenre(e.target.value)}
-              className="w-full p-3 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+              className="w-full p-3 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
             >
               <option value="">🎧 Select Genre</option>
@@ -172,7 +170,7 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
               type="date"
               value={releaseDate}
               onChange={(e) => setReleaseDate(e.target.value)}
-              className="w-full p-3 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+              className="w-full p-3 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
             />
           </div>
@@ -181,11 +179,11 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
           <FileInput label="Image File" accept="image/*" onChange={setImageFile} />
 
           {duration && (
-            <p className="text-green-400 text-sm">⏱ Duration: {duration} seconds</p>
+            <p className="text-green-400 text-sm col-span-2">⏱ Duration: {duration} seconds</p>
           )}
 
           {uploadProgress > 0 && (
-            <div className="w-full bg-gray-700 rounded-full h-4 overflow-hidden shadow-inner">
+            <div className="col-span-2 w-full bg-gray-700 rounded-full h-4 shadow-inner overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-purple-400 to-teal-400 transition-all duration-300"
                 style={{ width: `${uploadProgress}%` }}
@@ -196,7 +194,7 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-purple-600 hover:bg-purple-700 transition duration-200 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg hover:shadow-purple-700/50"
+            className="col-span-2 w-full py-3 mt-2 bg-purple-600 hover:bg-purple-700 transition duration-200 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg hover:shadow-purple-700/50"
           >
             {loading ? "Uploading..." : "Upload"} <FaUpload />
           </button>
@@ -208,7 +206,6 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
   );
 }
 
-// Reusable Input Field
 function InputField({ label, value, setValue, type = "text" }) {
   return (
     <div>
@@ -217,7 +214,7 @@ function InputField({ label, value, setValue, type = "text" }) {
         type={type}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="w-full p-3 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
+        className="w-full p-3 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
         placeholder={`Enter ${label.toLowerCase()}`}
         required
       />
@@ -225,7 +222,6 @@ function InputField({ label, value, setValue, type = "text" }) {
   );
 }
 
-// Reusable File Input Field
 function FileInput({ label, accept, onChange }) {
   return (
     <div>
@@ -234,7 +230,7 @@ function FileInput({ label, accept, onChange }) {
         type="file"
         accept={accept}
         onChange={(e) => onChange(e.target.files[0])}
-        className="w-full p-2 text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-purple-700 file:text-white hover:file:bg-purple-600 transition-all duration-200"
+        className="w-full p-2 text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-purple-700 file:text-white hover:file:bg-purple-600"
         required
       />
     </div>

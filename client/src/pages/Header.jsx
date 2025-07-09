@@ -61,13 +61,15 @@ function Header() {
         </Link>
 
         {isAuthenticated && user?.role === "admin" && (
-          <Link
-            to="/admin"
-            className="bg-yellow-600 hover:bg-yellow-700 text-black px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
-          >
-            Admin Page
-          </Link>
-        )}
+  <Link
+    to="/admin"
+    className="bg-yellow-600 hover:bg-yellow-700 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
+  >
+    <i className="fas fa-user-shield mr-2 hidden sm:inline"></i>
+    Admin Page
+  </Link>
+)}
+
 
         {isAuthenticated && (
           <>

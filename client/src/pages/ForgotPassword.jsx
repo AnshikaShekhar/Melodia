@@ -115,6 +115,7 @@ function ForgotPassword() {
           </form>
         </div>
       </div>
+      
 
       <footer className="py-8 text-center z-10 relative animate-fade-in border-t border-purple-800 mt-auto">
         <p className="text-gray-400 text-lg">© 2025 Melodia. All rights reserved.</p>

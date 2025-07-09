@@ -9,6 +9,8 @@ import {
   FaEdit,
   FaStar,
   FaSave,
+  FaUpload,
+  FaCheck,
 } from "react-icons/fa";
 
 const UserProfile = () => {
@@ -27,6 +29,10 @@ const UserProfile = () => {
   const [topGenre, setTopGenre] = useState("");
   const [topArtist, setTopArtist] = useState("");
 
+  const [profileImage, setProfileImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+
   const baseURL = process.env.REACT_APP_API_URL || "http://localhost:4000";
 
   const capitalizeFirstLetter = (string) => {
@@ -38,17 +44,13 @@ const UserProfile = () => {
     const genreFrequency = {};
     songs.forEach((song) => {
       const genre = song.genre;
-      if (genre) {
-        genreFrequency[genre] = (genreFrequency[genre] || 0) + 1;
-      }
+      if (genre) genreFrequency[genre] = (genreFrequency[genre] || 0) + 1;
     });
 
     const genres = Object.entries(genreFrequency);
     if (genres.length === 0) return "";
-
     const max = Math.max(...genres.map(([_, count]) => count));
     const topGenres = genres.filter(([_, count]) => count === max);
-
     return topGenres.length === 1 ? topGenres[0][0] : "Various Genres";
   };
 
@@ -56,57 +58,71 @@ const UserProfile = () => {
     const artistFrequency = {};
     songs.forEach((song) => {
       const artist = song.artist;
-      if (artist) {
-        artistFrequency[artist] = (artistFrequency[artist] || 0) + 1;
-      }
+      if (artist) artistFrequency[artist] = (artistFrequency[artist] || 0) + 1;
     });
 
     const artists = Object.entries(artistFrequency);
     if (artists.length === 0) return "";
-
     const max = Math.max(...artists.map(([_, count]) => count));
     const topArtist = artists.find(([_, count]) => count === max);
-
     return topArtist ? topArtist[0] : "";
   };
 
   const handleUsernameSave = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await axios.put(
-      `${baseURL}/api/user/update`,
-      { username: newUsername, bio },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    const updatedUsername = capitalizeFirstLetter(response.data.user.username);
-    setUsername(updatedUsername);
-    setNewUsername(updatedUsername);
-    setEditMode(false);
-  } catch (err) {
-    console.error("Error updating username:", err);
-  }
-};
-
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `${baseURL}/api/user/update`,
+        { username: newUsername, bio },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const updatedUsername = capitalizeFirstLetter(response.data.user.username);
+      setUsername(updatedUsername);
+      setNewUsername(updatedUsername);
+      setEditMode(false);
+    } catch (err) {
+      console.error("Error updating username:", err);
+    }
+  };
 
   const handleBioSave = async () => {
-  try {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `${baseURL}/api/user/update`,
+        { bio: newBio, username },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const updatedBio = response.data.user.bio;
+      setBio(updatedBio);
+      setNewBio(updatedBio);
+      setEditBioMode(false);
+    } catch (err) {
+      console.error("Error updating bio:", err);
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!selectedImage) return;
     const token = localStorage.getItem("token");
-    const response = await axios.put(
-      `${baseURL}/api/user/update`,
-      { bio: newBio, username }, // include current username to avoid overwriting
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const formData = new FormData();
+    formData.append("image", selectedImage);
 
-    const updatedBio = response.data.user.bio;
-    setBio(updatedBio);
-    setNewBio(updatedBio);
-    setEditBioMode(false);
-  } catch (err) {
-    console.error("Error updating bio:", err);
-  }
-};
-
+    try {
+      const res = await axios.put(`${baseURL}/api/user/upload-profile`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProfileImage(res.data.user.profileImage);
+      setSelectedImage(null);
+      setUploadSuccess(true);
+      setTimeout(() => setUploadSuccess(false), 3000);
+    } catch (err) {
+      console.error("Error uploading image:", err);
+    }
+  };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -115,8 +131,8 @@ const UserProfile = () => {
         const response = await axios.get(`${baseURL}/api/user/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const { username, email, createdAt, likedSongs, playlists, bio } =
-          response.data;
+
+        const { username, email, createdAt, likedSongs, playlists, bio, profileImage } = response.data;
 
         const formattedUsername = capitalizeFirstLetter(username);
         setUsername(formattedUsername);
@@ -124,6 +140,7 @@ const UserProfile = () => {
         setBio(bio || "");
         setNewBio(bio || "");
         setEmail(email);
+        setProfileImage(profileImage);
         setMemberSince(
           new Date(createdAt).toLocaleDateString("en-US", {
             year: "numeric",
@@ -143,24 +160,48 @@ const UserProfile = () => {
   }, [baseURL]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
+    <div className="min-h-screen bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans">
       <Header />
 
-      {/* Background blobs */}
-      <div className="absolute top-0 -left-40 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
-      <div className="absolute top-0 -right-40 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
-      <div className="absolute -bottom-40 left-20 w-96 h-96 bg-pink-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
-
-      <main className="relative z-10 py-24 px-6 md:px-12 max-w-6xl mx-auto animate-fade-in-up">
+      <main className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
         <div className="bg-black/30 backdrop-blur-lg rounded-3xl p-10 md:p-14 shadow-2xl border border-purple-700/50 flex flex-col md:flex-row items-center md:items-start gap-12 mb-20 w-full">
-          <div className="flex-shrink-0 relative">
+          <div className="flex-shrink-0 relative flex flex-col items-center gap-2">
             <img
-              src="https://randomuser.me/api/portraits/women/65.jpg"
+              src={selectedImage ? URL.createObjectURL(selectedImage) : profileImage}
               alt="User Avatar"
-              className="w-40 h-40 md:w-52 md:h-52 rounded-full object-cover border-4 border-teal-400 shadow-lg transform hover:scale-105 transition-transform duration-300"
+              className="w-40 h-40 md:w-52 md:h-52 rounded-full object-cover border-4 border-teal-400 shadow-lg"
             />
+
+            {!selectedImage ? (
+              <label className="text-sm text-blue-300 cursor-pointer hover:underline mt-2">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setSelectedImage(e.target.files[0])}
+                  className="hidden"
+                />
+                Change Photo
+              </label>
+            ) : (
+              <div className="flex flex-col items-center gap-1 mt-2">
+                <p className="text-xs text-gray-300">{selectedImage.name}</p>
+                <button
+                  onClick={handleImageUpload}
+                  className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-500"
+                >
+                  <FaUpload /> Upload
+                </button>
+              </div>
+            )}
+
+            {uploadSuccess && (
+              <div className="text-green-400 text-sm mt-1 flex items-center gap-1">
+                <FaCheck /> Uploaded successfully!
+              </div>
+            )}
           </div>
 
+          {/* Right Section */}
           <div className="text-center md:text-left flex-grow w-full">
             <div className="flex items-center justify-center md:justify-start mb-4 gap-3">
               {editMode ? (
@@ -169,24 +210,16 @@ const UserProfile = () => {
                     type="text"
                     value={newUsername}
                     onChange={(e) => setNewUsername(e.target.value)}
-                    className="px-3 py-2 rounded bg-gray-900 text-white border border-gray-600 focus:outline-none w-64"
+                    className="px-3 py-2 rounded bg-gray-900 text-white border border-gray-600 w-64"
                   />
-                  <button
-                    onClick={handleUsernameSave}
-                    className="text-green-400 hover:text-green-500"
-                  >
+                  <button onClick={handleUsernameSave} className="text-green-400 hover:text-green-500">
                     <FaSave />
                   </button>
                 </>
               ) : (
                 <>
-                  <h2 className="text-4xl md:text-5xl font-extrabold text-teal-200 drop-shadow-md">
-                    {username || "Loading..."}
-                  </h2>
-                  <button
-                    onClick={() => setEditMode(true)}
-                    className="text-blue-400 hover:text-blue-500"
-                  >
+                  <h2 className="text-4xl md:text-5xl font-extrabold text-teal-200">{username || "Loading..."}</h2>
+                  <button onClick={() => setEditMode(true)} className="text-blue-400 hover:text-blue-500">
                     <FaEdit />
                   </button>
                 </>
@@ -200,22 +233,16 @@ const UserProfile = () => {
                     type="text"
                     value={newBio}
                     onChange={(e) => setNewBio(e.target.value)}
-                    className="px-3 py-2 rounded bg-gray-900 text-white border border-gray-600 focus:outline-none w-full md:w-96"
+                    className="px-3 py-2 rounded bg-gray-900 text-white border border-gray-600 w-full md:w-96"
                   />
-                  <button
-                    onClick={handleBioSave}
-                    className="text-green-400 hover:text-green-500"
-                  >
+                  <button onClick={handleBioSave} className="text-green-400 hover:text-green-500">
                     <FaSave />
                   </button>
                 </>
               ) : (
                 <>
                   <p className="text-lg">{bio || "No bio set."}</p>
-                  <button
-                    onClick={() => setEditBioMode(true)}
-                    className="text-blue-400 hover:text-blue-500"
-                  >
+                  <button onClick={() => setEditBioMode(true)} className="text-blue-400 hover:text-blue-500">
                     <FaEdit />
                   </button>
                 </>
@@ -225,39 +252,27 @@ const UserProfile = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-12 mt-6 text-left text-lg">
               <div className="flex items-center text-gray-300 gap-3">
                 <FaEnvelope className="text-purple-400 text-xl" />
-                <span>
-                  <strong>Email:</strong> {email || "Loading..."}
-                </span>
+                <span><strong>Email:</strong> {email || "Loading..."}</span>
               </div>
               <div className="flex items-center text-gray-300 gap-3">
                 <FaCalendarAlt className="text-pink-400 text-xl" />
-                <span>
-                  <strong>Member Since:</strong> {memberSince || "Loading..."}
-                </span>
+                <span><strong>Member Since:</strong> {memberSince}</span>
               </div>
               <div className="flex items-center text-gray-300 gap-3">
                 <FaMusic className="text-blue-400 text-xl" />
-                <span>
-                  <strong>Favorite Genre:</strong> {topGenre || "N/A"}
-                </span>
+                <span><strong>Favorite Genre:</strong> {topGenre || "N/A"}</span>
               </div>
               <div className="flex items-center text-gray-300 gap-3">
                 <FaStar className="text-yellow-400 text-xl" />
-                <span>
-                  <strong>Top Artist:</strong> {topArtist || "N/A"}
-                </span>
+                <span><strong>Top Artist:</strong> {topArtist || "N/A"}</span>
               </div>
               <div className="flex items-center text-gray-300 gap-3">
                 <FaHeart className="text-red-400 text-xl" />
-                <span>
-                  <strong>Liked Songs:</strong> {likedCount}
-                </span>
+                <span><strong>Liked Songs:</strong> {likedCount}</span>
               </div>
               <div className="flex items-center text-gray-300 gap-3">
                 <FaMusic className="text-green-400 text-xl" />
-                <span>
-                  <strong>Playlists:</strong> {playlistCount}
-                </span>
+                <span><strong>Playlists:</strong> {playlistCount}</span>
               </div>
             </div>
           </div>
