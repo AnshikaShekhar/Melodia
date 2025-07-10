@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { FaHeart } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
+import { FaHeart, FaHome} from "react-icons/fa";
+
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -163,8 +164,9 @@ function Signup() {
         </h1>
         <Link
           to="/"
-          className="bg-blue-700 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 text-sm sm:text-base"
+          className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-transform transform hover:scale-105 text-sm sm:text-base flex items-center gap-2"
         >
+          <FaHome />
           Home
         </Link>
       </header>

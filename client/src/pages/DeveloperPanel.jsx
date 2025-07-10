@@ -71,7 +71,7 @@ function DeveloperPanel() {
         </h1>
         <a
           href="/"
-          className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm sm:text-base ring-2 ring-blue-400 hover:ring-blue-300 flex items-center gap-2"
+          className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-transform transform hover:scale-105 text-sm sm:text-base flex items-center gap-2"
         >
           <FaHome className="text-lg" />
           Home

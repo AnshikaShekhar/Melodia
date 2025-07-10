@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
     profileImage: {
       type: String,
       default:
-        "https://icon2.cleanpng.com/20180602/bxp/kisspng-social-media-influencer-marketing-5b1319e606dca1.6047454915279784700281.jpg", // Optional default
+        "https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png", // Optional default
     },
 
     resetToken: String,

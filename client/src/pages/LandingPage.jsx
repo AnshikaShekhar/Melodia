@@ -5,13 +5,15 @@ import {
   FaHeart,
   FaStar,
   FaMusic,
-  FaUserFriends, FaRocket, FaPalette, FaGlobe
+  FaUserFriends,
+  FaRocket,
+  FaPalette,
+  FaGlobe,
 } from "react-icons/fa";
 
 function LandingPage() {
   const startBtnRef = useRef(null);
   const baseURL = "http://localhost:4000";
-
 
   // useEffect(() => {
   //   const createNote = () => {
@@ -59,13 +61,13 @@ function LandingPage() {
         <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-4">
           <a
             href="/login"
-            className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm sm:text-base ring-2 ring-blue-400 hover:ring-blue-300"
+            className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm sm:text-base "
           >
             <i className="fas fa-sign-in-alt mr-2 hidden sm:inline"></i>Login
           </a>
           <a
             href="/signup"
-            className="bg-green-600 hover:bg-green-500 text-white px-5 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm sm:text-base ring-2 ring-green-400 hover:ring-green-300"
+            className="bg-green-600 hover:bg-green-500 text-white px-5 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm sm:text-base "
           >
             <i className="fas fa-user-plus mr-2 hidden sm:inline"></i>Sign Up
           </a>
@@ -85,14 +87,20 @@ function LandingPage() {
             }}
             startDelay={500}
             cursorColor="#99f6e4"
-            multiText={["Discover Your Music", "Explore New Sounds", "Feel the Rhythm"]}
+            multiText={[
+              "Discover Your Music",
+              "Explore New Sounds",
+              "Feel the Rhythm",
+            ]}
             multiTextDelay={2000}
             typeSpeed={90}
           />
         </div>
 
         <p className="text-xl md:text-3xl mb-12 text-gray-300 max-w-4xl mx-auto leading-relaxed">
-          Stream your favorite tunes, curate custom playlists, and explore fresh sounds with <span className="font-bold text-teal-300">Melodia</span> 🎶 your ultimate music companion.
+          Stream your favorite tunes, curate custom playlists, and explore fresh
+          sounds with <span className="font-bold text-teal-300">Melodia</span>{" "}
+          🎶 your ultimate music companion.
         </p>
 
         <button
@@ -107,50 +115,57 @@ function LandingPage() {
       <section className="py-20 px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center bg-[#15153a]/60 rounded-xl shadow-2xl backdrop-blur-md border border-purple-800 animate-fade-in-up">
         <div className="relative group overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
           <img
-  src="/melodia.jpg"
-  alt="Melodia Promo"
-  className="rounded-xl w-full h-auto object-cover shadow-xl"
-/>
+            src="/melodia.jpg"
+            alt="Melodia Promo"
+            className="rounded-xl w-full max-h-80 object-cover shadow-xl"
+          />
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-            <p className="text-white text-lg font-semibold">Immerse yourself in sound.</p>
+            <p className="text-white text-lg font-semibold">
+              Immerse yourself in sound.
+            </p>
           </div>
         </div>
         <div>
           <h3 className="text-4xl lg:text-5xl font-bold text-teal-100 mb-6 leading-tight">
-            Why Melodia? <span className="text-purple-400">Your Music, Your Way</span> 🎶
+            Why Melodia?{" "}
+            <span className="text-purple-400">Your Music, Your Way</span> 🎶
           </h3>
           <ul className="text-gray-300 space-y-4 text-lg">
             <li className="flex items-start">
               <FaMusic className="inline mr-3 text-purple-400 text-2xl mt-1 flex-shrink-0" />
               <span>
-                <strong className="text-white">AI-Powered Playlists:</strong> Generate unique playlists tailored to your mood and preferences.
+                <strong className="text-white">AI-Powered Playlists:</strong>{" "}
+                Generate unique playlists tailored to your mood and preferences.
               </span>
             </li>
             <li className="flex items-start">
               <FaUserFriends className="inline mr-3 text-pink-400 text-2xl mt-1 flex-shrink-0" />
               <span>
-                <strong className="text-white">Community & Sharing:</strong> Connect with friends, share your favorite tracks, and discover new artists together.
+                <strong className="text-white">Community & Sharing:</strong>{" "}
+                Connect with friends, share your favorite tracks, and discover
+                new artists together.
               </span>
             </li>
             <li className="flex items-start">
               <FaHeart className="inline mr-3 text-red-400 text-2xl mt-1 flex-shrink-0" />
               <span>
-                <strong className="text-white">Personalized Picks:</strong> Get tailored song recommendations based on your listening habits and artists you love.
+                <strong className="text-white">Personalized Picks:</strong> Get
+                tailored song recommendations based on your listening habits and
+                artists you love.
               </span>
             </li>
             <li className="flex items-start">
               <FaStar className="inline mr-3 text-yellow-400 text-2xl mt-1 flex-shrink-0" />
               <span>
-                <strong className="text-white">Organized Library:</strong> Effortlessly manage and explore your music collection in your personalized library.
+                <strong className="text-white">Organized Library:</strong>{" "}
+                Effortlessly manage and explore your music collection in your
+                personalized library.
               </span>
             </li>
           </ul>
         </div>
       </section>
-
-  
-
 
       <section className="py-20 z-10 text-center relative animate-fade-in-up px-6">
         <h3 className="text-3xl md:text-4xl font-semibold mb-8 text-teal-200 drop-shadow-lg">
@@ -159,39 +174,55 @@ function LandingPage() {
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
           <div className="text-center p-6 bg-[#20204a]/70 rounded-2xl border border-blue-600 shadow-xl shadow-blue-400/30 transform hover:scale-105 transition-all duration-300 h-full flex flex-col justify-between">
             <FaRocket className="text-6xl text-blue-400 mx-auto mb-4 animate-bounce-slow" />
-            <h4 className="text-xl font-bold mb-2 text-white">Next-Gen Streaming</h4>
+            <h4 className="text-xl font-bold mb-2 text-white">
+              Next-Gen Streaming
+            </h4>
             <p className="text-gray-300">
-              Melodia is a <strong className="text-teal-300">next-generation music streaming platform</strong> crafted to enhance how users connect with music.
+              Melodia is a{" "}
+              <strong className="text-teal-300">
+                next-generation music streaming platform
+              </strong>{" "}
+              crafted to enhance how users connect with music.
             </p>
           </div>
           <div className="text-center p-6 bg-[#20204a]/70 rounded-2xl border border-pink-600 shadow-xl shadow-pink-400/30 transform hover:scale-105 transition-all duration-300 h-full flex flex-col justify-between">
             <FaPalette className="text-6xl text-pink-400 mx-auto mb-4 animate-pulse-fast" />
-            <h4 className="text-xl font-bold mb-2 text-white">Sleek & Seamless</h4>
+            <h4 className="text-xl font-bold mb-2 text-white">
+              Sleek & Seamless
+            </h4>
             <p className="text-gray-300">
-              With a sleek interface and seamless functionality, users can explore trending tracks, discover emerging artists.
+              With a sleek interface and seamless functionality, users can
+              explore trending tracks, discover emerging artists.
             </p>
           </div>
           <div className="text-center p-6 bg-[#20204a]/70 rounded-2xl border border-green-600 shadow-xl shadow-green-400/30 transform hover:scale-105 transition-all duration-300 h-full flex flex-col justify-between">
             <FaGlobe className="text-6xl text-green-400 mx-auto mb-4 animate-spin-slow-reverse" />
-            <h4 className="text-xl font-bold mb-2 text-white">Powered by Tech</h4>
+            <h4 className="text-xl font-bold mb-2 text-white">
+              Powered by Tech
+            </h4>
             <p className="text-gray-300">
-              Delivers a <strong className="text-teal-300">curated experience</strong> powered by modern web technologies for speed and reliability.
+              Delivers a{" "}
+              <strong className="text-teal-300">curated experience</strong>{" "}
+              powered by modern web technologies for speed and reliability.
             </p>
           </div>
         </div>
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed hover:text-white transition duration-300 mt-10">
-          Designed for music lovers, we are passionate about bringing the joy of music to everyone, ensuring a responsive experience across all devices.
+          Designed for music lovers, we are passionate about bringing the joy of
+          music to everyone, ensuring a responsive experience across all
+          devices.
         </p>
       </section>
 
       <footer className="py-8 text-center z-10 relative animate-fade-in border-t border-purple-800">
-        <p className="text-gray-400 text-lg">© 2025 Melodia. All rights reserved.</p>
+        <p className="text-gray-400 text-lg">
+          © 2025 Melodia. All rights reserved.
+        </p>
         <p className="mt-4 text-gray-500 text-sm">
           Developed with <FaHeart className="inline text-red-500 mx-1" /> by:{" "}
           <span className="font-medium text-teal-300">Ayush Kumar</span> &{" "}
           <span className="font-medium text-teal-300">Anshika Shekhar</span>
         </p>
-    
       </footer>
     </div>
   );

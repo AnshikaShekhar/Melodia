@@ -73,31 +73,41 @@ function HomePage() {
             ) : (
               <>
                 Welcome Back,{" "}
-                <span className="text-purple-200">{username || "Guest"} 🎧</span>
+
+                <span className="text-purple-300">
+                  {username || "Guest"} 🎧
+                </span>
               </>
             )}
           </motion.h2>
 
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10">
-            Discover new tracks, curate your own playlists, and immerse yourself in the rhythm of life.
+
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10 z-10 relative">
+            Discover new tracks, curate your own playlists, and immerse yourself
+            in the rhythm of life.
           </p>
 
           <a
             href="/explore"
-            className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold rounded-full transition-transform duration-300 hover:scale-110 shadow-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600"
+            className="relative inline-flex items-center justify-center px-8 py-3 text-lg font-semibold rounded-full transition-transform duration-300 hover:scale-110 shadow-lg z-10"
+            style={{
+              background: "linear-gradient(to right, #9333ea, #4f46e5)",
+              color: "#fff",
+              boxShadow:
+                "0 0 10px rgba(147, 51, 234, 0.6), 0 0 20px rgba(79, 70, 229, 0.5)",
+            }}
           >
             <FaPlay className="mr-2" />
             Start Listening
           </a>
         </section>
-
-        {/* Trending Songs */}
-        <section className="py-20 px-6 relative overflow-hidden">
+        {/* Trending Marquee Section */}
+        <section className="py-20 px-6 relative overflow-hidden pb-32">
           <h3 className="text-4xl font-semibold text-center text-teal-200 mb-12">
             🔥 Trending Songs
           </h3>
 
-          <div className="overflow-hidden w-full group">
+          <div className="overflow-hidden w-full h-full group">
             <div className="flex gap-10 animate-marquee-bounce group-hover:[animation-play-state:paused]">
               {trendingSongs.map((song, index) => (
                 <motion.div
@@ -116,16 +126,19 @@ function HomePage() {
                       className="w-full h-60 object-cover rounded-md mb-4 border border-purple-400 shadow-md"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = "https://via.placeholder.com/300x224?text=Image+Not+Available";
+                        e.target.src =
+                          "https://via.placeholder.com/300x224?text=Image+Not+Available";
                       }}
                     />
-                    <FaPlay className="absolute bottom-4 right-4 text-white bg-purple-600 p-2 rounded-full text-xl shadow-md hover:scale-110 transition-transform" />
+                    <FaPlay className="absolute bottom-4 right-4 text-white bg-purple-600 p-3 rounded-full text-4xl shadow-md hover:scale-110 transition-transform" />
                   </div>
                   <h4 className="text-xl font-semibold text-teal-100 mb-1 flex items-center">
-                    {song.title} <FaStar className="ml-2 text-yellow-400 animate-pulse" />
+                    {song.title}{" "}
+                    <FaStar className="ml-2 text-yellow-400 animate-pulse" />
                   </h4>
                   <p className="text-gray-300 text-sm flex items-center">
-                    {song.artist} <FaHeart className="ml-2 text-red-500 animate-bounce" />
+                    {song.artist}{" "}
+                    <FaHeart className="ml-2 text-red-500 animate-bounce" />
                   </p>
                   <p className="text-gray-400 text-sm">{song.genre}</p>
                 </motion.div>
