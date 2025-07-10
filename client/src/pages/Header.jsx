@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function Header() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const isAuthenticated = localStorage.getItem("token");
 
   const handleLogout = () => {
@@ -13,10 +15,17 @@ function Header() {
   };
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
+    try {
+      const decoded = jwtDecode(token);
+      setUserRole(decoded.role); // instantly set role
+    } catch (err) {
+      console.error("Invalid token:", err.message);
+    }
+
+    const fetchUser = async () => {
       try {
         const res = await axios.get("http://localhost:4000/api/user/profile", {
           headers: {
@@ -60,16 +69,15 @@ function Header() {
           <i className="fas fa-compass mr-2 hidden sm:inline"></i>Explore
         </Link>
 
-        {isAuthenticated && user?.role === "admin" && (
-  <Link
-    to="/admin"
-    className="bg-yellow-600 hover:bg-yellow-700 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
-  >
-    <i className="fas fa-user-shield mr-2 hidden sm:inline"></i>
-    Admin Page
-  </Link>
-)}
-
+        {isAuthenticated && userRole === "admin" && (
+          <Link
+            to="/admin"
+            className="bg-yellow-600 hover:bg-yellow-700 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
+          >
+            <i className="fas fa-user-shield mr-2 hidden sm:inline"></i>
+            Admin Page
+          </Link>
+        )}
 
         {isAuthenticated && (
           <>

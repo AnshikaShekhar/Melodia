@@ -64,6 +64,15 @@ function Login() {
             <i className="fas fa-home mr-2 hidden sm:inline"></i>Home
           </Link>
         </div>
+
+        <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-4">
+          <Link
+            to="/devpanel"
+            className="bg-blue-700 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
+          >
+            <i className="fas fa-home mr-2 hidden sm:inline"></i>Login As a Developer
+          </Link>
+        </div>
       </header>
 
       <div className="flex-grow flex items-center justify-center">

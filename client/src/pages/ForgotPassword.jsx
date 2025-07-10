@@ -71,7 +71,7 @@ function ForgotPassword() {
 
           <div className="w-full md:w-1/2">
             <h1 className="text-4xl font-extrabold mb-6 text-teal-300 text-center">
-              Forgot Password 🎶🎧
+              Forgot Password
             </h1>
 
             {error && (

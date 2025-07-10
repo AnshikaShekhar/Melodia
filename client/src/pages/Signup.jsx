@@ -10,6 +10,7 @@ function Signup() {
     email: "",
     password: "",
     role: "user", // default role
+    phone: "",
   });
   const [otp, setOtp] = useState("");
   const [generatedOtp, setGeneratedOtp] = useState("");
@@ -76,7 +77,6 @@ function Signup() {
       setError("Invalid OTP. Try again.");
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -104,6 +104,13 @@ function Signup() {
       return;
     }
 
+    if (formData.role === "admin" && formData.phone.trim().length < 10) {
+      setError(
+        "Phone number is required and must be at least 10 digits for admin requests."
+      );
+      return;
+    }
+
     if (!otpVerified) {
       setError("Please verify your email with OTP first.");
       return;
@@ -112,8 +119,24 @@ function Signup() {
     setLoading(true);
     try {
       const response = await axios.post(`${baseURL}/api/auth/signup`, formData);
-      setMessage("Account created successfully! Redirecting to login...");
-      setTimeout(() => navigate("/login"), 3000);
+      setMessage(response.data.message);
+
+      const role = response.data.user?.role;
+
+      if (role === "user") {
+        setTimeout(() => navigate("/login"), 3000);
+      } else if (role === "pending-admin") {
+        // Clear form fields for pending-admin only
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+          role: "user",
+        });
+        setOtp("");
+        setGeneratedOtp("");
+        setOtpVerified(false);
+      }
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||
@@ -124,24 +147,6 @@ function Signup() {
       setLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //   const createMusicNote = () => {
-  //     const note = document.createElement("div");
-  //     note.innerText = "🎵";
-  //     note.className = "fixed animate-floatNote pointer-events-none z-30";
-  //     note.style.left = `${Math.random() * 100}vw`;
-  //     note.style.bottom = `0px`;
-  //     note.style.opacity = Math.random().toString();
-  //     note.style.fontSize = `${Math.random() * 20 + 16}px`;
-  //     note.style.color = "white";
-  //     document.body.appendChild(note);
-  //     setTimeout(() => note.remove(), 4000);
-  //   };
-
-  //   const interval = setInterval(() => createMusicNote(), 600);
-  //   return () => clearInterval(interval);
-  // }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
@@ -176,7 +181,7 @@ function Signup() {
 
           <div className="w-full md:w-1/2">
             <h1 className="text-4xl font-extrabold mb-6 text-teal-300 text-center">
-              Sign Up 
+              Sign Up
             </h1>
             {error && (
               <p className="text-red-400 mb-4 text-center animate-shake">
@@ -232,7 +237,7 @@ function Signup() {
                     setFormData({ ...formData, role: e.target.value })
                   }
                   className="w-full p-3 rounded-lg bg-[#2a2a4f] text-white border border-gray-600 focus:outline-none focus:border-teal-400 text-center
-                             appearance-none cursor-pointer pr-10" 
+                             appearance-none cursor-pointer pr-10"
                 >
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
@@ -245,6 +250,18 @@ function Signup() {
                 </div>
               </div>
 
+              {formData.role === "admin" && (
+                <input
+                  type="tel"
+                  placeholder="Phone Number (Required for Admin)"
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
+                  className="w-full p-3 rounded-lg bg-[#2a2a4f] text-white border border-gray-600 focus:outline-none focus:border-teal-400"
+                  required
+                />
+              )}
 
               {/* OTP Section */}
               <div className="flex flex-col md:flex-row gap-4">
@@ -299,7 +316,9 @@ function Signup() {
       </div>
 
       <footer className="py-8 text-center z-10 relative animate-fade-in border-t border-purple-800 mt-auto">
-        <p className="text-gray-400 text-lg">© 2025 Melodia. All rights reserved.</p>
+        <p className="text-gray-400 text-lg">
+          © 2025 Melodia. All rights reserved.
+        </p>
         <p className="mt-4 text-gray-500 text-sm">
           Developed with <FaHeart className="inline text-red-500 mx-1" /> by:{" "}
           <span className="font-medium text-teal-300">Ayush Kumar</span> &{" "}

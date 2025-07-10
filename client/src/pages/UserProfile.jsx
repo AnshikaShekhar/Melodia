@@ -76,7 +76,9 @@ const UserProfile = () => {
         { username: newUsername, bio },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      const updatedUsername = capitalizeFirstLetter(response.data.user.username);
+      const updatedUsername = capitalizeFirstLetter(
+        response.data.user.username
+      );
       setUsername(updatedUsername);
       setNewUsername(updatedUsername);
       setEditMode(false);
@@ -109,12 +111,16 @@ const UserProfile = () => {
     formData.append("image", selectedImage);
 
     try {
-      const res = await axios.put(`${baseURL}/api/user/upload-profile`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.put(
+        `${baseURL}/api/user/upload-profile`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setProfileImage(res.data.user.profileImage);
       setSelectedImage(null);
       setUploadSuccess(true);
@@ -132,7 +138,15 @@ const UserProfile = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const { username, email, createdAt, likedSongs, playlists, bio, profileImage } = response.data;
+        const {
+          username,
+          email,
+          createdAt,
+          likedSongs,
+          playlists,
+          bio,
+          profileImage,
+        } = response.data;
 
         const formattedUsername = capitalizeFirstLetter(username);
         setUsername(formattedUsername);
@@ -167,7 +181,11 @@ const UserProfile = () => {
         <div className="bg-black/30 backdrop-blur-lg rounded-3xl p-10 md:p-14 shadow-2xl border border-purple-700/50 flex flex-col md:flex-row items-center md:items-start gap-12 mb-20 w-full">
           <div className="flex-shrink-0 relative flex flex-col items-center gap-2">
             <img
-              src={selectedImage ? URL.createObjectURL(selectedImage) : profileImage}
+              src={
+                selectedImage
+                  ? URL.createObjectURL(selectedImage)
+                  : profileImage || "/fallback.jpg"
+              }
               alt="User Avatar"
               className="w-40 h-40 md:w-52 md:h-52 rounded-full object-cover border-4 border-teal-400 shadow-lg"
             />
@@ -212,14 +230,22 @@ const UserProfile = () => {
                     onChange={(e) => setNewUsername(e.target.value)}
                     className="px-3 py-2 rounded bg-gray-900 text-white border border-gray-600 w-64"
                   />
-                  <button onClick={handleUsernameSave} className="text-green-400 hover:text-green-500">
+                  <button
+                    onClick={handleUsernameSave}
+                    className="text-green-400 hover:text-green-500"
+                  >
                     <FaSave />
                   </button>
                 </>
               ) : (
                 <>
-                  <h2 className="text-4xl md:text-5xl font-extrabold text-teal-200">{username || "Loading..."}</h2>
-                  <button onClick={() => setEditMode(true)} className="text-blue-400 hover:text-blue-500">
+                  <h2 className="text-4xl md:text-5xl font-extrabold text-teal-200">
+                    {username || "Loading..."}
+                  </h2>
+                  <button
+                    onClick={() => setEditMode(true)}
+                    className="text-blue-400 hover:text-blue-500"
+                  >
                     <FaEdit />
                   </button>
                 </>
@@ -235,14 +261,20 @@ const UserProfile = () => {
                     onChange={(e) => setNewBio(e.target.value)}
                     className="px-3 py-2 rounded bg-gray-900 text-white border border-gray-600 w-full md:w-96"
                   />
-                  <button onClick={handleBioSave} className="text-green-400 hover:text-green-500">
+                  <button
+                    onClick={handleBioSave}
+                    className="text-green-400 hover:text-green-500"
+                  >
                     <FaSave />
                   </button>
                 </>
               ) : (
                 <>
                   <p className="text-lg">{bio || "No bio set."}</p>
-                  <button onClick={() => setEditBioMode(true)} className="text-blue-400 hover:text-blue-500">
+                  <button
+                    onClick={() => setEditBioMode(true)}
+                    className="text-blue-400 hover:text-blue-500"
+                  >
                     <FaEdit />
                   </button>
                 </>
@@ -252,27 +284,39 @@ const UserProfile = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-12 mt-6 text-left text-lg">
               <div className="flex items-center text-gray-300 gap-3">
                 <FaEnvelope className="text-purple-400 text-xl" />
-                <span><strong>Email:</strong> {email || "Loading..."}</span>
+                <span>
+                  <strong>Email:</strong> {email || "Loading..."}
+                </span>
               </div>
               <div className="flex items-center text-gray-300 gap-3">
                 <FaCalendarAlt className="text-pink-400 text-xl" />
-                <span><strong>Member Since:</strong> {memberSince}</span>
+                <span>
+                  <strong>Member Since:</strong> {memberSince}
+                </span>
               </div>
               <div className="flex items-center text-gray-300 gap-3">
                 <FaMusic className="text-blue-400 text-xl" />
-                <span><strong>Favorite Genre:</strong> {topGenre || "N/A"}</span>
+                <span>
+                  <strong>Favorite Genre:</strong> {topGenre || "N/A"}
+                </span>
               </div>
               <div className="flex items-center text-gray-300 gap-3">
                 <FaStar className="text-yellow-400 text-xl" />
-                <span><strong>Top Artist:</strong> {topArtist || "N/A"}</span>
+                <span>
+                  <strong>Top Artist:</strong> {topArtist || "N/A"}
+                </span>
               </div>
               <div className="flex items-center text-gray-300 gap-3">
                 <FaHeart className="text-red-400 text-xl" />
-                <span><strong>Liked Songs:</strong> {likedCount}</span>
+                <span>
+                  <strong>Liked Songs:</strong> {likedCount}
+                </span>
               </div>
               <div className="flex items-center text-gray-300 gap-3">
                 <FaMusic className="text-green-400 text-xl" />
-                <span><strong>Playlists:</strong> {playlistCount}</span>
+                <span>
+                  <strong>Playlists:</strong> {playlistCount}
+                </span>
               </div>
             </div>
           </div>
