@@ -2,24 +2,35 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "./Header";
-
 import { useMusic } from "./MusicContext";
-import { FaEdit, FaTrash, FaPlus, FaSave, FaTimes, FaMusic, FaList, FaPlay, FaPause } from "react-icons/fa";
+import {
+  FaEdit,
+  FaTrash,
+  FaPlus,
+  FaSave,
+  FaTimes,
+  FaMusic,
+  FaList,
+  FaPlay,
+  FaPause,
+} from "react-icons/fa";
 import useRoleRedirect from "../hook/useRoleRedirect";
+
 const Notification = ({ message, type, onClose }) => {
   const bgColor = type === "success" ? "bg-green-600" : "bg-red-600";
-  const textColor = "text-white";
-
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.8 }}
       transition={{ duration: 0.3 }}
-      className={`fixed top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 px-8 py-4 rounded-xl shadow-2xl z-50 ${bgColor} ${textColor} flex items-center justify-between space-x-4 font-semibold text-lg`}
+      className={`fixed top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 px-8 py-4 rounded-xl shadow-2xl z-50 ${bgColor} text-white flex items-center justify-between space-x-4 font-semibold text-lg`}
     >
       <span>{message}</span>
-      <button onClick={onClose} className="text-white ml-4 font-bold text-xl opacity-70 hover:opacity-100 transition-opacity">
+      <button
+        onClick={onClose}
+        className="text-white ml-4 font-bold text-xl opacity-70 hover:opacity-100 transition-opacity"
+      >
         &times;
       </button>
     </motion.div>
@@ -27,18 +38,16 @@ const Notification = ({ message, type, onClose }) => {
 };
 
 function PlaylistPage() {
-  
-useRoleRedirect({ allowedRoles: ["user", "admin"] });
+  useRoleRedirect({ allowedRoles: ["user", "admin"] });
 
   const [playlists, setPlaylists] = useState([]);
   const [editingPlaylistId, setEditingPlaylistId] = useState(null);
   const [newPlaylistName, setNewPlaylistName] = useState("");
   const [showCreatePlaylistModal, setShowCreatePlaylistModal] = useState(false);
   const [createPlaylistName, setCreatePlaylistName] = useState("");
-  const baseURL = "http://localhost:4000";
+  const baseURL = process.env.REACT_APP_API_URL;
 
-
-  const { playSong, currentSong, isPlaying } = useMusic(); 
+  const { playSong, currentSong, isPlaying } = useMusic();
 
   const [notification, setNotification] = useState({
     message: "",
@@ -59,15 +68,13 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
 
   const fetchPlaylists = useCallback(async () => {
     try {
-      const response = await axios.get(`${baseURL}/api/playlists`, {
-        headers,
-      });
-      setPlaylists(response.data);
+      const response = await axios.get(`${baseURL}/api/playlists`, { headers });
+      setPlaylists(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error("Error fetching playlists:", error);
       showNotification("Failed to load playlists.", "error");
     }
-  }, [headers]);
+  }, [headers, baseURL]);
 
   const handleCreatePlaylist = async () => {
     if (!createPlaylistName.trim()) {
@@ -113,10 +120,9 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
 
   const handleDeleteSongFromPlaylist = async (playlistId, songId) => {
     try {
-      await axios.delete(
-        `${baseURL}/api/playlists/${playlistId}/songs/${songId}`,
-        { headers }
-      );
+      await axios.delete(`${baseURL}/api/playlists/${playlistId}/songs/${songId}`, {
+        headers,
+      });
       fetchPlaylists();
       showNotification("Song removed from playlist.", "success");
     } catch (error) {
@@ -127,9 +133,7 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
 
   const handleDeletePlaylist = async (playlistId) => {
     try {
-      await axios.delete(`${baseURL}/api/playlists/${playlistId}`, {
-        headers,
-      });
+      await axios.delete(`${baseURL}/api/playlists/${playlistId}`, { headers });
       fetchPlaylists();
       showNotification("Playlist deleted successfully!", "success");
     } catch (error) {
@@ -186,7 +190,9 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
               className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
             >
               <div className="bg-[#1e1e2f] p-8 rounded-xl shadow-2xl border border-gray-700 w-full max-w-md">
-                <h3 className="text-2xl font-bold text-teal-300 mb-6 text-center">Create New Playlist</h3>
+                <h3 className="text-2xl font-bold text-teal-300 mb-6 text-center">
+                  Create New Playlist
+                </h3>
                 <input
                   type="text"
                   value={createPlaylistName}
@@ -216,7 +222,6 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
           )}
         </AnimatePresence>
 
-
         {playlists.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -225,17 +230,18 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
             className="flex justify-center items-center h-60"
           >
             <p className="text-xl text-gray-400 italic font-light">
-              You haven't created any playlists yet. Go explore some music! <FaMusic className="inline ml-1 text-purple-400" />
+              You haven't created any playlists yet. Go explore some music!{" "}
+              <FaMusic className="inline ml-1 text-purple-400" />
             </p>
           </motion.div>
         ) : (
           <div className="space-y-10">
-            {playlists.map((playlist, playlistIndex) => ( 
+            {playlists.map((playlist, playlistIndex) => (
               <motion.div
                 key={playlist._id}
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: playlistIndex * 0.1 }} 
+                transition={{ duration: 0.6, delay: playlistIndex * 0.1 }}
                 className="bg-[#1e1e2f] p-6 rounded-2xl border border-purple-700/50 shadow-xl hover:shadow-2xl hover:border-purple-600 transition duration-300"
               >
                 <div className="flex items-center justify-between mb-6">
@@ -267,7 +273,7 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
                     </div>
                   ) : (
                     <h2 className="text-3xl font-bold text-purple-400 flex items-center gap-3">
-                       {playlist.name}
+                      {playlist.name}
                       <div className="flex items-center ml-4 space-x-3">
                         <button
                           onClick={() => {
@@ -296,20 +302,21 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
                     No songs in this playlist yet. Add some tracks!
                   </p>
                 ) : (
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6"> 
-                    {playlist.songs.map((song, songIndex) => { 
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+                    {playlist.songs.map((song, songIndex) => {
                       const isCurrent = currentSong && currentSong._id === song._id;
                       return (
                         <motion.li
                           key={song._id}
                           initial={{ opacity: 0, scale: 0.9 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.4, delay: songIndex * 0.05 }} 
-                          onClick={() => playSong(playlist.songs, songIndex)} 
-                          className={`relative bg-[#2f2f45] p-4 rounded-xl cursor-pointer
-                            ${isCurrent ? "border border-pink-500 shadow-pink-500" : "border border-transparent"}
-                            shadow-md hover:shadow-lg hover:bg-[#3b3b5a] transition duration-200 group overflow-hidden`
-                          }
+                          transition={{ duration: 0.4, delay: songIndex * 0.05 }}
+                          onClick={() => playSong(playlist.songs, songIndex)}
+                          className={`relative bg-[#2f2f45] p-4 rounded-xl cursor-pointer ${
+                            isCurrent
+                              ? "border border-pink-500 shadow-pink-500"
+                              : "border border-transparent"
+                          } shadow-md hover:shadow-lg hover:bg-[#3b3b5a] transition duration-200 group overflow-hidden`}
                         >
                           <div className="relative w-full h-36 rounded-lg overflow-hidden mb-3">
                             <img
@@ -317,17 +324,19 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
                               alt={song.title}
                               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 group-hover:brightness-75"
                             />
-                             <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-3 rounded-full text-xl shadow-xl hover:scale-110 transition-transform duration-200">
-                                  {isCurrent && isPlaying ? <FaPause /> : <FaPlay />}
-                                </button>
+                            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-3 rounded-full text-xl shadow-xl hover:scale-110 transition-transform duration-200">
+                                {isCurrent && isPlaying ? <FaPause /> : <FaPlay />}
+                              </button>
                             </div>
                           </div>
                           <div>
                             <span className="text-teal-100 font-semibold text-lg block truncate">
                               {song.title}
                             </span>
-                            <span className="text-gray-400 text-sm block truncate">by {song.artist}</span>
+                            <span className="text-gray-400 text-sm block truncate">
+                              by {song.artist}
+                            </span>
                             <p className="text-xs text-gray-500 italic mt-1">
                               Genre:{" "}
                               <span className="font-semibold text-gray-300">
@@ -335,15 +344,11 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
                               </span>
                             </p>
                           </div>
-
-                          <div className="flex justify-end items-center gap-2 mt-4"> 
+                          <div className="flex justify-end items-center gap-2 mt-4">
                             <button
-                              onClick={(e) => { 
+                              onClick={(e) => {
                                 e.stopPropagation();
-                                handleDeleteSongFromPlaylist(
-                                  playlist._id,
-                                  song._id
-                                );
+                                handleDeleteSongFromPlaylist(playlist._id, song._id);
                               }}
                               className="text-sm text-red-400 hover:text-red-500 transition duration-200 flex items-center gap-1 font-medium bg-gray-700/50 px-3 py-1 rounded-full"
                               title="Remove song from playlist"
@@ -351,7 +356,6 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
                               <FaTimes /> Remove
                             </button>
                           </div>
-
                           {isCurrent && (
                             <motion.div
                               initial={{ opacity: 0, x: 20 }}
@@ -371,7 +375,6 @@ useRoleRedirect({ allowedRoles: ["user", "admin"] });
           </div>
         )}
       </main>
-
     </motion.div>
   );
 }
