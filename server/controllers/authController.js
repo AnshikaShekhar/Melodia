@@ -1,109 +1,155 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const bcrypt = require("bcrypt");
+const cloudinary = require("../config/cloudinary"); // Make sure path is correct
 
-const signupUser = async (req, res) => {
+// Generate JWT
+const generateToken = (user) => {
+  return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+    expiresIn: "7d",
+  });
+};
+
+// ✅ Signup Controller
+exports.signupUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role = "user" } = req.body;
 
     if (!username || !email || !password) {
-      return res.status(400).json({ message: 'All fields (username, email, password) are required' });
+      return res.status(400).json({ message: "All fields are required." });
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: 'Email already registered' });
+      return res
+        .status(400)
+        .json({ message: "User with this email already exists." });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const user = new User({ username, email, password, role });
+    await user.save();
 
-    const newUser = new User({ username, email, password: hashedPassword });
-    await newUser.save();
+    const token = generateToken(user);
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-
-    res.status(201).json({ token, user: { id: newUser._id, username, email } });
+    res.status(201).json({
+      message: "User created successfully",
+      token,
+      user: { id: user._id, username, email, role },
+    });
   } catch (err) {
-    res.status(500).json({ message: 'Signup failed', error: err.message });
+    console.error("Signup error:", err.message);
+    res.status(500).json({ message: "Signup failed", error: err.message });
   }
 };
 
-const loginUser = async (req, res) => {
+// ✅ Login Controller
+exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required' });
+      return res
+        .status(400)
+        .json({ message: "Email and password are required." });
     }
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(404).json({ message: "User not found." });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: "Invalid credentials." });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = generateToken(user);
 
-    res.status(200).json({ token, user: { id: user._id, username: user.username, email } });
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: { id: user._id, username: user.username, email, role: user.role },
+    });
   } catch (err) {
-    res.status(500).json({ message: 'Login failed', error: err.message });
+    console.error("Login error:", err.message);
+    res.status(500).json({ message: "Login failed", error: err.message });
   }
 };
 
-const forgotPassword = async (req, res) => {
+// ✅ Forgot Password Controller
+exports.forgotPassword = async (req, res) => {
   const { email, newPassword } = req.body;
 
   if (!email || !newPassword) {
-    return res.status(400).json({ message: 'Email and new password are required' });
+    return res
+      .status(400)
+      .json({ message: "Email and new password are required." });
   }
 
   try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) return res.status(404).json({ message: "User not found." });
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
+    user.password = newPassword;
     await user.save();
 
-    res.status(200).json({ message: 'Password reset successful' });
+    res.status(200).json({ message: "Password reset successfully." });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to reset password', error: err.message });
+    console.error("Reset password error:", err.message);
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
-const validateToken = async (req, res) => {
+// ✅ Token Validation Controller
+exports.validateToken = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
-    if (!user) {
-      return res.status(404).json({ valid: false, message: "User not found" });
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ message: "Access token required." });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found." });
+
+    res.status(200).json({ message: "Token valid", user });
+  } catch (err) {
+    console.error("Token validation error:", err.message);
+    res.status(401).json({ message: "Invalid or expired token." });
+  }
+};
+
+// ✅ Upload Profile Image to Cloudinary
+exports.uploadProfileImage = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    if (!req.file) {
+      return res.status(400).json({ message: "No image provided" });
     }
 
-    res.status(200).json({
-      valid: true,
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({
-      valid: false,
-      message: "Token validation failed",
-      error: err.message,
-    });
+    // Upload buffer to Cloudinary
+    const streamUpload = (buffer) => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "profiles" },
+          (error, result) => {
+            if (result) resolve(result);
+            else reject(error);
+          }
+        );
+        stream.end(buffer);
+      });
+    };
+
+    const result = await streamUpload(req.file.buffer);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profileImage: result.secure_url },
+      { new: true }
+    ).select("-password");
+
+    res.status(200).json({ message: "Profile image updated", user: updatedUser });
+  } catch (error) {
+    console.error("Upload error:", error.message);
+    res.status(500).json({ message: "Upload failed", error: error.message });
   }
-};
-
-
-module.exports = {
-  signupUser,
-  loginUser,
-  forgotPassword,
-  validateToken,
 };

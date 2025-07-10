@@ -1,26 +1,27 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import confetti from "canvas-confetti";
-import {
-  FaHeart
-} from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const baseURL = "http://localhost:4000";
+  const baseURL = process.env.REACT_APP_API_URL || "http://localhost:4000"; // Use process.env for consistency
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-      const response = await axios.post(`${baseURL}/api/auth/login`, formData);
-      const { token } = response.data;
+      const response = await axios.post(`${baseURL}/api/auth/login`, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const { token, user } = response.data;
       localStorage.setItem("token", token);
 
       confetti({
@@ -31,27 +32,15 @@ function Login() {
 
       navigate("/home");
     } catch (error) {
-      setError(error.response?.data?.message || "Login failed. Please try again.");
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Login failed. Please try again.";
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
-
-  useEffect(() => {
-    const createMusicNote = () => {
-      const note = document.createElement("div");
-      note.innerText = "🎵";
-      note.className = "fixed animate-floatNote pointer-events-none z-30";
-      note.style.left = `${Math.random() * 100}vw`;
-      note.style.bottom = `0px`;
-      note.style.opacity = Math.random().toString();
-      note.style.fontSize = `${Math.random() * 20 + 16}px`;
-      note.style.color = "white";
-      document.body.appendChild(note);
-      setTimeout(() => note.remove(), 4000);
-    };
-
-    const interval = setInterval(() => createMusicNote(), 500);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
@@ -78,23 +67,26 @@ function Login() {
       </header>
 
       <div className="flex-grow flex items-center justify-center">
-        <div className="w-full max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between bg-[#1f1f3a]/90 p-8 rounded-2xl shadow-2xl border-[3px] border-purple-400 backdrop-blur-md z-10 animate-fade-in shadow-purple-500/40 transition-all duration-500 ease-in-out group">
+        {/* Main content div classes now match Signup page */}
+        <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between bg-[#1f1f3a]/90 p-8 rounded-2xl shadow-2xl border border-[#3a3a8a] backdrop-blur-md z-10 animate-fade-in border-4 border-teal-400/50">
+          {/* Image section now matches Signup page */}
           <div className="hidden md:flex w-1/2 justify-center">
             <img
-              src="https://cdn-icons-png.flaticon.com/512/727/727218.png"
-              alt="Login Music Icon"
-              className="w-72 h-auto animate-pulse-slow"
+              src="/waveform.png" 
+              alt="Music Icon"
+              className="w-80 h-auto rounded-full filter brightness-0 invert"
             />
           </div>
 
           <div className="w-full md:w-1/2">
+            {/* Heading emoji now matches Signup page */}
             <h1 className="text-4xl font-extrabold mb-6 text-teal-300 text-center">
-              Login 🎶
+              Login
             </h1>
             {error && (
               <p className="text-red-400 mb-4 text-center animate-shake">{error}</p>
             )}
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5"> {/* space-y-5 for consistency */}
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -115,16 +107,20 @@ function Login() {
                 className="w-full p-3 rounded-lg bg-[#2a2a4f] text-white border border-gray-600 focus:outline-none focus:border-teal-400"
                 required
               />
-              <div className="flex justify-between text-sm text-white">
+              {/* Forgot password link, kept as is, as it's login specific functionality */}
+              <div className="flex justify-end text-sm text-white"> {/* Adjusted to justify-end */}
                 <Link to="/forgotpassword" className="text-blue-400 hover:underline">
                   Forgot password?
                 </Link>
               </div>
               <button
                 type="submit"
-                className="w-full bg-purple-700 hover:bg-purple-600 py-3 rounded-xl text-white font-semibold transition duration-200 shadow-md hover:shadow-purple-400/40"
+                disabled={loading}
+                className={`w-full bg-green-600 hover:bg-green-700 py-3 rounded-xl text-white font-semibold transition duration-200 shadow-md hover:shadow-green-400/40 ${ /* Matched Signup button styles */
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                Login Now
+                {loading ? "Logging in..." : "Login Now"}
               </button>
               <p className="text-center text-sm text-gray-300 mt-4">
                 Not a member?{" "}

@@ -7,10 +7,11 @@ import {
   FaStar,
 } from "react-icons/fa";
 import { useMusic } from "./MusicContext";
-import useAuthRedirect from "../hook/useAuthRedirect";
 
+import useRoleRedirect from "../hook/useRoleRedirect";
 function HomePage() {
-  useAuthRedirect();
+
+  useRoleRedirect({ allowedRoles: ["user", "admin"] }); 
 
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
