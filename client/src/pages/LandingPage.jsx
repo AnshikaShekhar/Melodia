@@ -13,26 +13,26 @@ function LandingPage() {
   const baseURL = "http://localhost:4000";
 
 
-  useEffect(() => {
-    const createNote = () => {
-      const note = document.createElement("div");
-      note.innerText = "🎵";
-      Object.assign(note.style, {
-        position: "fixed",
-        left: `${Math.random() * 100}vw`,
-        bottom: "0px",
-        fontSize: `${Math.random() * 20 + 16}px`,
-        opacity: Math.random(),
-        pointerEvents: "none",
-        zIndex: 30,
-        animation: "floatNote 4s linear forwards",
-      });
-      document.body.appendChild(note);
-      setTimeout(() => note.remove(), 4000);
-    };
-    const interval = setInterval(createNote, 300);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const createNote = () => {
+  //     const note = document.createElement("div");
+  //     note.innerText = "🎵";
+  //     Object.assign(note.style, {
+  //       position: "fixed",
+  //       left: `${Math.random() * 100}vw`,
+  //       bottom: "0px",
+  //       fontSize: `${Math.random() * 20 + 16}px`,
+  //       opacity: Math.random(),
+  //       pointerEvents: "none",
+  //       zIndex: 30,
+  //       animation: "floatNote 4s linear forwards",
+  //     });
+  //     document.body.appendChild(note);
+  //     setTimeout(() => note.remove(), 4000);
+  //   };
+  //   const interval = setInterval(createNote, 300);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   const handleGetStarted = () => {
     confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
