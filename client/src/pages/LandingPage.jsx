@@ -107,10 +107,11 @@ function LandingPage() {
       <section className="py-20 px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center bg-[#15153a]/60 rounded-xl shadow-2xl backdrop-blur-md border border-purple-800 animate-fade-in-up">
         <div className="relative group overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
           <img
-            src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1000&q=80"
-            alt="Music production setup"
-            className="rounded-xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500"
-          />
+  src="/melodia.jpg"
+  alt="Melodia Promo"
+  className="rounded-xl w-full h-auto object-cover shadow-xl"
+/>
+
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
             <p className="text-white text-lg font-semibold">Immerse yourself in sound.</p>
           </div>
@@ -148,31 +149,8 @@ function LandingPage() {
         </div>
       </section>
 
-      <section className="py-20 z-10 text-center relative animate-fade-in-up px-6">
-        <h3 className="text-3xl md:text-4xl font-semibold mb-12 text-teal-200 drop-shadow-lg">
-          What Our Users Say <span className="text-yellow-400">🌟</span>
-        </h3>
-        <div className="space-y-8 max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-8">
-          {[
-            { id: 1, text: "Melodia transformed my music experience! The AI playlists are incredibly accurate and have introduced me to so many new artists I now love.", name: "Alex P." },
-            { id: 2, text: "Absolutely loving Melodia! It's so easy to use, and sharing music with my friends has never been more fun. The interface is just beautiful.", name: "Sam K." },
-            { id: 3, text: "Finally, a music app that understands me! The personalized recommendations are spot-on, and I can organize my library exactly how I want.", name: "Jordan L." },
-            { id: 4, text: "I've tried many streaming services, but Melodia stands out. The seamless experience and vibrant community make it my go-to for music.", name: "Casey J." },
-          ].map((review) => (
-            <div
-              key={review.id}
-              className="bg-[#20204a]/70 p-8 rounded-2xl borderbackdrop-blur-md border border-purple-800 animate-fade-in-up transition-all duration-300 transform -translate-y-2 backdrop-blur-sm relative overflow-hidden group flex flex-col justify-between h-full"
-            >
-              <p className="text-gray-200 italic text-lg leading-relaxed group-hover:scale-[1.02] transition-transform duration-300">
-                “{review.text}”
-              </p>
-              <p className="mt-6 text-teal-200 font-semibold text-right text-base">
-                – {review.name}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+  
+
 
       <section className="py-20 z-10 text-center relative animate-fade-in-up px-6">
         <h3 className="text-3xl md:text-4xl font-semibold mb-8 text-teal-200 drop-shadow-lg">

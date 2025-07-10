@@ -368,13 +368,14 @@ function ExplorePage() {
               const isCurrent = currentSong && currentSong._id === song._id; 
               return (
               <motion.div
-                key={song._id}
-                className={`bg-gray-800 rounded-xl shadow-xl p-4 relative group cursor-pointer ${
-                  isCurrent
-                    ? "border border-pink-500 shadow-pink-500"
-                    : "border border-transparent" 
-                } shadow-lg hover:shadow-2xl hover:scale-[1.03] transition-transform duration-300`}
-              >
+  key={song._id}
+  className={`bg-gray-800 rounded-xl p-4 relative group cursor-pointer 
+    ${isCurrent 
+      ? "border border-pink-500 shadow-pink-500 animate-pulse" 
+      : "border border-purple-800 shadow-[0_0_20px_rgba(128,0,128,0.6)]"} 
+    hover:scale-[1.05] transition-transform duration-300`}
+>
+
                 <div className="relative w-full h-48 rounded-lg overflow-hidden">
                   <img
                     src={song.image}

@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { FaUnlockAlt, FaCheckCircle, FaTimesCircle, FaUsersCog, FaUserPlus, FaHome, FaHeart } from "react-icons/fa"; // Added icons
+import {
+  FaUnlockAlt,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaUsersCog,
+  FaUserPlus,
+  FaHome,
+  FaHeart,
+} from "react-icons/fa";
 
 function DeveloperPanel() {
   const [secretCode, setSecretCode] = useState("");
@@ -8,7 +16,7 @@ function DeveloperPanel() {
   const [pendingAdmins, setPendingAdmins] = useState([]);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); // Added loading state for buttons
+  const [loading, setLoading] = useState(false);
 
   const baseURL = process.env.REACT_APP_API_URL || "http://localhost:4000";
 
@@ -39,7 +47,6 @@ function DeveloperPanel() {
         devSecret: secretCode,
         userId,
       });
-
       setPendingAdmins((prev) => prev.filter((u) => u._id !== userId));
       setMessage("Admin approved successfully!");
     } catch (err) {
@@ -50,7 +57,7 @@ function DeveloperPanel() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#0d0d2b] via-[#1e1e4f] to-[#3a3a8a] text-white font-sans overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
       <header className="flex flex-col sm:flex-row justify-between items-center px-6 sm:px-8 py-4 bg-gradient-to-r from-gray-900/90 via-purple-900/90 to-indigo-900/90 shadow-2xl border-b border-purple-700 backdrop-blur-sm sticky top-0 z-50">
         <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight flex items-center gap-3 mb-4 sm:mb-0">
           <img
@@ -62,19 +69,17 @@ function DeveloperPanel() {
             Melodia
           </span>
         </h1>
-        <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-4">
-          <a
-            href="/"
-            className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm sm:text-base ring-2 ring-blue-400 hover:ring-blue-300 flex items-center gap-2"
-          >
-            <FaHome className="text-lg" />
-            Home
-          </a>
-        </div>
+        <a
+          href="/"
+          className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-sm sm:text-base ring-2 ring-blue-400 hover:ring-blue-300 flex items-center gap-2"
+        >
+          <FaHome className="text-lg" />
+          Home
+        </a>
       </header>
 
-      <div className="flex-grow flex items-center justify-center py-10 px-4">
-        <div className="w-full max-w-4xl mx-auto bg-[#1f1f3a]/90 p-8 rounded-2xl shadow-2xl border border-[#3a3a8a] backdrop-blur-md z-10 animate-fade-in border-2 border-teal-400/40">
+      <main className="flex-grow flex items-center justify-center py-10 px-4">
+        <div className="w-full max-w-4xl mx-auto bg-[#1f1f3a]/90 p-8 rounded-3xl shadow-2xl border border-[#3a3a8a] backdrop-blur-md animate-fade-in border-2 border-teal-400/40">
           <h1 className="text-4xl font-extrabold mb-8 text-teal-300 text-center drop-shadow-lg flex items-center justify-center gap-3">
             <FaUsersCog className="text-5xl" /> Developer Approval Panel
           </h1>
@@ -87,10 +92,10 @@ function DeveloperPanel() {
               <input
                 id="secretCode"
                 type="password"
-                placeholder="••••••••"
+                placeholder=""
                 value={secretCode}
                 onChange={(e) => setSecretCode(e.target.value)}
-                className="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all duration-200 placeholder-gray-500 text-lg"
+                className="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 placeholder-gray-500 text-lg"
                 autoComplete="off"
               />
               <button
@@ -104,11 +109,12 @@ function DeveloperPanel() {
               >
                 {loading ? (
                   <>
-                    <span className="animate-spin h-5 w-5 border-b-2 border-white rounded-full"></span> Verifying...
+                    <span className="animate-spin h-5 w-5 border-b-2 border-white rounded-full"></span>{" "}
+                    Verifying...
                   </>
                 ) : (
                   <>
-                    <FaCheckCircle className="text-xl" /> Verify Secret
+                    <FaCheckCircle className="text-xl" /> Verify 
                   </>
                 )}
               </button>
@@ -122,7 +128,9 @@ function DeveloperPanel() {
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-semibold mb-6 text-cyan-400 flex items-center gap-3">
                 <FaUserPlus className="text-4xl" /> Pending Admin Requests
-                <span className="ml-auto text-lg font-bold bg-purple-700 px-3 py-1 rounded-full">{pendingAdmins.length}</span>
+                <span className="ml-auto text-lg font-bold bg-purple-700 px-3 py-1 rounded-full">
+                  {pendingAdmins.length}
+                </span>
               </h2>
               {message && (
                 <p className="text-green-400 mb-6 text-center font-medium bg-green-900/20 p-2 rounded-md animate-fade-in flex items-center justify-center gap-2">
@@ -162,7 +170,8 @@ function DeveloperPanel() {
                       >
                         {loading ? (
                           <>
-                            <span className="animate-spin h-4 w-4 border-b-2 border-white rounded-full"></span> Approving...
+                            <span className="animate-spin h-4 w-4 border-b-2 border-white rounded-full"></span>{" "}
+                            Approving...
                           </>
                         ) : (
                           <>
@@ -177,13 +186,15 @@ function DeveloperPanel() {
             </div>
           )}
         </div>
-      </div>
-      <footer className="py-8 text-center z-10 relative animate-fade-in border-t border-purple-800 mt-auto">
-        <p className="text-gray-400 text-lg">
+      </main>
+
+      <footer className="py-8 text-center border-t border-purple-800">
+        <p className="text-gray-400 text-sm sm:text-base">
           © {new Date().getFullYear()} Melodia. All rights reserved.
         </p>
-        <p className="mt-4 text-gray-500 text-sm">
-          Developed with <FaHeart className="inline text-red-500 mx-1 animate-pulse" /> by:{" "}
+        <p className="mt-2 text-gray-500 text-xs sm:text-sm">
+          Developed with{" "}
+          <FaHeart className="inline text-red-500 mx-1 animate-pulse" /> by:{" "}
           <span className="font-medium text-teal-300">Ayush Kumar</span> &{" "}
           <span className="font-medium text-teal-300">Anshika Shekhar</span>
         </p>

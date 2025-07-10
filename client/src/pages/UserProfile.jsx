@@ -13,6 +13,9 @@ import {
   FaCheck,
 } from "react-icons/fa";
 
+const DEFAULT_IMAGE_URL =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVaeq7aGLY-6DrdI7rWqz02e1-AxernmMzC8TrCf3FFwnM2voSIoGxrTniNTTZJWIk2hM&usqp=CAU";
+
 const UserProfile = () => {
   const [username, setUsername] = useState("");
   const [newUsername, setNewUsername] = useState("");
@@ -30,6 +33,8 @@ const UserProfile = () => {
   const [topArtist, setTopArtist] = useState("");
 
   const [profileImage, setProfileImage] = useState("");
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
@@ -46,7 +51,6 @@ const UserProfile = () => {
       const genre = song.genre;
       if (genre) genreFrequency[genre] = (genreFrequency[genre] || 0) + 1;
     });
-
     const genres = Object.entries(genreFrequency);
     if (genres.length === 0) return "";
     const max = Math.max(...genres.map(([_, count]) => count));
@@ -60,7 +64,6 @@ const UserProfile = () => {
       const artist = song.artist;
       if (artist) artistFrequency[artist] = (artistFrequency[artist] || 0) + 1;
     });
-
     const artists = Object.entries(artistFrequency);
     if (artists.length === 0) return "";
     const max = Math.max(...artists.map(([_, count]) => count));
@@ -123,6 +126,7 @@ const UserProfile = () => {
       );
       setProfileImage(res.data.user.profileImage);
       setSelectedImage(null);
+      setIsImageLoaded(false); // Wait until uploaded image loads
       setUploadSuccess(true);
       setTimeout(() => setUploadSuccess(false), 3000);
     } catch (err) {
@@ -165,6 +169,7 @@ const UserProfile = () => {
         setPlaylistCount(playlists?.length || 0);
         setTopGenre(getTopGenre(likedSongs));
         setTopArtist(getTopArtist(likedSongs));
+        setIsImageLoaded(true);
       } catch (err) {
         console.error("Error fetching user profile:", err);
       }
@@ -184,10 +189,13 @@ const UserProfile = () => {
               src={
                 selectedImage
                   ? URL.createObjectURL(selectedImage)
-                  : profileImage || "/fallback.jpg"
+                  : profileImage?.trim()
+                  ? profileImage
+                  : DEFAULT_IMAGE_URL
               }
               alt="User Avatar"
-              className="w-40 h-40 md:w-52 md:h-52 rounded-full object-cover border-4 border-teal-400 shadow-lg"
+              className="w-40 h-40 md:w-52 md:h-52 rounded-full object-cover border-4 border-teal-400 shadow-lg transition duration-500"
+              onLoad={() => setIsImageLoaded(true)}
             />
 
             {!selectedImage ? (

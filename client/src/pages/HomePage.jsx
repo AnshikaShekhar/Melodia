@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "./Header";
-import {
-  FaPlay,
-  FaHeart,
-  FaStar,
-} from "react-icons/fa";
+import { FaPlay, FaHeart, FaStar } from "react-icons/fa";
 import { useMusic } from "./MusicContext";
-
 import useRoleRedirect from "../hook/useRoleRedirect";
-function HomePage() {
+import { motion } from "framer-motion";
 
-  useRoleRedirect({ allowedRoles: ["user", "admin"] }); 
+function HomePage() {
+  useRoleRedirect({ allowedRoles: ["user", "admin"] });
 
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
@@ -39,7 +35,7 @@ function HomePage() {
         setTrendingSongs(
           response.data
             .sort((a, b) => b.trendingScore - a.trendingScore)
-            .slice(0, 5)
+            .slice(0, 10)
         );
       } catch (err) {
         console.error("Error fetching trending songs:", err);
@@ -55,8 +51,7 @@ function HomePage() {
   };
 
   return (
-  
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0f0c29] via-[#1a1a4d] to-[#2a2a72] text-white font-sans overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0a0a1f] via-[#15153a] to-[#25255a] text-white font-sans overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
       <Header />
 
       <main className="flex-grow">
@@ -75,16 +70,13 @@ function HomePage() {
             ) : (
               <>
                 Welcome Back,{" "}
-                <span className="text-purple-300">
-                  {username || "Guest"} 🎧
-                </span>
+                <span className="text-purple-300">{username || "Guest"} 🎧</span>
               </>
             )}
           </h2>
 
           <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10 z-10 relative">
-            Discover new tracks, curate your own playlists, and immerse yourself
-            in the rhythm of life.
+            Discover new tracks, curate your own playlists, and immerse yourself in the rhythm of life.
           </p>
 
           <a
@@ -93,53 +85,56 @@ function HomePage() {
             style={{
               background: "linear-gradient(to right, #9333ea, #4f46e5)",
               color: "#fff",
-              boxShadow:
-                "0 0 10px rgba(147, 51, 234, 0.6), 0 0 20px rgba(79, 70, 229, 0.5)",
+              boxShadow: "0 0 10px rgba(147, 51, 234, 0.6), 0 0 20px rgba(79, 70, 229, 0.5)",
             }}
           >
             <FaPlay className="mr-2" />
             Start Listening
           </a>
         </section>
-        <section className="py-16 px-6 relative">
+
+        {/* Trending Marquee Section */}
+        <section className="py-20 px-6 relative overflow-hidden">
           <h3 className="text-4xl font-semibold text-center text-teal-200 mb-12">
             🔥 Trending Songs
           </h3>
-          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-7xl mx-auto pb-32">
-            {trendingSongs.map((song, index) => (
-              <div
-                key={song.title + index}
-                onClick={() => handlePlayClick(index)}
-                className="cursor-pointer bg-[#2a5298] hover:bg-[#203e6e] transition-all duration-300 p-6 rounded-xl shadow-xl transform hover:-translate-y-2 hover:scale-105 border border-teal-900/20"
-              >
-                <div className="relative">
-                  <img
-                    src={song.image}
-                    alt={`${song.title} cover`}
-                    className="w-full h-48 object-cover rounded-md mb-4"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src =
-                        "https://via.placeholder.com/300x224?text=Image+Not+Available";
-                    }}
-                  />
-                  <FaPlay className="absolute bottom-4 right-4 text-white bg-purple-600 p-2 rounded-full text-xl shadow-md hover:scale-110 transition-transform" />
-                </div>
-                <h4 className="text-xl font-semibold text-teal-100 mb-1 flex items-center">
-                  {song.title}{" "}
-                  <FaStar className="ml-2 text-yellow-400 animate-pulse" />
-                </h4>
-                <p className="text-gray-300 text-sm flex items-center">
-                  {song.artist}{" "}
-                  <FaHeart className="ml-2 text-red-500 animate-bounce" />
-                </p>
-                <p className="text-gray-400 text-sm">{song.genre}</p>
-              </div>
-            ))}
+
+          <div className="overflow-hidden w-full group">
+            <div className="flex gap-10 animate-marquee-bounce group-hover:[animation-play-state:paused]">
+              {trendingSongs.map((song, index) => (
+                <motion.div
+                  key={song.title + index}
+                  onClick={() => handlePlayClick(index)}
+                  className="min-w-[400px] max-w-[400px] bg-gradient-to-br from-[#281c3b]/80 via-[#2b2b6f]/70 to-[#2a2a72]/80 cursor-pointer p-6 rounded-3xl shadow-[0_0_20px_#9333ea80] border border-purple-800/30 backdrop-blur-md hover:shadow-[0_0_30px_#9333ea] transition-all duration-300"
+                  whileHover={{ scale: 1.06 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, type: "spring" }}
+                >
+                  <div className="relative">
+                    <img
+                      src={song.image}
+                      alt={`${song.title} cover`}
+                      className="w-full h-60 object-cover rounded-md mb-4 border border-purple-400 shadow-md"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://via.placeholder.com/300x224?text=Image+Not+Available";
+                      }}
+                    />
+                    <FaPlay className="absolute bottom-4 right-4 text-white bg-purple-600 p-2 rounded-full text-xl shadow-md hover:scale-110 transition-transform" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-teal-100 mb-1 flex items-center">
+                    {song.title} <FaStar className="ml-2 text-yellow-400 animate-pulse" />
+                  </h4>
+                  <p className="text-gray-300 text-sm flex items-center">
+                    {song.artist} <FaHeart className="ml-2 text-red-500 animate-bounce" />
+                  </p>
+                  <p className="text-gray-400 text-sm">{song.genre}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
-
-       
       </main>
     </div>
   );
