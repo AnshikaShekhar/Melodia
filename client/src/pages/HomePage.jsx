@@ -54,46 +54,44 @@ function HomePage() {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0a0a1f] via-[#15153a] to-[#25255a] text-white font-sans overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/noisy.png')] bg-repeat">
       <Header />
 
-      <main className="flex-grow">
-        <section className="text-center py-24 px-4 relative overflow-hidden">
-          <h2
-            className="text-5xl font-bold mb-6 z-10 relative"
-            style={{
-              color: "#c084fc",
-              textShadow:
-                "0 0 10px rgba(192, 132, 252, 0.8), 0 0 20px rgba(192, 132, 252, 0.6)",
-              animation: "glow 2s ease-in-out infinite alternate",
-            }}
+      <main className="flex-grow relative z-10">
+        {/* Hero Section with Animated Gradient Blobs */}
+        <section className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] text-center z-10 relative px-4 py-16">
+          {/* Floating Gradient Blobs */}
+          <div className="absolute w-96 h-96 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 rounded-full blur-3xl opacity-30 top-10 left-1/3 animate-float -z-10" />
+          <div className="absolute w-80 h-80 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 rounded-full blur-2xl opacity-20 bottom-0 right-20 animate-float -z-10" />
+
+          <motion.h2
+            className="text-5xl font-bold mb-6 text-purple-300"
+            style={{ textShadow: "0 0 20px rgba(192,132,252,0.8)" }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
             {error ? (
               <span className="text-red-400">{error}</span>
             ) : (
               <>
                 Welcome Back,{" "}
-                <span className="text-purple-300">{username || "Guest"} 🎧</span>
+                <span className="text-purple-200">{username || "Guest"} 🎧</span>
               </>
             )}
-          </h2>
+          </motion.h2>
 
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10 z-10 relative">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10">
             Discover new tracks, curate your own playlists, and immerse yourself in the rhythm of life.
           </p>
 
           <a
             href="/explore"
-            className="relative inline-flex items-center justify-center px-8 py-3 text-lg font-semibold rounded-full transition-transform duration-300 hover:scale-110 shadow-lg z-10"
-            style={{
-              background: "linear-gradient(to right, #9333ea, #4f46e5)",
-              color: "#fff",
-              boxShadow: "0 0 10px rgba(147, 51, 234, 0.6), 0 0 20px rgba(79, 70, 229, 0.5)",
-            }}
+            className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold rounded-full transition-transform duration-300 hover:scale-110 shadow-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600"
           >
             <FaPlay className="mr-2" />
             Start Listening
           </a>
         </section>
 
-        {/* Trending Marquee Section */}
+        {/* Trending Songs */}
         <section className="py-20 px-6 relative overflow-hidden">
           <h3 className="text-4xl font-semibold text-center text-teal-200 mb-12">
             🔥 Trending Songs
@@ -105,7 +103,7 @@ function HomePage() {
                 <motion.div
                   key={song.title + index}
                   onClick={() => handlePlayClick(index)}
-                  className="min-w-[400px] max-w-[400px] bg-gradient-to-br from-[#281c3b]/80 via-[#2b2b6f]/70 to-[#2a2a72]/80 cursor-pointer p-6 rounded-3xl shadow-[0_0_20px_#9333ea80] border border-purple-800/30 backdrop-blur-md hover:shadow-[0_0_30px_#9333ea] transition-all duration-300"
+                  className="min-w-[400px] max-w-[400px] bg-gradient-to-br from-[#281c3b]/80 via-[#2b2b6f]/70 to-[#2a2a72]/80 cursor-pointer p-6 rounded-3xl border border-purple-800/40 backdrop-blur-md shadow-[0_0_30px_rgba(147,51,234,0.6)] hover:shadow-[0_0_50px_rgba(147,51,234,0.9)] transition-all duration-300"
                   whileHover={{ scale: 1.06 }}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
