@@ -63,7 +63,7 @@ function DeveloperPanel() {
           <img
             src="/waveform.png"
             alt="Melodia Logo"
-            className="w-10 h-10 lg:w-12 lg:h-12 rounded-full filter brightness-75"
+            className="w-10 h-10 lg:w-12 lg:h-12 rounded-full filter brightness-0 invert"
           />
           <span className="bg-gradient-to-r from-teal-300 via-cyan-400 to-blue-500 text-transparent bg-clip-text drop-shadow-lg">
             Melodia
