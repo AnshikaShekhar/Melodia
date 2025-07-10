@@ -13,7 +13,8 @@ const generateToken = (user) => {
 // ✅ Signup Controller
 exports.signupUser = async (req, res) => {
   try {
-    const { username, email, password, role = "user" } = req.body;
+    let { username, email, password, role = "user", phone } = req.body;
+    if (role === "admin") role = "pending-admin";
 
     if (!username || !email || !password) {
       return res.status(400).json({ message: "All fields are required." });
@@ -26,13 +27,16 @@ exports.signupUser = async (req, res) => {
         .json({ message: "User with this email already exists." });
     }
 
-    const user = new User({ username, email, password, role });
+    const user = new User({ username, email, password, role, phone });
     await user.save();
 
     const token = generateToken(user);
 
     res.status(201).json({
-      message: "User created successfully",
+      message:
+        role === "pending-admin"
+          ? "Admin request submitted. You'll receive an email if approved."
+          : "Account created successfully! Redirecting to login...",
       token,
       user: { id: user._id, username, email, role },
     });
@@ -61,6 +65,14 @@ exports.loginUser = async (req, res) => {
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials." });
+    }
+
+    // ✅ Block pending-admins
+    if (user.role === "pending-admin") {
+      return res.status(403).json({
+        message:
+          "Your admin request is under review. You'll be notified once approved.",
+      });
     }
 
     const token = generateToken(user);
@@ -104,7 +116,8 @@ exports.forgotPassword = async (req, res) => {
 exports.validateToken = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
-    if (!token) return res.status(401).json({ message: "Access token required." });
+    if (!token)
+      return res.status(401).json({ message: "Access token required." });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id).select("-password");
@@ -147,9 +160,65 @@ exports.uploadProfileImage = async (req, res) => {
       { new: true }
     ).select("-password");
 
-    res.status(200).json({ message: "Profile image updated", user: updatedUser });
+    res
+      .status(200)
+      .json({ message: "Profile image updated", user: updatedUser });
   } catch (error) {
     console.error("Upload error:", error.message);
     res.status(500).json({ message: "Upload failed", error: error.message });
   }
+};
+
+// 🔒 Only devs with secret can access these
+exports.getPendingAdmins = async (req, res) => {
+  const { devSecret } = req.query;
+  if (devSecret !== process.env.DEV_SECRET) {
+    return res.status(403).json({ message: "Unauthorized" });
+  }
+
+  const pendingAdmins = await User.find({ role: "pending-admin" }).select(
+    "-password"
+  );
+  res.status(200).json({ pendingAdmins });
+};
+
+const emailjs = require("@emailjs/nodejs");
+
+// ✅ Admin approval controller
+exports.approveAdminRequest = async (req, res) => {
+  const { devSecret, userId } = req.body;
+
+  if (devSecret !== process.env.DEV_SECRET) {
+    return res.status(403).json({ message: "Unauthorized" });
+  }
+
+  const user = await User.findById(userId);
+  if (!user || user.role !== "pending-admin") {
+    return res.status(404).json({ message: "Pending admin not found." });
+  }
+
+  user.role = "admin";
+  await user.save();
+
+  try {
+    await emailjs.send(
+      process.env.EMAILJS_SERVICE_ID,
+      process.env.EMAILJS_TEMPLATE_ID_ADMIN_APPROVED,
+      {
+        user_email: user.email,
+        user_name: user.username,
+        name: "Melodia Team",
+        email: "support@melodia.com",
+      },
+      {
+        publicKey: process.env.EMAILJS_PUBLIC_KEY,
+        privateKey: process.env.EMAILJS_PRIVATE_KEY,
+      }
+    );
+    console.log("✅ Approval email sent to:", user.email);
+  } catch (err) {
+    console.error("❌ Failed to send approval email:", err);
+  }
+
+  res.status(200).json({ message: "Admin approved successfully." });
 };

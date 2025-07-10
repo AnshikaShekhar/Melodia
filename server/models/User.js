@@ -23,24 +23,27 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "admin", "pending-admin"],
       default: "user",
     },
-    
+    phone: {
+      type: String,
+      trim: true,
+    },
     bio: { type: String },
     likedSongs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Song" }],
     playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: "Playlist" }],
     profileImage: {
-  type: String,
-  default: "https://randomuser.me/api/portraits/women/65.jpg", // Optional default
-},
+      type: String,
+      default:
+        "https://icon2.cleanpng.com/20180602/bxp/kisspng-social-media-influencer-marketing-5b1319e606dca1.6047454915279784700281.jpg", // Optional default
+    },
 
     resetToken: String,
     resetTokenExpiry: Date,
   },
   { timestamps: true }
 );
-
 
 // ✅ Hash password before saving
 userSchema.pre("save", async function (next) {
