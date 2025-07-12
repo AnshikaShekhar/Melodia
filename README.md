@@ -2,8 +2,6 @@
 
 Melodia is a full-featured **cloud-based music streaming platform** that empowers users to explore, stream, and manage music effortlessly. Inspired by platforms like **Spotify**, **SoundCloud**, and **Wynk**, Melodia integrates modern UI/UX, secure authentication, real-time music playback, and AI-powered smart playlists to enhance user experience.
 
-🔗 **Live Demo:** [https://melodia-brown.vercel.app/](https://melodia-brown.vercel.app/)
-
 ---
 
 ## 🌐 Live Demo
