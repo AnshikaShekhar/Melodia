@@ -10,7 +10,7 @@ function SongPage() {
   const [error, setError] = useState(null);
 
   const isAuthenticated = !!localStorage.getItem("token");
-  const baseURL = "http://localhost:4000";
+  const baseURL = process.env.REACT_APP_API_URL || "http://localhost:4000";
 
   const handleLogout = () => {
     localStorage.removeItem("token");

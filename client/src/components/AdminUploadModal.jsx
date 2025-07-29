@@ -1,8 +1,8 @@
-// AdminUploadModal.jsx
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTimes, FaUpload } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
+import { motion } from "framer-motion";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
@@ -18,6 +18,7 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     const fetchGenres = async () => {
@@ -104,9 +105,12 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
       });
 
       if (res.status === 201) {
-        toast.success("✅ Song uploaded successfully!");
-        onSuccess();
-        onClose();
+        setSuccessMessage("🎉 Song uploaded successfully!");
+        setTimeout(() => {
+          setSuccessMessage("");
+          onSuccess();
+          onClose();
+        }, 2500);
       } else {
         toast.error("❌ Upload failed. Try again.");
       }
@@ -138,6 +142,16 @@ export default function AdminUploadModal({ onClose, onSuccess, baseURL }) {
         <h2 className="text-3xl font-extrabold text-center mb-4 text-purple-300 drop-shadow">
           🎵 Upload New Track
         </h2>
+
+        {successMessage && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center text-green-400 bg-green-900/40 px-6 py-3 rounded-xl shadow-md mb-4 font-semibold"
+          >
+            {successMessage}
+          </motion.div>
+        )}
 
         {error && (
           <div className="bg-red-500 text-white text-sm p-3 rounded shadow mb-4 text-center animate-pulse">

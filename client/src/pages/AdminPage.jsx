@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  FaCloudUploadAlt,
-  FaHeart,
-} from "react-icons/fa";
+import { FaCloudUploadAlt, FaHeart } from "react-icons/fa";
 import AdminUploadModal from "../components/AdminUploadModal";
 import Header from "./Header";
 import useRoleRedirect from "../hook/useRoleRedirect";
@@ -16,7 +13,8 @@ export default function AdminPage() {
     const musicIcons = ["🎶", "🎵", "🎧", "🎤", "🎼", "🎷", "🥁", "🎸", "🎹"];
     const createFloatingIcon = () => {
       const icon = document.createElement("div");
-      icon.innerText = musicIcons[Math.floor(Math.random() * musicIcons.length)];
+      icon.innerText =
+        musicIcons[Math.floor(Math.random() * musicIcons.length)];
       icon.className = "fixed animate-floatNote pointer-events-none z-30";
       icon.style.left = `${Math.random() * 100}vw`;
       icon.style.top = `${Math.random() * 100}vh`;
@@ -43,14 +41,15 @@ export default function AdminPage() {
 
       <main className="flex-grow flex flex-col items-center justify-center px-6 py-12">
         <section className="w-full max-w-4xl bg-[#1f1f3a]/90 border-[3px] border-purple-500 rounded-2xl shadow-2xl backdrop-blur-md p-10 relative z-10">
-
           <h1 className="text-4xl font-extrabold text-center text-teal-300 mb-4 animate-fade-in-up drop-shadow-[0_0_10px_rgba(0,255,255,0.3)] tracking-wide transition-all duration-300">
             🎧 Admin Dashboard
           </h1>
 
           <p className="text-center text-gray-300 text-lg mb-8 max-w-2xl mx-auto animate-fade-in-up delay-200 transition-opacity duration-500">
-            Easily manage your music platform with <span className="text-pink-400 font-medium">Melodia</span>.<br />
-            Upload tracks, organize your library, and maintain your collection effortlessly.
+            Easily manage your music platform with{" "}
+            <span className="text-pink-400 font-medium">Melodia</span>.<br />
+            Upload tracks, organize your library, and maintain your collection
+            effortlessly.
           </p>
 
           <div className="flex justify-center animate-fade-in-up delay-300">
@@ -66,7 +65,9 @@ export default function AdminPage() {
       </main>
 
       <footer className="py-8 text-center z-10 relative animate-fade-in border-t border-purple-800">
-        <p className="text-gray-400 text-lg">© 2025 Melodia. All rights reserved.</p>
+        <p className="text-gray-400 text-lg">
+          © 2025 Melodia. All rights reserved.
+        </p>
         <p className="mt-4 text-gray-500 text-sm">
           Developed with <FaHeart className="inline text-red-500 mx-1" /> by:{" "}
           <span className="font-medium text-teal-300">Ayush Kumar</span> &{" "}
@@ -79,7 +80,6 @@ export default function AdminPage() {
           baseURL="http://localhost:4000"
           onClose={() => setShowModal(false)}
           onSuccess={() => {
-            alert("✅ Song uploaded successfully!");
             setShowModal(false);
           }}
         />

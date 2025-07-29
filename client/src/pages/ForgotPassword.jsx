@@ -1,10 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import {
-  FaHeart, // Keep FaHeart for the footer
-  FaArrowLeft // Import FaArrowLeft for the back link
-} from "react-icons/fa";
+import { FaHeart, FaArrowLeft, FaHome } from "react-icons/fa";
 
 function ForgotPassword() {
   const [formData, setFormData] = useState({ email: "", newPassword: "" });
@@ -14,11 +11,23 @@ function ForgotPassword() {
   const navigate = useNavigate();
   const baseURL = process.env.REACT_APP_API_URL || "http://localhost:4000";
 
+  // Password regex validation
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setMessage("");
     setLoading(true);
+
+    if (!passwordRegex.test(formData.newPassword)) {
+      setError(
+        "Password must be at least 8 characters, include uppercase, lowercase, number, and special character."
+      );
+      setLoading(false);
+      return;
+    }
 
     try {
       await axios.post(`${baseURL}/api/auth/forgotpassword`, formData);
@@ -52,9 +61,9 @@ function ForgotPassword() {
         <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-4">
           <Link
             to="/"
-            className="bg-blue-700 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center text-sm sm:text-base"
+            className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-transform transform hover:scale-105 text-sm sm:text-base flex items-center gap-2"
           >
-            <i className="fas fa-home mr-2 hidden sm:inline"></i>Home
+            <FaHome />Home
           </Link>
         </div>
       </header>
@@ -75,7 +84,9 @@ function ForgotPassword() {
             </h1>
 
             {error && (
-              <p className="text-red-400 mb-4 text-center animate-shake">{error}</p>
+              <p className="text-red-400 mb-4 text-center animate-shake">
+                {error}
+              </p>
             )}
             {message && (
               <p className="text-green-400 mb-4 text-center animate-fade-in">
@@ -115,7 +126,10 @@ function ForgotPassword() {
               </button>
 
               <p className="text-center text-sm text-gray-300 mt-4">
-                <Link to="/login" className="text-blue-400 hover:underline flex items-center justify-center">
+                <Link
+                  to="/login"
+                  className="text-blue-400 hover:underline flex items-center justify-center"
+                >
                   <FaArrowLeft className="mr-2" /> Back to Login
                 </Link>
               </p>
@@ -123,7 +137,7 @@ function ForgotPassword() {
           </div>
         </div>
       </div>
-      
+
       <footer className="py-8 text-center z-10 relative animate-fade-in border-t border-purple-800 mt-auto">
         <p className="text-gray-400 text-lg">© 2025 Melodia. All rights reserved.</p>
         <p className="mt-4 text-gray-500 text-sm">
